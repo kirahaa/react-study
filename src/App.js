@@ -1,24 +1,16 @@
-import onew from './onew.png';
-import './App.css';
+import {BrowserRouter, Routes, Route} from "react-router-dom"
+import Home from './routes/Home'
+import Room from './routes/Room'
+import './App.css'
 
 const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={onew} className="App-logo" alt="onew" />
-        <p>
-          Hello ! My name is ONEW, I'm happy to meet you!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Invite my Home
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/room" element={<Room />}></Route>
+        <Route path="/" element={<Home />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
