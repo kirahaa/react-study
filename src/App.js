@@ -1,13 +1,13 @@
-import logo from './logo.svg';
+import onew from './onew.png';
 import './App.css';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={onew} className="App-logo" alt="onew" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Hello ! My name is ONEW, I'm happy to meet you!
         </p>
         <a
           className="App-link"
@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Invite my Home
         </a>
       </header>
     </div>
