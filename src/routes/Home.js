@@ -33,6 +33,7 @@ const Home = () => {
           <button
             type="button"
             className="App-button"
+            onClick={sendMsg}
           >enter</button>
         </form>
         <ul className="App-list">
