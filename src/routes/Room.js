@@ -1,7 +1,7 @@
 const Room = () => {
   return (
     <div>
-      THis is my Room!
+      Coming soon!
     </div>
   )
 }

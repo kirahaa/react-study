@@ -14,14 +14,48 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #e75f1a;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #000;
+}
+
+.App-input {
+  width: 18rem;
+  height: 3rem;
+  padding: .5rem 1rem;
+  box-sizing: border-box;
+  border-radius: 2rem;
+  border: none;
+  background-color: yellow;
+}
+
+.App-button {
+  padding: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 5rem;
+  border: none;
+  color: #fff;
+  background-color: green;
+}
+
+.App-list {
+  display: flex;
+  font-size: 1rem;
+  color: #ffa2af;
+  list-style: none;
+}
+
+.App-list-item {
+  margin-right: 1rem;
+  padding: 1rem;
+  background-color: #d2016c;
+  border-radius: 2rem;
 }
 
 .App-link {
