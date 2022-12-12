@@ -5,7 +5,7 @@ import './App.css'
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/room" element={<Room />}></Route>
         <Route path="/" element={<Home />}></Route>
