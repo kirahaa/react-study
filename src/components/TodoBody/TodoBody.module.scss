@@ -1,0 +1,99 @@
+.addBtn {
+  display: block;
+  margin: -3rem auto 0;
+  padding: 1rem;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: #30d49e;
+  line-height: 0.6;
+  font-size: 4rem;
+  cursor: pointer;
+  transition: .3s all ease;
+
+  &.x {
+    transform: rotate(45deg);
+    background: #fd8586;
+  }
+}
+
+.form {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transition: .3s all ease;
+
+  &.show {
+    opacity: 1;
+  }
+
+  input {
+    width: 75%;
+    border: 0;
+    border-bottom: 1px solid #30d49e;
+    outline: none;
+    font-size: 2rem;
+  }
+
+  button {
+    padding: 1rem 2rem;
+    border: 0;
+    color: #30d49e;
+    background: inherit;
+    cursor: pointer;
+    font-size: 2rem;
+  }
+}
+
+.select {
+  display: flex;
+  justify-content: end;
+  padding: 2rem 0 1rem;
+
+  select {
+    padding: 1rem;
+    border: 1px solid #eee;
+    font-size: 1.5rem;
+  }
+}
+
+.list {
+  li {
+    display: flex;
+    align-items: center;
+    padding: 1rem 3rem;
+    font-size: 2rem;
+    color: #111;
+  }
+  .checkLabel {
+    display: inline-block;
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 1rem;
+    padding: .5rem;
+    border: 1px solid #30d49e;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  input[type="checkbox"] {
+    display: none;
+
+    &:checked ~ .checkLabel:after {
+      content: '✓';
+      position: absolute;
+      left: 23%;
+      top: 54%;
+      font-size: 2rem;
+      color: #30d49e;
+      line-height: 0;
+    }
+
+    &:checked ~ label {
+      color: dimgrey;
+      text-decoration: line-through;
+    }
+  }
+
+}

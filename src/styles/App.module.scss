@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+html {
+  height: 100%;
+  font-size: 62.5%;
+
+  @media screen and (min-width: 540px) {
+    font-size: 70%;
+  }
+}
+
+body {
+  min-width: 32rem;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.4rem;
+  background: whitesmoke;
+}
+
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
