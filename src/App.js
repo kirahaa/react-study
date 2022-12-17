@@ -1,16 +1,9 @@
-import {BrowserRouter, Routes, Route} from "react-router-dom"
-import Home from './routes/Home'
-import Room from './routes/Room'
+import Router from './routes/Router'
 import './App.css'
 
 const App = () => {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Routes>
-        <Route path="/room" element={<Room />}></Route>
-        <Route path="/" element={<Home />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <Router/>
   );
 }
 

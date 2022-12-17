@@ -1,4 +1,4 @@
-import onew from "../onew.png";
+import onew from "../../onew.png";
 import {useState} from "react";
 
 const Home = () => {
