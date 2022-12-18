@@ -23,7 +23,7 @@ const TodoBody = () => {
 
   const onSubmit = e => {
     e.preventDefault()
-    setTodos([...todos, {id: todos.length, value: value}])
+    setTodos([...todos, {id: todos.length, value: value, checked: false}])
     setValue('')
   }
 
@@ -37,11 +37,15 @@ const TodoBody = () => {
 
   useEffect(() => {
     const currentTodos = [...todos]
-    if (selectValue === 'descending') {
+
+    if (selectValue === 'descending') { // 내림차순
       currentTodos.sort((a, b) => b.id - a.id)
       setTodos(currentTodos)
-    } else if (selectValue === 'alphabetical') {
+    } else if (selectValue === 'alphabetical') { // 가나다순
       currentTodos.sort((a, b) => a.value.toLowerCase() < b.value.toLowerCase() ? -1 : 1)
+      setTodos(currentTodos)
+    } else { // 오름차순(default)
+      currentTodos.sort((a, b) => a.id - b.id)
       setTodos(currentTodos)
     }
   }, [selectValue])
@@ -80,7 +84,15 @@ const TodoBody = () => {
         <ul className={cx('list')}>
           {todos.map((todo, i) => (
             <li key={`no.${i}-todo`}>
-              <input type="checkbox" id={`no.${i}-ckbox`}/>
+              <input
+                type="checkbox"
+                id={`no.${i}-ckbox`}
+                onChange={e => {
+                  const currntTodos = todos.map(t => {
+                    return t === todo ? {...t, checked: e.target.checked} : t
+                  })
+                  setTodos(currntTodos)
+                }}/>
               <label htmlFor={`no.${i}-ckbox`} className={cx('checkLabel')}></label>
               <label htmlFor={`no.${i}-ckbox`}>{todo.value}</label>
             </li>
