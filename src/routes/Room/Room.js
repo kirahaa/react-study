@@ -14,16 +14,10 @@ const Room = () => {
   }
 
   useEffect(() => {
-    console.log('mount')
-    return console.log('unmount')
-  }, [])
-
-  useEffect(() => {
     if (count !== 0) {
       setList([...list, {'id': list.length, 'value': count}])
     }
-    console.log(list)
-  }, [count])
+  }, [count, list])
 
   return (
     <div>
@@ -33,13 +27,13 @@ const Room = () => {
       <button type="button" onClick={decrement}>-</button>
 
       <ul>
-        {list.map((item, i) => (
-          <li key={`${item}-${i}`}>{item.value}</li>))}
+        {list ? list.map((item, i) => (
+          <li key={`${item}-${i}`}>{item.value}</li>)) : null}
       </ul>
       <ol>
-        {list.slice(0).sort((a, b) => b.value - a.value).map((item, i) => (
+        {list ? list.slice(0).sort((a, b) => b.value - a.value).map((item, i) => (
           <li key={`${i}-${item}`}>{item.value}</li>
-        )) }
+        )) : null }
       </ol>
     </div>
   )
