@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState} from "react"
+import {Fragment} from "react"
 import style from './TodoHeader.module.scss'
 import classNames from "classnames/bind"
 const cx = classNames.bind(style)

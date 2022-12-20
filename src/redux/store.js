@@ -8,6 +8,9 @@ const toDos = createSlice({
   reducers: {
     add: (state, action) => {
       state.todos = action.payload
+    },
+    remove: (state, action) => {
+      state.todos = state.todos.filter(todo => todo.id !== action.payload.id)
     }
   }
 })
@@ -15,7 +18,8 @@ const toDos = createSlice({
 const store = configureStore({ reducer: toDos.reducer })
 
 export const {
-  add
+  add,
+  remove
 } = toDos.actions
 
 export default store

@@ -4,7 +4,7 @@ import style from './Todo.module.scss'
 import TodoHeader from "../../components/TodoHeader/TodoHeader"
 import TodoBody from "../../components/TodoBody/TodoBody"
 import {useDispatch, useSelector} from 'react-redux'
-import {add} from '../../redux/store'
+import {add, remove} from '../../redux/store'
 const cx = classNames.bind(style)
 
 const Todo = () => {
@@ -14,7 +14,7 @@ const Todo = () => {
 
   const addTodo = val => dispatch(add(val))
 
-  console.log(storeTodos, 'storeTodos!!')
+  const removeTodo = val => dispatch(remove(val))
 
   return (
     <Fragment>
@@ -23,7 +23,9 @@ const Todo = () => {
           <TodoHeader storeTodos={storeTodos}/>
           <TodoBody
             storeTodos={storeTodos}
-            addTodo={addTodo} />
+            addTodo={addTodo}
+            removeTodo={removeTodo}
+          />
         </div>
       </div>
     </Fragment>

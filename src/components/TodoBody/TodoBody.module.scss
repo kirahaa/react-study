@@ -61,10 +61,19 @@
 .list {
   li {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 1rem 3rem;
     font-size: 2rem;
     color: #111;
+
+    &:hover button {
+      display: block;
+    }
+  }
+  .input-wrap {
+    display: flex;
+    align-items: center;
   }
   .checkLabel {
     display: inline-block;
@@ -95,5 +104,13 @@
       text-decoration: line-through;
     }
   }
-
+  button {
+    display: none;
+    padding: 0;
+    border: 0;
+    color: dimgrey;
+    background: transparent;
+    font-size: 2rem;
+    cursor: pointer;
+  }
 }

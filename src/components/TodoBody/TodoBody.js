@@ -3,7 +3,7 @@ import style from './TodoBody.module.scss'
 import classNames from "classnames/bind"
 const cx = classNames.bind(style)
 
-const TodoBody = ({storeTodos, addTodo}) => {
+const TodoBody = ({storeTodos, addTodo, removeTodo}) => {
   const inputRef = useRef(null)
   const [formVisible, setFormVisible] = useState(false)
   const [value, setValue] = useState('')
@@ -82,17 +82,20 @@ const TodoBody = ({storeTodos, addTodo}) => {
         <ul className={cx('list')}>
           {storeTodos.map((todo, i) => (
             <li key={`no.${i}-todo`}>
-              <input
-                type="checkbox"
-                id={`no.${i}-ckbox`}
-                onChange={e => {
-                  const currentTodos = storeTodos.map(t => {
-                    return t === todo ? {...t, checked: e.target.checked} : t
-                  })
-                  addTodo(currentTodos)
-                }}/>
-              <label htmlFor={`no.${i}-ckbox`} className={cx('checkLabel')}></label>
-              <label htmlFor={`no.${i}-ckbox`}>{todo.value}</label>
+              <div className={cx('input-wrap')}>
+                <input
+                  type="checkbox"
+                  id={`no.${i}-ckbox`}
+                  onChange={e => {
+                    const currentTodos = storeTodos.map(t => {
+                      return t === todo ? {...t, checked: e.target.checked} : t
+                    })
+                    addTodo(currentTodos)
+                  }}/>
+                <label htmlFor={`no.${i}-ckbox`} className={cx('checkLabel')}></label>
+                <label htmlFor={`no.${i}-ckbox`}>{todo.value}</label>
+              </div>
+              <button type="button" onClick={() => removeTodo(todo)}>✕</button>
             </li>
           ))}
         </ul>
