@@ -22,7 +22,12 @@ const TodoBody = ({storeTodos, addTodo}) => {
 
   const onSubmit = e => {
     e.preventDefault()
-    addTodo([...storeTodos, {id: storeTodos.length, value: value, checked: false}])
+    if (value) {
+      addTodo([...storeTodos, {id: storeTodos.length, value: value, checked: false}])
+    } else {
+      alert('할 일을 입력해주세요')
+    }
+
     setValue('')
   }
 
