@@ -1,5 +1,6 @@
-import onew from "../../onew.png";
-import {useState} from "react";
+import onew from "../../onew.png"
+import {useState} from "react"
+import {Link} from 'react-router-dom'
 
 const Home = () => {
   const [msg, setMsg] = useState('')
@@ -22,6 +23,9 @@ const Home = () => {
         <p>
           <b>Hello ! My name is Onew, I'm happy to meet you!</b>
         </p>
+        <div>
+          <Link to={`/todo`}>Todo</Link>
+        </div>
         <form onSubmit={sendMsg}>
           <input
             type="text"
