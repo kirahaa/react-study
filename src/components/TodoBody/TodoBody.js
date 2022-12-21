@@ -32,20 +32,7 @@ const TodoBody = ({storeTodos, addTodo, removeTodo}) => {
   }
 
   const onSelect = e => {
-    const currentTodos = [...storeTodos]
-
     setSelectValue(e.target.value)
-
-    if (e.target.value === 'descending') {
-      currentTodos.sort((a, b) => b.id - a.id)
-      addTodo(currentTodos)
-    } else if (e.target.value === 'alphabetical') {
-      currentTodos.sort((a, b) => a.value.toLowerCase() < b.value.toLowerCase() ? -1 : 1)
-      addTodo(currentTodos)
-    } else { // 오름차순(default)
-      currentTodos.sort((a, b) => a.id - b.id)
-      addTodo(currentTodos)
-    }
   }
 
   return (
@@ -80,7 +67,21 @@ const TodoBody = ({storeTodos, addTodo, removeTodo}) => {
           </select>
         </div>
         <ul className={cx('list')}>
-          {storeTodos.map((todo, i) => (
+          {storeTodos
+            .slice(0)
+            .sort((a, b) => {
+              switch (selectValue) {
+                case 'descending':
+                  return b.id - a.id
+                case 'alphabetical':
+                  return a.value.toLowerCase() < b.value.toLowerCase() ? -1 : 1
+                case 'ascending':
+                  return a.id - b.id
+                default:
+                  return a.id - b.id
+              }
+          })
+          .map((todo, i) => (
             <li key={`no.${i}-todo`}>
               <div className={cx('input-wrap')}>
                 <input
