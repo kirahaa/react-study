@@ -2,13 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 59rem;
   width: 100%;
   height: 100%;
   margin: 0 auto;
+  background: whitesmoke;
 }
 
 .todo {
+  max-width: 59rem;
   width: 100%;
   padding: 3rem;
   background: #fff;
