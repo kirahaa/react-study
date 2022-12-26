@@ -30,7 +30,7 @@ const TreeChild = props => {
         data && 'red',
         data2 && 'blue',
         data3 && 'yellow'
-      )}>{data} {data2} {data3}</Circle>
+      )} />
     </CircleWrap>
   )
 }

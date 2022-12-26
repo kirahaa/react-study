@@ -12,30 +12,33 @@ const StyledTree = styled.div`
   background-color: #eeeeee;
   cursor: pointer;
 `
+const defaultValue = {
+  data: false,
+  data2: false,
+  data3: false
+}
 
 const Tree = () => {
-  const [data, setData] = useState(false)
-  const [data2, setData2] = useState(false)
-  const [data3, setData3] = useState(false)
+  const [datas, setDatas] = useState(defaultValue)
 
   return (
     <>
-      <StyledTree onClick={() => setData(!data)}>
-        <TreeChild data={data} setData={setData} />
-        <TreeChild data={data} setData={setData} />
-        <TreeChild data={data} setData={setData} />
-        <TreeChild data={data} setData={setData} />
+      <StyledTree onClick={() => setDatas({data: !datas.data})}>
+        <TreeChild data={datas.data} />
+        <TreeChild data={datas.data} />
+        <TreeChild data={datas.data} />
+        <TreeChild data={datas.data} />
       </StyledTree>
 
-      <StyledTree onClick={() => setData2(!data2)}>
-        <TreeChild data2={data2} setData2={setData2} />
-        <TreeChild data2={data2} setData2={setData2} />
+      <StyledTree onClick={() => setDatas({data2: !datas.data2})}>
+        <TreeChild data2={datas.data2} />
+        <TreeChild data2={datas.data2} />
       </StyledTree>
 
-      <StyledTree onClick={() => setData3(!data3)}>
-        <TreeChild data3={data3} />
-        <TreeChild data3={data3} />
-        <TreeChild data3={data3} />
+      <StyledTree onClick={() => setDatas({data3: !datas.data3})}>
+        <TreeChild data3={datas.data3} />
+        <TreeChild data3={datas.data3} />
+        <TreeChild data3={datas.data3} />
       </StyledTree>
     </>
   )
