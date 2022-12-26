@@ -26,6 +26,9 @@ const Home = () => {
         <div>
           <Link to={`/todo`}>Todo</Link>
         </div>
+        <div>
+          <Link to={`/tree`}>Tree</Link>
+        </div>
         <form onSubmit={sendMsg}>
           <input
             type="text"
