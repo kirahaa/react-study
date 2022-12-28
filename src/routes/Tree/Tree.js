@@ -3,44 +3,70 @@ import TreeChild from '../../components/TreeChild/TreeChild'
 import styled from 'styled-components'
 
 const StyledTree = styled.div`
-  display: flex;
+  display: inline-flex;
+  flex-direction: column;
   justify-content: center;
   width: fit-content;
-  margin: 4rem auto;
   padding: 1rem;
   gap: 1.4rem;
-  background-color: #eeeeee;
   cursor: pointer;
 `
-const defaultValue = {
-  data: false,
-  data2: false,
-  data3: false
-}
+
+const Wrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+`
 
 const Tree = () => {
-  const [datas, setDatas] = useState(defaultValue)
+  const [group1, setGroup1] = useState(false)
+  const [group2, setGroup2] = useState(false)
+  const [group3, setGroup3] = useState(false)
 
   return (
-    <>
-      <StyledTree onClick={() => setDatas({data: !datas.data})}>
-        <TreeChild data={datas.data} />
-        <TreeChild data={datas.data} />
-        <TreeChild data={datas.data} />
-        <TreeChild data={datas.data} />
+    <Wrap>
+      <StyledTree>
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="green" />
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="green" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="green" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="green" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="green" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="green" />
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="green" />
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="green" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="green" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="green" />
       </StyledTree>
 
-      <StyledTree onClick={() => setDatas({data2: !datas.data2})}>
-        <TreeChild data2={datas.data2} />
-        <TreeChild data2={datas.data2} />
+      <StyledTree>
+        <TreeChild isLight={group2} setIsLight={setGroup2} color="blue" />
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="blue" />
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="blue" />
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="blue" />
+        <TreeChild isLight={group2} setIsLight={setGroup2} color="blue" />
+        <TreeChild isLight={group2} setIsLight={setGroup2} color="blue" />
+        <TreeChild isLight={group2} setIsLight={setGroup2} color="blue" />
+        <TreeChild isLight={group2} setIsLight={setGroup2} color="blue" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="green" />
       </StyledTree>
 
-      <StyledTree onClick={() => setDatas({data3: !datas.data3})}>
-        <TreeChild data3={datas.data3} />
-        <TreeChild data3={datas.data3} />
-        <TreeChild data3={datas.data3} />
+      <StyledTree>
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="pink" />
+        <TreeChild isLight={group2} setIsLight={setGroup2} color="pink" />
+        <TreeChild isLight={group2} setIsLight={setGroup2} color="pink" />
+        <TreeChild isLight={group2} setIsLight={setGroup2} color="pink" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="pink" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="pink" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="pink" />
+        <TreeChild isLight={group3} setIsLight={setGroup3} color="pink" />
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="green" />
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="green" />
+        <TreeChild isLight={group1} setIsLight={setGroup1} color="green" />
       </StyledTree>
-    </>
+    </Wrap>
   )
 }
 
