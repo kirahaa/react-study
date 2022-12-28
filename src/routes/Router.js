@@ -3,6 +3,7 @@ import Todo from "./Todo/Todo"
 import Room from "./Room/Room"
 import Home from "./Home/Home"
 import Tree from './Tree/Tree'
+import Snow from './Snow/Snow'
 
 const Router = () => {
   return (
@@ -11,7 +12,8 @@ const Router = () => {
         <Route path="/tree" element={<Tree />}></Route>
         <Route path="/todo" element={<Todo />}></Route>
         <Route path="/room" element={<Room />}></Route>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/home" element={<Home />}></Route>
+        <Route path="/" element={<Snow />}></Route>
       </Routes>
     </BrowserRouter>
   )
