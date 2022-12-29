@@ -1,7 +1,9 @@
 import styled from 'styled-components'
-import SnowFlake from '../../components/SnowFlake/SnowFlake'
+import SnowFlake from "../../components/SnowFlake/SnowFlake";
 
 const Snow = () => {
+
+  let arr = Array.from('Wow Snowflakes are awesome!!! I love it!!!')
 
   const Winter = styled.div`
     width: 100%;
@@ -11,8 +13,24 @@ const Snow = () => {
 
   return (
     <Winter>
-      <SnowFlake/>
+      {arr.map((a, i) => {
+        let left = Math.random() * window.screen.width
+        let delay = Math.random() * 10
+        let opacity = Math.random()
+        let duration = Math.random() * 20 + 10
+
+        return (
+          <SnowFlake
+            key={`snow-${i}`}
+            left={left}
+            delay={delay}
+            opacity={opacity}
+            duration={duration}>
+          </SnowFlake>
+        )
+      })}
     </Winter>
   )
 }
+
 export default Snow
