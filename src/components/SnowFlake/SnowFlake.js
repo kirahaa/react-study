@@ -1,3 +1,4 @@
+import React from 'react'
 import styled, {keyframes} from 'styled-components'
 
 const fallAnimation = keyframes`
@@ -13,22 +14,24 @@ const StyledSnow = styled.div`
     left: ${(props) => `${props.left}px` };
     width: 1rem;
     height: 1rem;
-    background-color: #fff;
+    color: ${(props) => `${props.color}`};
+    background-color: ${(props) => `${props.color}`};
     border-radius: 50%;
     animation: ${fallAnimation} ${(props) => `${props.duration}s linear infinite`};
     animation-delay: ${(props) => `${props.delay}s`};
     opacity: ${(props) => props.opacity };
   `
 
-const SnowFlake = ({left, delay, opacity, duration}) => {
+const SnowFlake = ({left, delay, opacity, duration, color}) => {
 
   return (
     <StyledSnow
       left={left}
       delay={delay}
       opacity={opacity}
-      duration={duration}>
+      duration={duration}
+      color={color}>
     </StyledSnow>
   )
 }
-export default SnowFlake
+export default React.memo(SnowFlake)
