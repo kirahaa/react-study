@@ -1,29 +1,33 @@
 import styled, {keyframes} from 'styled-components'
 
-const SnowFlake = ({left, delay, opacity, duration}) => {
-
-  const fallAnimation = keyframes`
+const fallAnimation = keyframes`
     to {
       transform: translateY(100vh);
       opacity: 0;
     }
   `
 
-  const StyledSnow = styled.div`
+const StyledSnow = styled.div`
     position: absolute;
     top: -1rem;
-    left: ${left}px;
+    left: ${(props) => `${props.left}px` };
     width: 1rem;
     height: 1rem;
     background-color: #fff;
     border-radius: 50%;
-    animation: ${fallAnimation} ${duration}s linear infinite;
-    animation-delay: ${delay}s;
-    opacity: ${opacity};
+    animation: ${fallAnimation} ${(props) => `${props.duration}s linear infinite`};
+    animation-delay: ${(props) => `${props.delay}s`};
+    opacity: ${(props) => props.opacity };
   `
 
+const SnowFlake = ({left, delay, opacity, duration}) => {
+
   return (
-    <StyledSnow>
+    <StyledSnow
+      left={left}
+      delay={delay}
+      opacity={opacity}
+      duration={duration}>
     </StyledSnow>
   )
 }

@@ -1,15 +1,15 @@
 import styled from 'styled-components'
 import SnowFlake from "../../components/SnowFlake/SnowFlake";
 
-const Snow = () => {
-
-  let arr = Array.from('Wow Snowflakes are awesome!!! I love it!!!')
-
-  const Winter = styled.div`
+const Winter = styled.div`
     width: 100%;
     height: 100%;
     background-color: #000;
   `
+
+const Snow = () => {
+
+  let arr = Array.from('Wow Snowflakes are awesome!!! I love it!!! Happy new year!!!')
 
   return (
     <Winter>
