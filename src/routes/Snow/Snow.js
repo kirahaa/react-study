@@ -3,11 +3,23 @@ import SnowFlake from "../../components/SnowFlake/SnowFlake"
 import classNames from "classnames/bind"
 import style from './Snow.module.scss'
 import {useEffect, useRef, useState} from "react"
+import styled from "styled-components"
+import {Link} from "react-router-dom"
+import {useTheme} from "../../hooks/useTheme"
 const cx = classNames.bind(style)
 
 let arr = Array.from('Wow Snowflakes are awesome!!! I love it!!! Happy new year!!! Wow Snowflakes are awesome!!! I love it!!! Happy new year!!!')
 
+const Wrap = styled.div`
+  width: 100%;
+  height: 100%;
+  color: ${(props) => props.theme.colors.text};
+  background-color: ${(props) => props.theme.colors.bg};
+`
+
 const Snow = () => {
+  const {theme, setTheme, mode} = useTheme()
+
   const wrap = useRef()
   const [menuOpen, setMenuOpen] = useState(false)
   const [color, setColor] = useState('#ffffff')
@@ -22,11 +34,7 @@ const Snow = () => {
     }
   }
 
-  const handleTheme = () => {
-    // TODO:: Theme 바꾸기
-  }
-
-  const renderSnowFlake = () => {
+  const RenderSnowFlake = () => {
     return (
       <>
         {arr.map((a, i) => {
@@ -59,8 +67,8 @@ const Snow = () => {
   }, [])
 
   return (
-    <div ref={wrap} className={cx('wrap')}>
-      {renderSnowFlake()}
+    <Wrap ref={wrap} className={cx('wrap')} theme={mode}>
+      {RenderSnowFlake()}
 
       <div className={cx('menu')} onClick={toggleMenu}>
         <Menu color="#fff" size={40}/>
@@ -73,16 +81,20 @@ const Snow = () => {
       )}>
         <ul>
           <li>
-            <div>Choose your color</div>
-            <input type="color" id="color" value={color} onChange={(e) => setColor(e.target.value)} />
-            <label htmlFor="color"></label>
+            <div>color</div>
+            <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
           </li>
           <li>
-            <button onClick={handleTheme}>theme</button>
+            <div>theme</div>
+            <button onClick={setTheme}>{theme ? '☼' : '☾' }</button>
+          </li>
+          <li>
+            <div>link</div>
+            <Link to="/theme">Theme page</Link>
           </li>
         </ul>
       </div>
-    </div>
+    </Wrap>
   )
 }
 

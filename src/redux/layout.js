@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit"
 
 const initialTheme = () => {
   const item = window.localStorage.getItem('theme')
-  return item ? JSON.parse(item) : 'dark'
+  return item ? JSON.parse(item) : true
 }
 
 export const layoutSlice = createSlice({
@@ -10,9 +10,11 @@ export const layoutSlice = createSlice({
     theme: initialTheme()
   },
   name: 'layout',
-  handleTheme: (state, action) => {
-    state.theme = action.payload
-    window.localStorage.setItem('theme', JSON.stringify(action.payload))
+  reducers: {
+    handleTheme: (state, action) => {
+      state.theme = action.payload
+      window.localStorage.setItem('theme', action.payload)
+    }
   }
 })
 
