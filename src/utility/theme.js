@@ -1,7 +1,7 @@
 export const dark ={
   id: 'dark',
   colors:{
-    text : '#b8b8b8',
+    text : '#eee',
     bg: '#121212',
   }
 }
@@ -10,7 +10,6 @@ export const light ={
   id: 'light',
   colors:{
     text : '#121212',
-    bg: '#b8b8b8',
+    bg: '#eee',
   }
 }
-

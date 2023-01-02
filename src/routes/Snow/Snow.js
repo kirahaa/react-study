@@ -71,7 +71,7 @@ const Snow = () => {
       {RenderSnowFlake()}
 
       <div className={cx('menu')} onClick={toggleMenu}>
-        <Menu color="#fff" size={40}/>
+        <Menu color={theme.colors.text} size={40}/>
       </div>
 
       <div

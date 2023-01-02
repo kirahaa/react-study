@@ -14,8 +14,7 @@ const StyledSnow = styled.div`
     left: ${(props) => `${props.left}px` };
     width: 1rem;
     height: 1rem;
-    color: ${(props) => `${props.color}`};
-    background-color: ${(props) => `${props.color}`};
+    background-color: ${(props) => props.theme.colors.text};
     border-radius: 50%;
     animation: ${fallAnimation} ${(props) => `${props.duration}s linear infinite`};
     animation-delay: ${(props) => `${props.delay}s`};
