@@ -3,9 +3,9 @@ import SnowFlake from "../../components/SnowFlake/SnowFlake"
 import classNames from "classnames/bind"
 import style from './Snow.module.scss'
 import {useEffect, useRef, useState} from "react"
-import styled from "styled-components"
+import styled, {ThemeContext} from "styled-components"
 import {Link} from "react-router-dom"
-import {useTheme} from "../../hooks/useTheme"
+import {useContext} from 'react'
 const cx = classNames.bind(style)
 
 let arr = Array.from('Wow Snowflakes are awesome!!! I love it!!! Happy new year!!! Wow Snowflakes are awesome!!! I love it!!! Happy new year!!!')
@@ -18,7 +18,7 @@ const Wrap = styled.div`
 `
 
 const Snow = () => {
-  const {theme, setTheme, mode} = useTheme()
+  const theme = useContext(ThemeContext)
 
   const wrap = useRef()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -67,7 +67,7 @@ const Snow = () => {
   }, [])
 
   return (
-    <Wrap ref={wrap} className={cx('wrap')} theme={mode}>
+    <Wrap ref={wrap} className={cx('wrap')}>
       {RenderSnowFlake()}
 
       <div className={cx('menu')} onClick={toggleMenu}>
@@ -86,7 +86,7 @@ const Snow = () => {
           </li>
           <li>
             <div>theme</div>
-            <button onClick={setTheme}>{theme ? '☼' : '☾' }</button>
+            <button onClick={theme.setTheme}>{theme.id === 'dark' ? '☼' : '☾' }</button>
           </li>
           <li>
             <div>link</div>

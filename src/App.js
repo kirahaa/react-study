@@ -3,11 +3,22 @@ import {Provider} from 'react-redux'
 import store from './redux/store'
 import './styles/App.module.scss'
 import './App.css'
+import {ThemeProvider} from 'styled-components'
+import {dark, light} from './utility/theme'
+import {useState} from 'react'
 
 const App = () => {
+  const [theme, setTheme] = useState(dark)
   return (
     <Provider store={store}>
-      <Router/>
+      <ThemeProvider theme={{
+        ...theme,
+        setTheme: () => {
+          setTheme((t) => t === dark ? light : dark)
+        }
+      }}>
+        <Router/>
+      </ThemeProvider>
     </Provider>
   );
 }
