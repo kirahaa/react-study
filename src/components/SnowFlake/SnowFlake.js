@@ -14,14 +14,15 @@ const StyledSnow = styled.div`
     left: ${(props) => `${props.left}px` };
     width: 1rem;
     height: 1rem;
-    background-color: ${(props) => props.color};
+    color: ${(props) => props.color};
+    background-color: ${(props) => props.shape ? 'transparent' : props.color};
     border-radius: 50%;
     animation: ${fallAnimation} ${(props) => `${props.duration}s linear infinite`};
     animation-delay: ${(props) => `${props.delay}s`};
     opacity: ${(props) => props.opacity };
   `
 
-const SnowFlake = ({left, delay, opacity, duration, color}) => {
+const SnowFlake = ({left, delay, opacity, duration, color, shape}) => {
 
   return (
     <StyledSnow
@@ -29,7 +30,9 @@ const SnowFlake = ({left, delay, opacity, duration, color}) => {
       delay={delay}
       opacity={opacity}
       duration={duration}
-      color={color}>
+      color={color}
+      shape={shape}>
+      {shape}
     </StyledSnow>
   )
 }

@@ -23,6 +23,8 @@ const Snow = () => {
   const wrap = useRef()
   const [menuOpen, setMenuOpen] = useState(false)
   const [color, setColor] = useState('#ffffff')
+  const [inputValue, setInputValue] = useState('')
+  const [shape, setShape] = useState('')
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
@@ -31,6 +33,13 @@ const Snow = () => {
   const closeMenu = e => {
     if (e.target === wrap.current) {
       setMenuOpen(false)
+    }
+  }
+
+  const onKeyDown = e => {
+    if (e.keyCode === 13) {
+      setShape(e.target.value)
+      setInputValue('')
     }
   }
 
@@ -51,6 +60,7 @@ const Snow = () => {
               opacity={opacity}
               duration={duration}
               color={color}
+              shape={shape}
             >
             </SnowFlake>
           )
@@ -81,12 +91,23 @@ const Snow = () => {
       )}>
         <ul>
           <li>
+            <div>theme</div>
+            <button onClick={theme.setTheme}>{theme.id === 'dark' ? '☼' : '☾' }</button>
+          </li>
+          <li>
             <div>color</div>
             <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
           </li>
           <li>
-            <div>theme</div>
-            <button onClick={theme.setTheme}>{theme.id === 'dark' ? '☼' : '☾' }</button>
+            <div>shape</div>
+            <input
+              type="text"
+              value={inputValue}
+              onKeyDown={onKeyDown}
+              onChange={e => setInputValue(e.target.value)}
+              maxLength={4}
+              placeholder="write your shape(max 4)"
+            />
           </li>
           <li>
             <div>link</div>
