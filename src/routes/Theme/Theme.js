@@ -1,6 +1,7 @@
 import styled, {ThemeContext} from 'styled-components'
 import {Link} from "react-router-dom"
 import {useContext} from 'react'
+import {AuthContext} from "../../context/AuthContext";
 
 const StyledTheme = styled.div`
   display: flex;
@@ -16,6 +17,8 @@ const StyledTheme = styled.div`
 
 const Theme = () => {
   const theme = useContext(ThemeContext)
+  const auth = useContext(AuthContext)
+  console.log(auth, 'auth')
 
   return (
     <StyledTheme>
