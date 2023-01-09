@@ -18,7 +18,6 @@ const StyledTheme = styled.div`
 const Theme = () => {
   const theme = useContext(ThemeContext)
   const auth = useContext(AuthContext)
-  console.log(auth, 'auth')
 
   return (
     <StyledTheme>

@@ -4,14 +4,16 @@ import Room from "./Room/Room"
 import Home from "./Home/Home"
 import Tree from './Tree/Tree'
 import Snow from './Snow/Snow'
-import Theme from "./Theme/Theme";
-import Login from "./Login/Login";
+import Theme from "./Theme/Theme"
+import Login from "./Login/Login"
+import User from './User/User'
 
 const Router = () => {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/theme" element={<Theme />}></Route>
+        <Route path="/user" element={<User />}></Route>
         <Route path="/snow" element={<Snow />}></Route>
         <Route path="/tree" element={<Tree />}></Route>
         <Route path="/todo" element={<Todo />}></Route>
