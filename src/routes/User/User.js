@@ -3,24 +3,29 @@ import {AuthContext} from "../../context/AuthContext"
 import {useNavigate} from "react-router-dom"
 
 const User = () => {
-  const auth = useContext(AuthContext)
+  const {user, currentUser, isLoggedIn, LogOut} = useContext(AuthContext)
   const navigate = useNavigate()
 
+  const handleLogOut = () => {
+    if(window.confirm('로그아웃 하시겠습니까?')) {
+      LogOut()
+      navigate('/')
+    }
+  }
+
   useEffect(() => {
-    if (auth.user.length !== 1) {
+    if (!isLoggedIn) {
       alert('잘못된 접근입니다.')
       navigate('/')
     }
-  }, [auth.user])
+  }, [isLoggedIn])
 
   return (
     <div>
-      {auth.user.length === 1 ? (
-        auth.user.map(u => (
+      {isLoggedIn ? (
+        currentUser.map(u => (
           <ul key={u.loginId}>
-            <li>이름 : {u.name}</li>
             <li>아이디 : {u.loginId}</li>
-            <li>전화번호 : {u.phoneNumber}</li>
           </ul>
         ))
       ) : (
@@ -29,6 +34,7 @@ const User = () => {
         </>
       )
       }
+      <button onClick={handleLogOut}>Log out</button>
     </div>
   )
 }

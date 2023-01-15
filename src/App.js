@@ -5,16 +5,15 @@ import './styles/App.module.scss'
 import './App.css'
 import {ThemeProvider} from 'styled-components'
 import {dark, light} from './utility/theme'
-import {userData} from "./utility/userData"
-import {useState} from 'react'
-import {AuthContext} from "./context/AuthContext"
+import {useContext, useState} from 'react'
+import {AuthContext, AuthProvider} from "./context/AuthContext"
 
 const App = () => {
   const [theme, setTheme] = useState(dark)
-  const [user, setUser] = useState(userData)
+  const context = useContext(AuthContext);
 
   return (
-    <AuthContext.Provider value={{user, setUser}}>
+    <AuthProvider>
       <Provider store={store}>
         <ThemeProvider theme={{
           ...theme,
@@ -25,7 +24,7 @@ const App = () => {
           <Router/>
         </ThemeProvider>
       </Provider>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {useState, useContext} from "react"
+import {useState, useContext, useEffect} from "react"
 import useInput from '../../hook/useInput'
 import {AuthContext} from "../../context/AuthContext"
 import { useNavigate } from 'react-router-dom'
@@ -11,6 +11,12 @@ const StyledLogin = styled.div`
   height: 100%;
   max-width: 520px;
   margin: 0 auto;
+`
+
+const AcountButton = styled.span`
+  padding: 2rem 0;
+  text-align: center;
+  text-decoration: underline;
 `
 
 const WrapLogin = styled.form`
@@ -36,44 +42,62 @@ const WrapLogin = styled.form`
 `
 
 const Login = () => {
-  const [loginId, setLoginId] = useState('')
-  const [password, setPassword] = useState('')
-  const auth = useContext(AuthContext)
+  const [form, setForm] = useState({id: "", password: ""})
+  const [newAccount, setNewAccount] = useState(true)
+  const {user, setUser, setCurrentUser, LogIn} = useContext(AuthContext)
   const navigate = useNavigate()
+
+  const onChange = ({target: {name, value}}) => {
+    setForm({...form, [name]: value})
+  }
+
+  const toggleAccount = () => setNewAccount(!newAccount)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    if (!loginId || !password) {
-      alert('정보를 입력해주세요.')
-    } else {
-      let userData = auth.user.filter(u => u.loginId === loginId && u.password === password)
-      console.log(userData, 'userData');
-      if (userData.length !== 0) {
-        navigate('/user')
-        auth.setUser([...userData])
+    try {
+      if (newAccount) {
+        // create account
+        setUser([...user, {loginId: form.id, password: form.password}])
       } else {
-        alert('잘못된 유저 정보입니다.')
+        // sign in
+        let ok = user.filter(u => u.loginId === form.id && u.password === form.password)
+        if (ok.length > 0) {
+          LogIn()
+          setCurrentUser([{loginId: form.id, password: form.password}])
+          navigate('/user')
+        }
       }
+    } catch(error) {
+      console.log(error, 'error')
     }
   }
+
+  useEffect(() => {
+    console.log(user, 'user')
+  }, [user])
 
   return (
     <StyledLogin>
       <WrapLogin onSubmit={handleSubmit}>
         <input
+          name="id"
           type="text"
-          value={loginId}
           placeholder="I D"
-          onChange={(e) => setLoginId(e.target.value)}
+          value={form.id}
+          onChange={onChange}
+          required
         />
         <input
+          name="password"
           type="password"
-          value={password}
           placeholder="P A S S W O R D"
-          onChange={(e) => setPassword(e.target.value)}
+          value={form.password}
+          onChange={onChange}
+          required
         />
-        <button type="submit">L O G I N</button>
+        <button type="submit">{newAccount ? "Create Account" : "Sign In"}</button>
+        <AcountButton onClick={toggleAccount}>{newAccount ? "Sign In" : "Create Account"}</AcountButton>
       </WrapLogin>
     </StyledLogin>
   )
