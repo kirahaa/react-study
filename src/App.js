@@ -5,12 +5,11 @@ import './styles/App.module.scss'
 import './App.css'
 import {ThemeProvider} from 'styled-components'
 import {dark, light} from './utility/theme'
-import {useContext, useState} from 'react'
-import {AuthContext, AuthProvider} from "./context/AuthContext"
+import {useState} from 'react'
+import {AuthProvider} from "./context/AuthContext"
 
 const App = () => {
   const [theme, setTheme] = useState(dark)
-  const context = useContext(AuthContext);
 
   return (
     <AuthProvider>

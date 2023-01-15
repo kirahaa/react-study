@@ -13,8 +13,6 @@ import {AuthContext} from "../context/AuthContext";
 const Router = () => {
   const {isLoggedIn} = useContext(AuthContext);
 
-  console.log(isLoggedIn, 'isLoggedIn');
-
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>

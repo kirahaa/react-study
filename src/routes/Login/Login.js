@@ -1,6 +1,5 @@
 import styled from "styled-components"
-import {useState, useContext, useEffect} from "react"
-import useInput from '../../hook/useInput'
+import {useState, useContext, useEffect, useRef} from "react"
 import {AuthContext} from "../../context/AuthContext"
 import { useNavigate } from 'react-router-dom'
 
@@ -46,6 +45,7 @@ const Login = () => {
   const [newAccount, setNewAccount] = useState(true)
   const {user, setUser, setCurrentUser, LogIn} = useContext(AuthContext)
   const navigate = useNavigate()
+  const inputRef = useRef(null)
 
   const onChange = ({target: {name, value}}) => {
     setForm({...form, [name]: value})
@@ -58,7 +58,16 @@ const Login = () => {
     try {
       if (newAccount) {
         // create account
-        setUser([...user, {loginId: form.id, password: form.password}])
+        let existedUser = user.filter(u => u.loginId === form.id).length
+
+        if (existedUser !== 0) {
+          alert('이미 존재하는 아이디입니다.')
+        } else {
+          setUser([...user, {loginId: form.id, password: form.password}])
+          setNewAccount(false)
+        }
+        setForm({id: "", password: ""})
+        inputRef.current.focus()
       } else {
         // sign in
         let ok = user.filter(u => u.loginId === form.id && u.password === form.password)
@@ -73,14 +82,11 @@ const Login = () => {
     }
   }
 
-  useEffect(() => {
-    console.log(user, 'user')
-  }, [user])
-
   return (
     <StyledLogin>
       <WrapLogin onSubmit={handleSubmit}>
         <input
+          ref={inputRef}
           name="id"
           type="text"
           placeholder="I D"
