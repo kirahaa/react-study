@@ -1,0 +1,17 @@
+.calc {
+    &__forms {
+        display: flex;
+        gap: 1rem;
+        padding: 2rem;
+    }
+    &__form {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    &__result {
+        font-family: 'Bungee', cursive;
+        font-size: 3rem;
+        color: #30d49e;
+    }
+}

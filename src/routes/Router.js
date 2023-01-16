@@ -7,6 +7,7 @@ import Snow from './Snow/Snow'
 import Theme from "./Theme/Theme"
 import Login from "./Login/Login"
 import User from './User/User'
+import Calc from './Calc/Calc'
 import {useContext} from "react"
 import {AuthContext} from "../context/AuthContext"
 import Navigation from '../components/Navigation/Navigation'
@@ -27,6 +28,7 @@ const Router = () => {
           isLoggedIn ? (
             <>
               <Route path="/" element={<MainLayout />}>
+                <Route path="/calc" element={<Calc />}></Route>
                 <Route path="/theme" element={<Theme />}></Route>
                 <Route path="/user" element={<User />}></Route>
                 <Route path="/snow" element={<Snow />}></Route>

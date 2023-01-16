@@ -5,7 +5,8 @@ export const dark ={
     bg: '#161d31',
     bgLight: '#283046',
     border: '#3b4253'
-  }
+  },
+  primary: '#30d49e'
 }
 
 export const light ={
@@ -15,5 +16,6 @@ export const light ={
     bg: '#eee',
     bgLight: 'whitesmoke',
     border: '#eee'
-  }
+  },
+  primary: '#30d49e'
 }
