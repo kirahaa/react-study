@@ -31,40 +31,57 @@ const Navigation = () => {
   return (
     <Nav>
       <Menu>
-        <li><Link to="/">
-          <lord-icon
-          src="https://cdn.lordicon.com/osuxyevn.json"
-          trigger="hover"
-          colors={`primary:${theme.colors.text}`}
-          state="hover-3"
-          style={{width: '32px', height: '32px'}}>
-          </lord-icon>
-        </Link></li>
-        <li><Link to="/snow">
-          <lord-icon
-            src="https://cdn.lordicon.com/mxzuvjjs.json"
-            colors={`primary:${theme.colors.text}`}
-            trigger="hover"
-            style={{width: '32px', height: '32px'}}>
-          </lord-icon>
-        </Link></li>
-        <li><Link to="/todo">
-          <lord-icon
-            src="https://cdn.lordicon.com/qjuahhae.json"
-            trigger="hover"
-            colors={`primary:${theme.colors.text}`}
-            state="hover"
-            style={{width: '32px', height: '32px'}}>
-          </lord-icon>
-        </Link></li>
-        <li><Link to="/user">
-          <lord-icon
-            src="https://cdn.lordicon.com/bhfjfgqz.json"
-            trigger="hover"
-            colors={`primary:${theme.colors.text}`}
-            style={{width: '32px', height: '32px'}}>
-          </lord-icon>
-        </Link></li>
+        <li>
+          <Link to="/">
+            <lord-icon
+              src="https://cdn.lordicon.com/osuxyevn.json"
+              trigger="hover"
+              colors={`primary:${theme.colors.text}`}
+              state="hover-3"
+              style={{width: '32px', height: '32px'}}>
+            </lord-icon>
+          </Link>
+        </li>
+        <li>
+          <Link to="/snow">
+            <lord-icon
+              src="https://cdn.lordicon.com/mxzuvjjs.json"
+              colors={`primary:${theme.colors.text}`}
+              trigger="hover"
+              style={{width: '32px', height: '32px'}}>
+            </lord-icon>
+          </Link>
+        </li>
+        <li>
+          <Link to="/todo">
+            <lord-icon
+              src="https://cdn.lordicon.com/qjuahhae.json"
+              trigger="hover"
+              colors={`primary:${theme.colors.text}`}
+              state="hover"
+              style={{width: '32px', height: '32px'}}>
+            </lord-icon>
+          </Link>
+        </li>
+        <li>
+          <Link to="/tree">
+            <lord-icon
+              src="https://cdn.lordicon.com/svbmmyue.json"
+              trigger="hover"
+              style={{width: '32px', height: '32px'}}>
+            </lord-icon>
+          </Link>
+        </li>
+        <li>
+          <Link to="/user">
+            <lord-icon
+              src="https://cdn.lordicon.com/bhfjfgqz.json"
+              trigger="hover"
+              colors={`primary:${theme.colors.text}`}
+              style={{width: '32px', height: '32px'}}>
+            </lord-icon>
+          </Link>
+        </li>
       </Menu>
     </Nav>
   )
