@@ -33,10 +33,9 @@ const WrapLogin = styled.form`
   align-items: center;
   flex-direction: column;
   width: 100%;
-  padding: 2% 0;
   
   .lord-icon {
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
   }
   
   input {
@@ -61,7 +60,6 @@ const WrapLogin = styled.form`
 `
 
 const Login = () => {
-  const theme = useContext(ThemeContext)
   const [form, setForm] = useState({id: "", password: ""})
   const [newAccount, setNewAccount] = useState(true)
   const {user, setUser, setCurrentUser, LogIn} = useContext(AuthContext)
@@ -94,7 +92,7 @@ const Login = () => {
         let ok = user.filter(u => u.loginId === form.id && u.password === form.password)
         if (ok.length > 0) {
           LogIn()
-          setCurrentUser([{loginId: form.id, password: form.password}])
+          setCurrentUser(ok)
           navigate('/user')
         }
       }
@@ -112,7 +110,7 @@ const Login = () => {
             src="https://cdn.lordicon.com/gqzfzudq.json"
             trigger="loop"
             colors={`primary:#414257, secondary:#08a88a`}
-            style={{width: '200px', height: '200px'}}>
+            style={{width: '180px', height: '180px'}}>
           </lord-icon>
           <input
             ref={inputRef}
