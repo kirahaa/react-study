@@ -1,9 +1,17 @@
 import {useContext, useEffect} from "react"
 import {AuthContext} from "../../context/AuthContext"
 import {useNavigate} from "react-router-dom"
+import classNames from 'classnames/bind'
+import style from './User.module.scss'
+import lottie from 'lottie-web'
+import { defineElement }  from 'lord-icon-element'
+
+defineElement(lottie.loadAnimation)
+
+const cx = classNames.bind(style)
 
 const User = () => {
-  const {user, currentUser, isLoggedIn, LogOut} = useContext(AuthContext)
+  const {currentUser, isLoggedIn, LogOut} = useContext(AuthContext)
   const navigate = useNavigate()
 
   const handleLogOut = () => {
@@ -21,20 +29,18 @@ const User = () => {
   }, [isLoggedIn])
 
   return (
-    <div>
-      {isLoggedIn ? (
-        currentUser.map(u => (
-          <ul key={u.loginId}>
-            <li>아이디 : {u.loginId}</li>
-          </ul>
-        ))
-      ) : (
-        <>
-          잘못된 접근입니다.
-        </>
-      )
-      }
-      <button onClick={handleLogOut}>Log out</button>
+    <div className={cx('user')}>
+      <div>
+        <lord-icon
+          src="https://cdn.lordicon.com/lupuorrc.json"
+          trigger="loop"
+          style={{width: '200px', height: '200px'}}>
+        </lord-icon>
+      </div>
+      {currentUser.map(u => (
+        <h2 key={u.loginId} className={cx('user__title')}>Welcome! {u.loginId}</h2>
+      ))}
+      <button onClick={handleLogOut} className={cx('user__btn', '--logout')}>Log out</button>
     </div>
   )
 }

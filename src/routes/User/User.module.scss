@@ -1,0 +1,22 @@
+.user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10rem 0;
+
+    &__title {
+        padding: 5rem 0;
+        font-size: 3rem;
+    }
+
+    &__btn {
+        font-size: 1.5rem;
+        color: #fff;
+
+        &.--logout {
+            padding: 1rem 2rem;
+            background: #30d49e;
+            border-radius: .5rem;
+        }
+    }
+}

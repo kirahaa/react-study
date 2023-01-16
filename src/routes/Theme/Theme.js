@@ -1,7 +1,6 @@
 import styled, {ThemeContext} from 'styled-components'
 import {Link} from "react-router-dom"
 import {useContext} from 'react'
-import {AuthContext} from "../../context/AuthContext";
 import useInput from "../../hook/useInput";
 
 const StyledTheme = styled.div`
@@ -22,7 +21,6 @@ const StyledTheme = styled.div`
 
 const Theme = () => {
   const theme = useContext(ThemeContext)
-  const auth = useContext(AuthContext)
   const {value, onChange} = useInput('')
 
   return (

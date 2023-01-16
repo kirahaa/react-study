@@ -1,6 +1,8 @@
 import onew from "../../onew.png"
 import {useState} from "react"
-import {Link} from 'react-router-dom'
+import classNames from 'classnames/bind'
+import style from './Home.module.scss'
+const cx = classNames.bind(style)
 
 const Home = () => {
   const [msg, setMsg] = useState('')
@@ -17,35 +19,29 @@ const Home = () => {
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={onew} className="App-logo" alt="onew" />
+    <div className={cx('App')}>
+      <header className={cx("App-header")}>
+        <img src={onew} className={cx("App-logo")} alt="onew" />
         <p>
           <b>Hello ! My name is Onew, I'm happy to meet you!</b>
         </p>
-        <div>
-          <Link to={`/todo`}>Todo</Link>
-        </div>
-        <div>
-          <Link to={`/tree`}>Tree</Link>
-        </div>
         <form onSubmit={sendMsg}>
           <input
             type="text"
-            className="App-input"
+            className={cx("App-input")}
             placeholder="send me a message!"
             value={msg}
             onChange={onChange}
           />
           <button
             type="button"
-            className="App-button"
+            className={cx("App-button")}
             onClick={sendMsg}
           >enter</button>
         </form>
-        <ul className="App-list">
+        <ul className={cx("App-list")}>
           {lists.map((list, i) => {
-            return (<li key={`${list}-${i}`} className="App-list-item">
+            return (<li key={`${list}-${i}`} className={cx("App-list-item")}>
               {list}
             </li>)
           })}

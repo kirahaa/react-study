@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {useState, useContext, useEffect, useRef} from "react"
+import {useState, useContext, useRef} from "react"
 import {AuthContext} from "../../context/AuthContext"
 import { useNavigate } from 'react-router-dom'
 
