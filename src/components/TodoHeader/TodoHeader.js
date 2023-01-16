@@ -1,9 +1,17 @@
-import {Fragment} from "react"
+import {Fragment, useContext} from 'react'
 import style from './TodoHeader.module.scss'
 import classNames from "classnames/bind"
+import {AuthContext} from '../../context/AuthContext'
+import styled from 'styled-components'
 const cx = classNames.bind(style)
 
+const StyledHr = styled.hr`
+  border: 1px solid transparent;
+  background-color: ${(props) => props.theme.colors.border};
+`
+
 const TodoHeader = ({storeTodos}) => {
+  const {currentUser} = useContext(AuthContext)
   const date = new Date()
   date.toString()
 
@@ -26,10 +34,11 @@ const TodoHeader = ({storeTodos}) => {
   return (
     <Fragment>
       <header className={cx('header')}>
+        <p>{currentUser[0].loginId}님 안녕하세요 :)</p>
         <h1>{formatDate}</h1>
         <strong>할 일 {renderChecked()}개 남음</strong>
       </header>
-      <hr />
+      <StyledHr />
     </Fragment>
   )
 }

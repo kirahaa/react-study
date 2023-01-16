@@ -1,7 +1,30 @@
 import {Fragment, useState, useRef} from "react"
 import style from './TodoBody.module.scss'
 import classNames from "classnames/bind"
+import styled from 'styled-components'
 const cx = classNames.bind(style)
+
+const Input = styled.input`
+  width: 75%;
+  border: 0;
+  background: ${(props) => props.theme.colors.bgLight};
+  border-bottom: 1px solid #30d49e;
+  outline: none;
+  font-size: 2rem;
+`
+
+const Select = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 2rem 0 1rem;
+
+  select {
+    padding: 1rem;
+    background: ${(props) => props.theme.colors.bgLight};
+    border: ${(props) => `1px solid ${props.theme.colors.border}`};
+    font-size: 1.5rem;
+  }
+`
 
 const TodoBody = ({storeTodos, addTodo, removeTodo}) => {
   const inputRef = useRef(null)
@@ -50,7 +73,7 @@ const TodoBody = ({storeTodos, addTodo, removeTodo}) => {
           'form',
           formVisible && 'show'
         )} onSubmit={onSubmit}>
-          <input
+          <Input
             ref={inputRef}
             type="text"
             placeholder="할 일을 입력해주세요"
@@ -59,13 +82,13 @@ const TodoBody = ({storeTodos, addTodo, removeTodo}) => {
           />
           <button type="submit" onClick={onSubmit}>enter</button>
         </form>
-        <div className={cx('select')}>
+        <Select>
           <select onChange={e => onSelect(e)} value={selectValue}>
             <option value='ascending'>등록순</option>
             <option value='descending'>최신순</option>
             <option value='alphabetical'>제목</option>
           </select>
-        </div>
+        </Select>
         <ul className={cx('list')}>
           {storeTodos
             .slice(0)

@@ -28,7 +28,6 @@ const Theme = () => {
       <div>{theme.id} theme</div>
       <Link to="/">Go back to Snow</Link>
       <input type="text" value={value} onChange={onChange}/>
-      <input type="text" value={value} onChange={onChange}/>
     </StyledTheme>
   )
 }

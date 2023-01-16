@@ -28,14 +28,6 @@
     opacity: 1;
   }
 
-  input {
-    width: 75%;
-    border: 0;
-    border-bottom: 1px solid #30d49e;
-    outline: none;
-    font-size: 2rem;
-  }
-
   button {
     padding: 1rem 2rem;
     border: 0;
@@ -46,18 +38,6 @@
   }
 }
 
-.select {
-  display: flex;
-  justify-content: flex-end;
-  padding: 2rem 0 1rem;
-
-  select {
-    padding: 1rem;
-    border: 1px solid #eee;
-    font-size: 1.5rem;
-  }
-}
-
 .list {
   li {
     display: flex;
@@ -65,10 +45,9 @@
     align-items: center;
     padding: 1rem 3rem;
     font-size: 2rem;
-    color: #111;
 
     &:hover button {
-      display: block;
+      opacity: 1;
     }
   }
   .input-wrap {
@@ -78,8 +57,8 @@
   .checkLabel {
     display: inline-block;
     position: relative;
-    width: 1rem;
-    height: 1rem;
+    width: 2rem;
+    height: 2rem;
     margin-right: 1rem;
     padding: .5rem;
     border: 1px solid #30d49e;
@@ -105,12 +84,13 @@
     }
   }
   button {
-    display: none;
+    opacity: 0;
     padding: 0;
     border: 0;
     color: dimgrey;
     background: transparent;
     font-size: 2rem;
     cursor: pointer;
+    transition: all .3s;
   }
 }

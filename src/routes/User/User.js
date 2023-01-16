@@ -34,6 +34,7 @@ const User = () => {
         <lord-icon
           src="https://cdn.lordicon.com/lupuorrc.json"
           trigger="loop"
+          colors={"primary:#414257, secondary:#08a88a"}
           style={{width: '200px', height: '200px'}}>
         </lord-icon>
       </div>

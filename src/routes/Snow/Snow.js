@@ -22,7 +22,7 @@ const Snow = () => {
 
   const wrap = useRef()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [color, setColor] = useState('#ffffff')
+  const [color, setColor] = useState(theme.colors.text)
   const [inputValue, setInputValue] = useState('')
   const [shape, setShape] = useState('')
 
