@@ -63,16 +63,16 @@ const Navigation = () => {
             </lord-icon>
           </Link>
         </li>
-        <li>
-          <Link to="/calc">
-            <lord-icon
-              src="https://cdn.lordicon.com/qtldxoay.json"
-              trigger="hover"
-              colors={`primary:${theme.colors.text}`}
-              style={{width: '32px', height: '32px'}}>
-            </lord-icon>
-          </Link>
-        </li>
+        {/*<li>*/}
+        {/*  <Link to="/calc">*/}
+        {/*    <lord-icon*/}
+        {/*      src="https://cdn.lordicon.com/qtldxoay.json"*/}
+        {/*      trigger="hover"*/}
+        {/*      colors={`primary:${theme.colors.text}`}*/}
+        {/*      style={{width: '32px', height: '32px'}}>*/}
+        {/*    </lord-icon>*/}
+        {/*  </Link>*/}
+        {/*</li>*/}
         <li>
           <Link to="/snow">
             <lord-icon
@@ -82,6 +82,27 @@ const Navigation = () => {
               style={{width: '32px', height: '32px'}}>
             </lord-icon>
           </Link>
+        </li>
+        <li>
+          <div onClick={theme.setTheme}>
+            {theme.id === 'dark' ? (
+              <lord-icon
+                src="https://cdn.lordicon.com/gqzfzudq.json"
+                trigger="hover"
+                colors={`primary:${theme.colors.text},secondary:${theme.colors.text}`}
+                stroke="100"
+                style={{width: '33px', height: '33px'}}>
+              </lord-icon>
+            ) : (
+              <lord-icon
+                src="https://cdn.lordicon.com/tgnqhsfe.json"
+                trigger="hover"
+                colors={`primary:${theme.colors.text},secondary:${theme.colors.text}`}
+                stroke="100"
+                style={{width: '33px', height: '33px'}}>
+              </lord-icon>
+            )}
+          </div>
         </li>
         <li>
           <Link to="/user">

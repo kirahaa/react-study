@@ -93,7 +93,7 @@ const Login = () => {
         if (ok.length > 0) {
           LogIn()
           setCurrentUser(ok)
-          navigate('/user')
+          navigate('/')
         }
       }
     } catch(error) {

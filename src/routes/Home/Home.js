@@ -2,7 +2,12 @@ import onew from "../../onew.png"
 import {useState} from "react"
 import classNames from 'classnames/bind'
 import style from './Home.module.scss'
+import styled from 'styled-components'
 const cx = classNames.bind(style)
+
+const HomeWrap = styled.div`
+  color: ${(props) => props.theme.colors.text};
+`
 
 const Home = () => {
   const [msg, setMsg] = useState('')
@@ -19,7 +24,7 @@ const Home = () => {
   }
 
   return (
-    <div className={cx('App')}>
+    <HomeWrap>
       <header className={cx("App-header")}>
         <img src={onew} className={cx("App-logo")} alt="onew" />
         <p>
@@ -47,7 +52,7 @@ const Home = () => {
           })}
         </ul>
       </header>
-    </div>
+    </HomeWrap>
   )
 }
 
