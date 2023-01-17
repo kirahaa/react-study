@@ -11,12 +11,12 @@ defineElement(lottie.loadAnimation)
 const cx = classNames.bind(style)
 
 const User = () => {
-  const {currentUser, isLoggedIn, LogOut} = useContext(AuthContext)
+  const {currentUser, isLoggedIn, setIsLoggedIn} = useContext(AuthContext)
   const navigate = useNavigate()
 
   const handleLogOut = () => {
     if(window.confirm('로그아웃 하시겠습니까?')) {
-      LogOut()
+      setIsLoggedIn(false)
       navigate('/')
     }
   }
@@ -38,8 +38,8 @@ const User = () => {
           style={{width: '200px', height: '200px'}}>
         </lord-icon>
       </div>
-      {currentUser.map(u => (
-        <h2 key={u.loginId} className={cx('user__title')}>Welcome! {u.loginId}</h2>
+      {currentUser.map(user => (
+        <h2 key={user.loginId} className={cx('user__title')}>Welcome! {user.loginId}</h2>
       ))}
       <button onClick={handleLogOut} className={cx('user__btn', '--logout')}>Log out</button>
     </div>

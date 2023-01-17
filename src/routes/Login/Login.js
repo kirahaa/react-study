@@ -1,9 +1,8 @@
-import styled, {ThemeContext} from 'styled-components'
-import {useState, useContext, useRef} from "react"
-import {AuthContext} from "../../context/AuthContext"
-import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import {useRef} from "react"
 import lottie from 'lottie-web'
 import { defineElement }  from 'lord-icon-element'
+import useAuth from "../../hook/useAuth";
 
 defineElement(lottie.loadAnimation)
 
@@ -60,46 +59,10 @@ const WrapLogin = styled.form`
 `
 
 const Login = () => {
-  const [form, setForm] = useState({id: "", password: ""})
-  const [newAccount, setNewAccount] = useState(true)
-  const {user, setUser, setCurrentUser, LogIn} = useContext(AuthContext)
-  const navigate = useNavigate()
+  const [form, newAccount, setNewAccount, onChange, handleSubmit] = useAuth({id: '', password: ''})
   const inputRef = useRef(null)
 
-  const onChange = ({target: {name, value}}) => {
-    setForm({...form, [name]: value})
-  }
-
   const toggleAccount = () => setNewAccount(!newAccount)
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    try {
-      if (newAccount) {
-        // create account
-        let existedUser = user.filter(u => u.loginId === form.id).length
-
-        if (existedUser !== 0) {
-          alert('이미 존재하는 아이디입니다.')
-        } else {
-          setUser([...user, {loginId: form.id, password: form.password}])
-          setNewAccount(false)
-        }
-        setForm({id: "", password: ""})
-        inputRef.current.focus()
-      } else {
-        // sign in
-        let ok = user.filter(u => u.loginId === form.id && u.password === form.password)
-        if (ok.length > 0) {
-          LogIn()
-          setCurrentUser(ok)
-          navigate('/')
-        }
-      }
-    } catch(error) {
-      console.log(error, 'error')
-    }
-  }
 
   return (
     <Wrap>
