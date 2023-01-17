@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom"
+import {Route, Routes, useNavigate} from 'react-router-dom'
 import Todo from "./Todo/Todo"
 import Room from "./Room/Room"
 import Home from "./Home/Home"
@@ -8,16 +8,25 @@ import Theme from "./Theme/Theme"
 import Login from "./Login/Login"
 import User from './User/User'
 import Calc from './Calc/Calc'
-import {useContext} from "react"
+import {useContext, useEffect} from 'react'
 import {AuthContext} from "../context/AuthContext"
 import Navigation from '../components/Navigation/Navigation'
 import MainLayout from '../components/Layout/MainLayout'
 
 const Router = () => {
+  const navigate = useNavigate()
   const {isLoggedIn} = useContext(AuthContext);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/')
+    } else {
+      navigate('/login')
+    }
+  }, [isLoggedIn])
+
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <>
       {isLoggedIn && (
         <>
           <Navigation />
@@ -39,11 +48,11 @@ const Router = () => {
               </Route>
             </>
           ) : (
-            <Route path="/" element={<Login />}></Route>
+            <Route path="/login" element={<Login />}></Route>
           )
         }
       </Routes>
-    </BrowserRouter>
+    </>
   )
 }
 
