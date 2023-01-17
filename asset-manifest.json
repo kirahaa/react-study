@@ -1,14 +1,23 @@
 {
   "files": {
-    "main.css": "/react-study/static/css/main.1f6aeec3.css",
-    "main.js": "/react-study/static/js/main.e9fb30b0.js",
+    "main.css": "/react-study/static/css/main.f1ba148e.css",
+    "main.js": "/react-study/static/js/main.98ace9a3.js",
     "static/media/onew.png": "/react-study/static/media/onew.ac2029014ef60e5372bb.png",
+    "static/media/SCDREAM8.OTF": "/react-study/static/media/SCDREAM8.64217e4da7638066e57a.OTF",
+    "static/media/SCDREAM7.OTF": "/react-study/static/media/SCDREAM7.a8d826f4cafb0e728051.OTF",
+    "static/media/SCDREAM6.OTF": "/react-study/static/media/SCDREAM6.4df12ee03e70b6326c25.OTF",
+    "static/media/SCDREAM9.OTF": "/react-study/static/media/SCDREAM9.c8e7afd869e076d5055d.OTF",
+    "static/media/SCDREAM1.OTF": "/react-study/static/media/SCDREAM1.3f28bc17ecb809862c69.OTF",
+    "static/media/SCDREAM2.OTF": "/react-study/static/media/SCDREAM2.f44c037d461a68f92e1e.OTF",
+    "static/media/SCDREAM3.OTF": "/react-study/static/media/SCDREAM3.1e55b77199a0afd0ed9a.OTF",
+    "static/media/SCDREAM5.OTF": "/react-study/static/media/SCDREAM5.ae5ee4933db75a3ccb04.OTF",
+    "static/media/SCDREAM4.OTF": "/react-study/static/media/SCDREAM4.64c9dc7c860af7a004ad.OTF",
     "index.html": "/react-study/index.html",
-    "main.1f6aeec3.css.map": "/react-study/static/css/main.1f6aeec3.css.map",
-    "main.e9fb30b0.js.map": "/react-study/static/js/main.e9fb30b0.js.map"
+    "main.f1ba148e.css.map": "/react-study/static/css/main.f1ba148e.css.map",
+    "main.98ace9a3.js.map": "/react-study/static/js/main.98ace9a3.js.map"
   },
   "entrypoints": [
-    "static/css/main.1f6aeec3.css",
-    "static/js/main.e9fb30b0.js"
+    "static/css/main.f1ba148e.css",
+    "static/js/main.98ace9a3.js"
   ]
 }
