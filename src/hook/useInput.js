@@ -1,14 +1,22 @@
 import {useCallback, useState} from "react";
 
 const useInput = (initialValue) => {
-  const [value, setValue] = useState(initialValue)
+  const [inputValue, setInputValue] = useState(initialValue)
+  const [lists, setLists] = useState([])
 
-  const onChange = useCallback(event => {
+  const handleChange = useCallback(event => {
     const { target: {value} } = event
-    setValue(value)
+    setInputValue(value)
   }, [])
 
-  return [value, onChange]
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setInputValue('')
+    setLists([...lists, inputValue])
+  }
+
+  return [inputValue, handleChange, lists, handleSubmit]
 }
+
 
 export default useInput

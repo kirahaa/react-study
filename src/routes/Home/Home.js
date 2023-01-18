@@ -3,6 +3,7 @@ import {useState} from "react"
 import classNames from 'classnames/bind'
 import style from './Home.module.scss'
 import styled from 'styled-components'
+import useInput from '../../hook/useInput'
 const cx = classNames.bind(style)
 
 const HomeWrap = styled.div`
@@ -10,18 +11,7 @@ const HomeWrap = styled.div`
 `
 
 const Home = () => {
-  const [msg, setMsg] = useState('')
-  const [lists, setLists] = useState([])
-
-  const onChange = e => {
-    setMsg(e.target.value)
-  }
-
-  const sendMsg = e => {
-    e.preventDefault()
-    setMsg('')
-    setLists([...lists, msg])
-  }
+  const [inputValue, handleChange, lists, handleSubmit] = useInput('')
 
   return (
     <HomeWrap>
@@ -30,18 +20,18 @@ const Home = () => {
         <p>
           <b>Hello ! My name is Onew, I'm happy to meet you!</b>
         </p>
-        <form onSubmit={sendMsg}>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             className={cx("App-input")}
             placeholder="send me a message!"
-            value={msg}
-            onChange={onChange}
+            value={inputValue}
+            onChange={handleChange}
           />
           <button
             type="button"
             className={cx("App-button")}
-            onClick={sendMsg}
+            onClick={handleSubmit}
           >enter</button>
         </form>
         <ul className={cx("App-list")}>
