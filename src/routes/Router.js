@@ -12,18 +12,19 @@ import {useContext, useEffect} from 'react'
 import {AuthContext} from "../context/AuthContext"
 import Navigation from '../components/Navigation/Navigation'
 import MainLayout from '../components/Layout/MainLayout'
+import Feed from './Feed/Feed'
 
 const Router = () => {
   const navigate = useNavigate()
   const {isLoggedIn} = useContext(AuthContext);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/')
-    } else {
-      navigate('/login')
-    }
-  }, [isLoggedIn])
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate('/')
+  //   } else {
+  //     navigate('/login')
+  //   }
+  // }, [isLoggedIn])
 
   return (
     <>
@@ -48,7 +49,10 @@ const Router = () => {
               </Route>
             </>
           ) : (
-            <Route path="/login" element={<Login />}></Route>
+            <>
+              <Route path="/feed" element={<Feed />}></Route>
+              <Route path="/login" element={<Login />}></Route>
+            </>
           )
         }
       </Routes>
