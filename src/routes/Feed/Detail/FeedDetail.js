@@ -5,6 +5,9 @@ import style from './FeedDetail.module.scss'
 import classNames from "classnames/bind"
 import {useNavigate} from 'react-router-dom'
 import Image from '../../../components/Common/Image'
+import {useDispatch, useSelector} from 'react-redux'
+import {handleFeeding} from '../../../redux/feed'
+import {useEffect} from 'react'
 const cx = classNames.bind(style)
 
 const Wrap = styled.div`
@@ -46,7 +49,18 @@ const Button = styled.button`
 `
 
 const List = styled.ul`
+  max-height: 31rem;
   border-top: 1px solid ${(props) => props.theme.colors.border};
+  overflow-y: scroll;
+  
+  &::-webkit-scrollbar {
+    width: .8rem;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.colors.bg};
+    border-radius: .5rem;
+  }
 `
 
 const Item = styled.li`
@@ -78,14 +92,25 @@ const IconWrap = styled.span`
   
   &.top {
     position: absolute;
-    top: -30%;
+    top: -4.5rem;
     left: 2%;
     background-color: ${(props) => props.theme.colors.bgLight};
   }
 `
 
 const FeedDetail = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  const cats = useSelector(state => state.feed.cats)
+  // const id = useSelector(state => state.feed.selectedId)
+  // const cat = cats[id]
+
+  const feed = val => dispatch(handleFeeding(val))
+
+  // const feedCat = () => {
+  //   let today = new Date().toLocaleString('en-US');
+  //   feed([...cats[id].feeding, {createdAt: today, createdBy: 'hayeong'}])
+  // }
 
   return (
     <Wrap>
@@ -97,20 +122,22 @@ const FeedDetail = () => {
           {/* TODO:: 유저데이터 연결 */}
           <Image/>
           <BtnWrap>
-            <Button>Feed</Button>
+            <Button onClick={feedCat}>Feed</Button>
             <Button>Exercise</Button>
           </BtnWrap>
         </CardHead>
         <List>
-          <Item>
-            <IconWrap>
-              <FaBone size={25}/>
-            </IconWrap>
-            <ItemContent>
-              <strong>2022-10-11</strong>
-              <span>hayeong</span>
-            </ItemContent>
-          </Item>
+          {/*{cats[id].feeding.length > 0 ? cats[id].feeding.map((cat, i) => (*/}
+          {/*  <Item key={`${cat.createdAt}-${i}`}>*/}
+          {/*    <IconWrap>*/}
+          {/*      <FaBone size={25}/>*/}
+          {/*    </IconWrap>*/}
+          {/*    <ItemContent>*/}
+          {/*      <strong>{cat.createdAt}</strong>*/}
+          {/*      <span>{cat.createdBy}</span>*/}
+          {/*    </ItemContent>*/}
+          {/*  </Item>*/}
+          {/*)) : null}*/}
         </List>
       </Card>
     </Wrap>
