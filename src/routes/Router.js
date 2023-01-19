@@ -13,6 +13,7 @@ import {AuthContext} from "../context/AuthContext"
 import Navigation from '../components/Navigation/Navigation'
 import MainLayout from '../components/Layout/MainLayout'
 import Feed from './Feed/Feed'
+import FeedDetail from './Feed/Detail/FeedDetail'
 
 const Router = () => {
   const navigate = useNavigate()
@@ -51,6 +52,7 @@ const Router = () => {
           ) : (
             <>
               <Route path="/feed" element={<Feed />}></Route>
+              <Route path="/feed/:id" element={<FeedDetail />}></Route>
               <Route path="/login" element={<Login />}></Route>
             </>
           )

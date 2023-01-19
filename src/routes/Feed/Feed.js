@@ -1,6 +1,8 @@
 import FeedList from '../../components/FeedList/FeedList'
 import styled from 'styled-components'
-import FeedDetail from '../../components/FeedDetail/FeedDetail'
+import FeedDetail from './Detail/FeedDetail'
+import {useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 
 const Wrap = styled.div`
   display: flex;
@@ -16,11 +18,15 @@ const Card = styled.div`
 `
 
 const Feed = () => {
+  const navigate = useNavigate()
+  const handleToggleDetail = (id) => {
+    navigate(`${id}`)
+  }
+
   return (
     <Wrap>
       <Card>
-        <FeedList />
-        <FeedDetail />
+        <FeedList handleToggleDetail={handleToggleDetail}/>
       </Card>
     </Wrap>
   )

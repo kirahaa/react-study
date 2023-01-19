@@ -82,14 +82,14 @@ const ItemInfo = styled.div`
   }
 `
 
-const FeedList = () => {
+const FeedList = ({handleToggleDetail}) => {
 
   return (
     <Wrap>
       <Card>
         {
           catData.map((cat) => (
-            <Item key={cat.id}>
+            <Item key={cat.id} onClick={() => handleToggleDetail(cat.id)}>
               <ImageWrap>
                 <StyledBadge status={cat.status}>{cat.status}</StyledBadge>
                 <Image src={require('../../assets/images/' + cat.profileImg)} className='-image' radius="true"/>
