@@ -18,13 +18,13 @@ const Router = () => {
   const navigate = useNavigate()
   const {isLoggedIn} = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate('/')
-  //   } else {
-  //     navigate('/login')
-  //   }
-  // }, [isLoggedIn])
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/')
+    } else {
+      navigate('/feed')
+    }
+  }, [isLoggedIn])
 
   return (
     <>

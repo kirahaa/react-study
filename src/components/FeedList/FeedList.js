@@ -3,11 +3,12 @@ import styled from 'styled-components'
 import Image from '../Common/Image'
 import style from './FeedList.module.scss'
 import classNames from 'classnames/bind'
-import FeedDetail from '../FeedDetail/FeedDetail'
 const cx = classNames.bind(style)
 
 const Wrap = styled.div`
   display: flex;
+  max-width: 45rem;
+  width: 100%;
   padding: 3rem 4rem;
   background-color: ${(props) => props.theme.colors.bgLight};
 `
@@ -15,7 +16,6 @@ const Wrap = styled.div`
 const Card = styled.ul`
   display: flex;
   flex-direction: column;
-  max-width: 45rem;
   width: 100%;
   margin: 0 auto;
 `
@@ -103,7 +103,6 @@ const FeedList = () => {
           ))
         }
       </Card>
-      <FeedDetail />
     </Wrap>
   )
 }

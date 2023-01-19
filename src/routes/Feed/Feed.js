@@ -1,5 +1,6 @@
 import FeedList from '../../components/FeedList/FeedList'
 import styled from 'styled-components'
+import FeedDetail from '../../components/FeedDetail/FeedDetail'
 
 const Wrap = styled.div`
   display: flex;
@@ -10,10 +11,17 @@ const Wrap = styled.div`
   background: ${(props) => props.theme.colors.bg};
 `
 
+const Card = styled.div`
+  display: flex;
+`
+
 const Feed = () => {
   return (
     <Wrap>
-      <FeedList />
+      <Card>
+        <FeedList />
+        <FeedDetail />
+      </Card>
     </Wrap>
   )
 }

@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 import { FaBone } from 'react-icons/fa'
+import style from './FeedDetail.module.scss'
+import classNames from "classnames/bind"
+const cx = classNames.bind(style)
 
 const Card = styled.div`
   display: flex;
@@ -17,21 +20,33 @@ const CardHead = styled.div`
 `
 
 const Button = styled.button`
-  padding: 1rem 2rem;
-  font-weight: bold;
+  padding: .5rem 2rem;
   color: ${(props) => props.theme.colors.white};
   background-color: ${(props) => props.theme.primary};
-  border-radius: 1rem;
+  border-radius: .5rem;
+  font-size: 1.3rem;
 `
 
-const Item = styled.div`
+const List = styled.ul`
+  border-top: 1px solid ${(props) => props.theme.colors.border};
+`
+
+const Item = styled.li`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem 0;
 `
 
-const ItemDate = styled.div`
-  padding-top: 1rem;
-  font-size: 1rem;
+const ItemContent = styled.span`
+  display: inline-flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 1.2rem;
+  
+  strong {
+    font-size: 1.3rem;
+  }
 `
 
 const IconWrap = styled.span`
@@ -44,32 +59,29 @@ const IconWrap = styled.span`
   border-radius: 50%;
 `
 
-const InfoWrap = styled.span`
-  display: inline-flex;
-  padding: 1rem;
-  border: 1px solid ${(props) => props.theme.colors.text};
-  border-radius: 1rem;
-  margin-right: 1rem;
-  font-size: 1rem;
-`
-
 const FeedDetail = () => {
   return (
-    <div>
-      <Card>
-        <CardHead>
-          <Button>Feed</Button>
-          <Button>Exercise</Button>
-        </CardHead>
-        <ul>
-          <Item>
-            <IconWrap>
-              <FaBone size={25}/>
-            </IconWrap>
-          </Item>
-        </ul>
-      </Card>
-    </div>
+    <Card>
+      <CardHead>
+        <Button>Feed</Button>
+        <Button>Exercise</Button>
+      </CardHead>
+      <List>
+        <Item>
+          <IconWrap>
+            <FaBone size={25}/>
+          </IconWrap>
+          <ItemContent>
+            <strong>
+              2022-10-11
+            </strong>
+            <span>
+              hayeong
+            </span>
+          </ItemContent>
+        </Item>
+      </List>
+    </Card>
   )
 }
 
