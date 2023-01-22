@@ -5,16 +5,14 @@ export const feedSlice = createSlice({
   name: "feed",
   initialState: {
     selectedCat: {},
-    selectedId: null,
     cats: catData
   },
   reducers: {
     handleFeeding: (state, action) => {
-      state.cats[state.selectedId].feeding = action.payload
+      state.cats = action.payload
     },
     handleSelectedCat: (state, action) => {
       state.selectedCat = state.cats.find(cat => cat.id === action.payload)
-      state.selectedId = JSON.parse(state.selectedCat.id)
     }
   }
 })

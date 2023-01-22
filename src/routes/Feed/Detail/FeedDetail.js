@@ -3,11 +3,12 @@ import { FaBone } from 'react-icons/fa'
 import { FiChevronLeft } from 'react-icons/fi'
 import style from './FeedDetail.module.scss'
 import classNames from "classnames/bind"
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import Image from '../../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
 import {handleFeeding} from '../../../redux/feed'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
+import useParsedParams from "../../../hook/useParsedParams";
 const cx = classNames.bind(style)
 
 const Wrap = styled.div`
@@ -99,18 +100,28 @@ const IconWrap = styled.span`
 `
 
 const FeedDetail = () => {
+  const params = useParsedParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const cats = useSelector(state => state.feed.cats)
-  // const id = useSelector(state => state.feed.selectedId)
-  // const cat = cats[id]
+  const selectedCat = useSelector(state => state.feed.selectedCat)
 
   const feed = val => dispatch(handleFeeding(val))
+  const [feeding, setFeeding] = useState([])
 
-  // const feedCat = () => {
-  //   let today = new Date().toLocaleString('en-US');
-  //   feed([...cats[id].feeding, {createdAt: today, createdBy: 'hayeong'}])
-  // }
+  const feedCat = () => {
+    let today = new Date().toLocaleString('en-US')
+
+    setFeeding([...feeding, {createdAt: today, createdBy: 'hayeong'}])
+
+    const currentCatData = cats.map(cat => {
+      return cat === selectedCat ? {...selectedCat, feeding: feeding} : cat
+    })
+
+    feed(currentCatData)
+    // TODO:: 왜 cats가 업데이트가 안될까?!
+    console.log(cats, 'cats')
+  }
 
   return (
     <Wrap>
@@ -127,17 +138,17 @@ const FeedDetail = () => {
           </BtnWrap>
         </CardHead>
         <List>
-          {/*{cats[id].feeding.length > 0 ? cats[id].feeding.map((cat, i) => (*/}
-          {/*  <Item key={`${cat.createdAt}-${i}`}>*/}
-          {/*    <IconWrap>*/}
-          {/*      <FaBone size={25}/>*/}
-          {/*    </IconWrap>*/}
-          {/*    <ItemContent>*/}
-          {/*      <strong>{cat.createdAt}</strong>*/}
-          {/*      <span>{cat.createdBy}</span>*/}
-          {/*    </ItemContent>*/}
-          {/*  </Item>*/}
-          {/*)) : null}*/}
+          {cats[params].feeding.length > 0 ? cats[params].feeding.map((cat, i) => (
+            <Item key={`${cat.createdAt}-${i}`}>
+              <IconWrap>
+                <FaBone size={25}/>
+              </IconWrap>
+              <ItemContent>
+                <strong>{cat.createdAt}</strong>
+                <span>{cat.createdBy}</span>
+              </ItemContent>
+            </Item>
+          )) : null}
         </List>
       </Card>
     </Wrap>
