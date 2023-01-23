@@ -106,8 +106,9 @@ const FeedDetail = () => {
   const cats = useSelector(state => state.feed.cats)
   const selectedCat = useSelector(state => state.feed.selectedCat)
 
-  const feed = val => dispatch(handleFeeding(val))
   const [feeding, setFeeding] = useState([])
+
+  const feed = val => dispatch(handleFeeding(val))
 
   const feedCat = () => {
     let today = new Date().toLocaleString('en-US')
@@ -115,12 +116,12 @@ const FeedDetail = () => {
     setFeeding([...feeding, {createdAt: today, createdBy: 'hayeong'}])
 
     const currentCatData = cats.map(cat => {
-      return cat === selectedCat ? {...selectedCat, feeding: feeding} : cat
+      return cat === selectedCat ? {...cat, feeding: feeding} : cat
     })
 
+    // TODO:: 왜 cats가 바로 업데이트가 안될까??
+    // TODO:: reducer에 배열말고 객체를 넣어야할것 같음.. 근데 방법을 모르겠음..
     feed(currentCatData)
-    // TODO:: 왜 cats가 업데이트가 안될까?!
-    console.log(cats, 'cats')
   }
 
   return (
