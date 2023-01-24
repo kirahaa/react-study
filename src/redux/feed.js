@@ -9,7 +9,9 @@ export const feedSlice = createSlice({
   },
   reducers: {
     handleFeeding: (state, action) => {
-      state.cats = action.payload
+      state.cats = state.cats.map(cat => {
+        return cat.id === state.selectedCat.id ? {...cat, feeding: action.payload} : cat
+      })
     },
     handleSelectedCat: (state, action) => {
       state.selectedCat = state.cats.find(cat => cat.id === action.payload)

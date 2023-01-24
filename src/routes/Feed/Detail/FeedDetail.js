@@ -6,7 +6,7 @@ import classNames from "classnames/bind"
 import {useNavigate, useParams} from 'react-router-dom'
 import Image from '../../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
-import {handleFeeding} from '../../../redux/feed'
+import {handleChangeFeeding, handleFeeding} from '../../../redux/feed'
 import {useEffect, useState} from 'react'
 import useParsedParams from "../../../hook/useParsedParams";
 const cx = classNames.bind(style)
@@ -115,13 +115,7 @@ const FeedDetail = () => {
 
     setFeeding([...feeding, {createdAt: today, createdBy: 'hayeong'}])
 
-    const currentCatData = cats.map(cat => {
-      return cat === selectedCat ? {...cat, feeding: feeding} : cat
-    })
-
-    // TODO:: 왜 cats가 바로 업데이트가 안될까??
-    // TODO:: reducer에 배열말고 객체를 넣어야할것 같음.. 근데 방법을 모르겠음..
-    feed(currentCatData)
+    feed(feeding)
   }
 
   return (
