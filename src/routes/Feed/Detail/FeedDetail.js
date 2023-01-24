@@ -1,15 +1,12 @@
 import styled from 'styled-components'
 import { FaBone } from 'react-icons/fa'
 import { FiChevronLeft } from 'react-icons/fi'
-import style from './FeedDetail.module.scss'
-import classNames from "classnames/bind"
-import {useNavigate, useParams} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import Image from '../../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
-import {handleChangeFeeding, handleFeeding} from '../../../redux/feed'
-import {useEffect, useState} from 'react'
-import useParsedParams from "../../../hook/useParsedParams";
-const cx = classNames.bind(style)
+import {handleAge, handleFeeding, handleWeight} from '../../../redux/feed'
+import useParsedParams from "../../../hook/useParsedParams"
+import {useEffect, useState} from "react"
 
 const Wrap = styled.div`
   display: flex;
@@ -34,14 +31,62 @@ const CardHead = styled.div`
   
 `
 
-const BtnWrap = styled.div`
+const ImageWrap = styled.div`
+  position: relative;
+  width: 30%;
+  margin: 0 auto;
+`
+
+const StyledBadge = styled.div`
+  position: absolute;
+  top: -1rem;
+  left: -3rem;
+  width: 8rem;
+  padding: .5rem 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background-color: ${ props => {
+  if (props.status === 'normal') return "rgba(40, 199, 111, .22)"
+  else if (props.status === 'fat') return "rgba(255, 159, 67, .22)"
+  else return 'rgba(168, 170, 174, .22)'
+}};
+  color: ${props => {
+  if (props.status === 'normal') return '#28C768'
+  else if (props.status === 'fat') return '#FF9F43'
+  else return '#A8AAAE'
+}};
+`
+
+const CardTitle = styled.h1`
+  margin: 1rem 0;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+`
+
+const CardDesc = styled.ul`
   display: flex;
   justify-content: space-between;
+  margin: 2rem 0;
+  li {
+    width: 20%;
+    padding: .5rem;
+    text-align: center;
+    font-size: 1.3rem;
+    border: 1px solid ${(props) => props.theme.colors.text};
+    border-radius: 1rem;
+  }
+`
+
+const BtnWrap = styled.div`
+  display: flex;
   margin-bottom: 2rem;
 `
 
 const Button = styled.button`
-  width: 10rem;
+  width: 100%;
   padding: .5rem 2rem;
   color: ${(props) => props.theme.colors.white};
   background-color: ${(props) => props.theme.primary};
@@ -50,7 +95,7 @@ const Button = styled.button`
 `
 
 const List = styled.ul`
-  max-height: 31rem;
+  max-height: 26rem;
   border-top: 1px solid ${(props) => props.theme.colors.border};
   overflow-y: scroll;
   
@@ -104,19 +149,26 @@ const FeedDetail = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const cats = useSelector(state => state.feed.cats)
-  const selectedCat = useSelector(state => state.feed.selectedCat)
-
-  const [feeding, setFeeding] = useState([])
-
-  const feed = val => dispatch(handleFeeding(val))
+  const [count, setCount] = useState(0)
 
   const feedCat = () => {
+    // FIXME:: 왜 함수안에서 useState 부르면 에러가 날까..?
+    // 그리고 state가 바로 업데이트 안됨...
     let today = new Date().toLocaleString('en-US')
+    setCount(count + 1)
 
-    setFeeding([...feeding, {createdAt: today, createdBy: 'hayeong'}])
-
-    feed(feeding)
+    dispatch(handleFeeding({createdAt: today, createdBy: 'hayeong'}))
   }
+
+  useEffect(() => {
+    // TODO:: 카운트 다시 확인
+    if (count === 2) {
+      dispatch(handleWeight())
+    } else if (count === 3) {
+      dispatch(handleAge())
+      setCount(0)
+    }
+  }, [count])
 
   return (
     <Wrap>
@@ -125,11 +177,20 @@ const FeedDetail = () => {
           <FiChevronLeft size={25} />
         </IconWrap>
         <CardHead>
-          {/* TODO:: 유저데이터 연결 */}
-          <Image/>
+          <ImageWrap>
+            <StyledBadge status={cats[params].status}>{cats[params].status}</StyledBadge>
+            <Image src={cats[params].profileImg} className='-image' radius="true"/>
+          </ImageWrap>
+          <CardTitle>
+            {cats[params].name}
+          </CardTitle>
+          <CardDesc>
+            <li>{cats[params].gender}</li>
+            <li>{cats[params].age}살</li>
+            <li>{cats[params].weight}kg</li>
+          </CardDesc>
           <BtnWrap>
             <Button onClick={feedCat}>Feed</Button>
-            <Button>Exercise</Button>
           </BtnWrap>
         </CardHead>
         <List>

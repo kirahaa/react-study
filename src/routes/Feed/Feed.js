@@ -4,7 +4,6 @@ import {catData} from '../../utility/cat'
 import Image from '../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
 import {handleSelectedCat} from '../../redux/feed'
-import {useEffect} from 'react'
 
 const FeedWrap = styled.div`
   display: flex;
@@ -115,7 +114,7 @@ const Feed = () => {
                 <Item key={cat.id} onClick={() => handleToggleDetail(cat.id)}>
                   <ImageWrap>
                     <StyledBadge status={cat.status}>{cat.status}</StyledBadge>
-                    <Image src={require('../../assets/images/' + cat.profileImg)} className='-image' radius="true"/>
+                    <Image src={cat.profileImg} className='-image' radius="true"/>
                   </ImageWrap>
                   <ItemInfo>
                     <h2>{cat.name}</h2>

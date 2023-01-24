@@ -2,33 +2,33 @@ export const catData = [
   {
     id: '0',
     name: 'Toobey',
-    gender: 'women',
+    gender: 'female',
     age: 1,
     weight: 1,
     status: 'normal',
-    profileImg: 'cat1.jpg',
+    profileImg: require("../assets/images/cat1.jpg"),
     phone: '010-1234-1234',
     feeding: []
   },
   {
     id: '1',
     name: 'Rosy',
-    gender: 'women',
+    gender: 'female',
     age: 3,
     weight: 2,
     status: 'fat',
-    profileImg: 'cat2.jpg',
+    profileImg: require("../assets/images/cat2.jpg"),
     phone: '010-5678-5678',
     feeding: []
   },
   {
     id: '2',
     name: 'Leo',
-    gender: 'man',
+    gender: 'male',
     age: 2,
     weight: 3,
     status: 'gone',
-    profileImg: 'cat3.jpg',
+    profileImg: require("../assets/images/cat3.jpg"),
     phone: '010-0000-0000',
     feeding: []
   }
