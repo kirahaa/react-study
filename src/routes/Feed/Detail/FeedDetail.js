@@ -161,12 +161,15 @@ const FeedDetail = () => {
   }
 
   useEffect(() => {
-    // TODO:: 카운트 다시 확인
-    if (count === 2) {
-      dispatch(handleWeight())
-    } else if (count === 3) {
-      dispatch(handleAge())
-      setCount(0)
+    if (count > 0 ) {
+      // 밥 2번 주면 체중 + 1
+      if (count % 2 === 0) {
+        dispatch(handleWeight())
+      }
+      // 밥 3번 주면 나이 + 1
+      if (count % 3 === 0) {
+        dispatch(handleAge())
+      }
     }
   }, [count])
 
