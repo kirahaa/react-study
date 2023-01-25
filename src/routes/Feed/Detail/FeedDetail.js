@@ -68,11 +68,21 @@ const CardDesc = styled.ul`
   margin: 2rem 0;
   li {
     width: 20%;
-    padding: .5rem;
+    padding: 1rem;
     text-align: center;
-    font-size: 1.3rem;
-    border: 1px solid ${(props) => props.theme.colors.text};
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: ${props => props.theme.colors.bg};
     border-radius: 1rem;
+  }
+`
+
+const FeedInfo = styled.div`
+  margin: 1rem 0;
+  p {
+    line-height: 2rem;
+    font-size: 1.2rem;
+    text-align: center;
   }
 `
 
@@ -190,6 +200,12 @@ const FeedDetail = () => {
           <CardTitle>
             {cats[params].name}
           </CardTitle>
+          {cats[params].feeding.length > 0 ? (
+            <FeedInfo>
+              <p>first : {cats[params].feeding[0].createdAt}</p>
+              <p>last : {cats[params].feeding[cats[params].feeding.length -1].createdAt}</p>
+            </FeedInfo>
+          ) : null}
           <CardDesc>
             <li>{cats[params].gender}</li>
             <li>{cats[params].age}살</li>

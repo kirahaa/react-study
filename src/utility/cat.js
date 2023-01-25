@@ -33,7 +33,6 @@ export const catData = [
 
 /*
 status : normal, fat, gone,,,
-if age = 15 gone
 if weight = 30 -> fat
           = 45 -> gone
 
@@ -43,8 +42,4 @@ feeding: [
         createdBy: ''
       }
     ]
-
-    lastEatTime: null
-    firstEatTime: null
-
 */
