@@ -39,7 +39,7 @@ const ImageWrap = styled.div`
 
 const Item = styled.button`
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   position: relative;
   padding: 2.5rem 3rem;
   opacity: ${(props) => {
@@ -86,6 +86,7 @@ const StyledBadge = styled.div`
 const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   
   h2 {
     font-size: 1.9rem;
