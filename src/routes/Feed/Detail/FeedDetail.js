@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { FaBone } from 'react-icons/fa'
-import { FiChevronLeft } from 'react-icons/fi'
+import { FiChevronLeft, FiUser } from 'react-icons/fi'
+import { GiCannedFish } from 'react-icons/gi'
 import {useNavigate} from 'react-router-dom'
 import Image from '../../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
@@ -125,7 +126,7 @@ const Item = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1rem;
   
   &:hover {
     background-color: ${(props) => props.theme.colors.bgDark};
@@ -140,6 +141,11 @@ const ItemContent = styled.span`
   
   strong {
     font-size: 1.3rem;
+  }
+  span {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
   }
 `
 
@@ -228,11 +234,11 @@ const FeedDetail = () => {
           {cats[params].feeding.length > 0 ? cats[params].feeding.map((cat, i) => (
             <Item key={`${cat.createdAt}-${i}`}>
               <IconWrap>
-                <FaBone size={25}/>
+                <GiCannedFish size={25}/>
               </IconWrap>
               <ItemContent>
                 <strong>{cat.createdAt}</strong>
-                <span>{cat.createdBy}</span>
+                <span><FiUser size={15}/>{cat.createdBy}</span>
               </ItemContent>
             </Item>
           )) : null}
