@@ -59,8 +59,7 @@ const WrapLogin = styled.form`
 `
 
 const Login = () => {
-  const [form, newAccount, setNewAccount, onChange, handleSubmit] = useAuth({id: '', password: ''})
-  const inputRef = useRef(null)
+  const [form, newAccount, setNewAccount, inputRef, onChange, handleSubmit] = useAuth({id: '', password: ''})
 
   const toggleAccount = () => setNewAccount(!newAccount)
 

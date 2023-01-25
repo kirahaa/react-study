@@ -1,4 +1,4 @@
-import {useContext, useState} from "react"
+import {useContext, useState, useRef} from "react"
 import {AuthContext} from "../context/AuthContext"
 import {useNavigate} from "react-router-dom"
 
@@ -6,6 +6,7 @@ const useAuth = (initialValue) => {
   const {user, setUser, setCurrentUser, setIsLoggedIn} = useContext(AuthContext)
   const [form, setForm] = useState(initialValue)
   const [newAccount, setNewAccount] = useState(true)
+  const inputRef = useRef(null)
   const navigate = useNavigate()
 
   const onChange = ({target: {name, value}}) => {
@@ -26,7 +27,7 @@ const useAuth = (initialValue) => {
           setNewAccount(false)
         }
         setForm({id: "", password: ""})
-        // inputRef.current.focus()
+        inputRef.current.focus()
       } else {
         // sign in
         let ok = user.filter(u => u.loginId === form.id && u.password === form.password)
@@ -41,7 +42,7 @@ const useAuth = (initialValue) => {
     }
   }
 
-  return [form, newAccount, setNewAccount, onChange, handleSubmit]
+  return [form, newAccount, setNewAccount, inputRef, onChange, handleSubmit]
 }
 
 export default useAuth
