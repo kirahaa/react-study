@@ -23,7 +23,7 @@ const Router = () => {
     if (isLoggedIn) {
       navigate('/')
     } else {
-      navigate('/feed')
+      navigate('/login')
     }
   }, [isLoggedIn])
 
@@ -46,13 +46,13 @@ const Router = () => {
                 <Route path="/tree" element={<Tree />}></Route>
                 <Route path="/todo" element={<Todo />}></Route>
                 <Route path="/room" element={<Room />}></Route>
+                <Route path="/feed" element={<Feed />}></Route>
+                <Route path="/feed/:id" element={<FeedDetail />}></Route>
                 <Route path="/" element={<Home />}></Route>
               </Route>
             </>
           ) : (
             <>
-              <Route path="/feed" element={<Feed />}></Route>
-              <Route path="/feed/:id" element={<FeedDetail />}></Route>
               <Route path="/login" element={<Login />}></Route>
             </>
           )

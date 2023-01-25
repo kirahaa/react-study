@@ -6,7 +6,8 @@ import Image from '../../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
 import {handleAge, handleFeeding, handleWeight, handleStatus} from '../../../redux/feed'
 import useParsedParams from "../../../hook/useParsedParams"
-import {useEffect, useState} from "react"
+import {useContext, useEffect, useState} from 'react'
+import {AuthContext} from '../../../context/AuthContext'
 
 const Wrap = styled.div`
   display: flex;
@@ -93,11 +94,12 @@ const BtnWrap = styled.div`
 
 const Button = styled.button`
   width: 100%;
-  padding: .5rem 2rem;
+  padding: .8rem 2rem;
   color: ${(props) => props.theme.colors.white};
   background-color: ${(props) => props.theme.primary};
   border-radius: .5rem;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  font-weight: bold;
   opacity: ${(props) => {
     if (props.status === 'gone') return .3
     else return 1
@@ -105,7 +107,7 @@ const Button = styled.button`
 `
 
 const List = styled.ul`
-  max-height: 26rem;
+  height: 26rem;
   border-top: 1px solid ${(props) => props.theme.colors.border};
   overflow-y: scroll;
   
@@ -124,6 +126,10 @@ const Item = styled.li`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
+  
+  &:hover {
+    background-color: ${(props) => props.theme.colors.bgDark};
+  }
 `
 
 const ItemContent = styled.span`
@@ -158,7 +164,10 @@ const FeedDetail = () => {
   const params = useParsedParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
   const cats = useSelector(state => state.feed.cats)
+  const {currentUser} = useContext(AuthContext)
+
   const [count, setCount] = useState(0)
 
   const feedCat = () => {
@@ -167,7 +176,7 @@ const FeedDetail = () => {
     let today = new Date().toLocaleString('en-US')
     if (cats[params].status !== 'gone') {
       setCount(count + 1)
-      dispatch(handleFeeding({createdAt: today, createdBy: 'hayeong'}))
+      dispatch(handleFeeding({createdAt: today, createdBy: currentUser[0].loginId}))
     }
   }
 

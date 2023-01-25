@@ -54,6 +54,17 @@ const Navigation = () => {
           </Link>
         </li>
         <li>
+          <Link to="/feed">
+            <lord-icon
+              src="https://cdn.lordicon.com/pnhskdva.json"
+              trigger="hover"
+              colors={`primary:${theme.colors.text}`}
+              state="hover"
+              style={{width: '32px', height: '32px'}}>
+            </lord-icon>
+          </Link>
+        </li>
+        <li>
           <Link to="/tree">
             <lord-icon
               src="https://cdn.lordicon.com/svbmmyue.json"
