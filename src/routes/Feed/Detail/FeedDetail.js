@@ -4,7 +4,7 @@ import { FiChevronLeft } from 'react-icons/fi'
 import {useNavigate} from 'react-router-dom'
 import Image from '../../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
-import {handleAge, handleFeeding, handleWeight} from '../../../redux/feed'
+import {handleAge, handleFeeding, handleWeight, handleStatus} from '../../../redux/feed'
 import useParsedParams from "../../../hook/useParsedParams"
 import {useEffect, useState} from "react"
 
@@ -25,10 +25,6 @@ const Card = styled.div`
   width: 100%;
   padding: 3rem 4rem;
   background-color: ${(props) => props.theme.colors.bgLight};
-`
-
-const CardHead = styled.div`
-  
 `
 
 const ImageWrap = styled.div`
@@ -92,6 +88,10 @@ const Button = styled.button`
   background-color: ${(props) => props.theme.primary};
   border-radius: .5rem;
   font-size: 1.3rem;
+  opacity: ${(props) => {
+    if (props.status === 'gone') return .3
+    else return 1
+  }};
 `
 
 const List = styled.ul`
@@ -155,13 +155,14 @@ const FeedDetail = () => {
     // FIXME:: 왜 함수안에서 useState 부르면 에러가 날까..?
     // 그리고 state가 바로 업데이트 안됨...
     let today = new Date().toLocaleString('en-US')
-    setCount(count + 1)
-
-    dispatch(handleFeeding({createdAt: today, createdBy: 'hayeong'}))
+    if (cats[params].status !== 'gone') {
+      setCount(count + 1)
+      dispatch(handleFeeding({createdAt: today, createdBy: 'hayeong'}))
+    }
   }
 
   useEffect(() => {
-    if (count > 0 ) {
+    if (count > 0) {
       // 밥 2번 주면 체중 + 1
       if (count % 2 === 0) {
         dispatch(handleWeight())
@@ -170,6 +171,8 @@ const FeedDetail = () => {
       if (count % 3 === 0) {
         dispatch(handleAge())
       }
+      // 체중에 따른 상태 변경
+      dispatch(handleStatus())
     }
   }, [count])
 
@@ -179,7 +182,7 @@ const FeedDetail = () => {
         <IconWrap className="top" onClick={() => navigate('/feed')}>
           <FiChevronLeft size={25} />
         </IconWrap>
-        <CardHead>
+        <div>
           <ImageWrap>
             <StyledBadge status={cats[params].status}>{cats[params].status}</StyledBadge>
             <Image src={cats[params].profileImg} className='-image' radius="true"/>
@@ -193,9 +196,9 @@ const FeedDetail = () => {
             <li>{cats[params].weight}kg</li>
           </CardDesc>
           <BtnWrap>
-            <Button onClick={feedCat}>Feed</Button>
+            <Button onClick={feedCat} status={cats[params].status}>Feed</Button>
           </BtnWrap>
-        </CardHead>
+        </div>
         <List>
           {cats[params].feeding.length > 0 ? cats[params].feeding.map((cat, i) => (
             <Item key={`${cat.createdAt}-${i}`}>

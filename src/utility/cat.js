@@ -7,7 +7,6 @@ export const catData = [
     weight: 1,
     status: 'normal',
     profileImg: require("../assets/images/cat1.jpg"),
-    phone: '010-1234-1234',
     feeding: []
   },
   {
@@ -16,9 +15,8 @@ export const catData = [
     gender: 'female',
     age: 3,
     weight: 2,
-    status: 'fat',
+    status: 'normal',
     profileImg: require("../assets/images/cat2.jpg"),
-    phone: '010-5678-5678',
     feeding: []
   },
   {
@@ -27,9 +25,8 @@ export const catData = [
     gender: 'male',
     age: 2,
     weight: 3,
-    status: 'gone',
+    status: 'normal',
     profileImg: require("../assets/images/cat3.jpg"),
-    phone: '010-0000-0000',
     feeding: []
   }
 ]

@@ -25,6 +25,11 @@ export const feedSlice = createSlice({
       state.cats = state.cats.map(cat => {
         return cat.id === state.selectedCat.id ? {...cat, age: cat.age + 1 } : cat
       })
+    },
+    handleStatus: (state, action) => {
+      state.cats = state.cats.map(cat => {
+        return cat.id ===  state.selectedCat.id ? {...cat, status: cat.weight >= 30 && cat.weight < 45 ? 'fat' : (cat.weight >= 45 ? 'gone' : 'normal')} : cat
+      })
     }
   }
 })
@@ -33,7 +38,8 @@ export const {
   handleFeeding,
   handleSelectedCat,
   handleWeight,
-  handleAge
+  handleAge,
+  handleStatus
 } = feedSlice.actions
 
 export default feedSlice.reducer

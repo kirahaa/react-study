@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
-import {catData} from '../../utility/cat'
 import Image from '../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
 import {handleSelectedCat} from '../../redux/feed'
@@ -26,7 +25,7 @@ const Wrap = styled.div`
   background-color: ${(props) => props.theme.colors.bgLight};
 `
 
-const Card = styled.ul`
+const Card = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -38,11 +37,15 @@ const ImageWrap = styled.div`
   width: 30%;
 `
 
-const Item = styled.li`
+const Item = styled.button`
   display: flex;
   gap: 1rem;
   position: relative;
   padding: 2.5rem 3rem;
+  opacity: ${(props) => {
+    if (props.status === 'gone') return .3
+    else return 1
+  }};
 
   &:hover {
     background-color: ${(props) => props.theme.colors.bgDark};
@@ -98,10 +101,13 @@ const ItemInfo = styled.div`
 const Feed = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const cats = useSelector(state => state.feed.cats)
 
   const handleToggleDetail = (id) => {
-    navigate(`${id}`)
-    dispatch(handleSelectedCat(id))
+    if (cats[Number(id)].status !== 'gone') {
+      navigate(`${id}`)
+      dispatch(handleSelectedCat(id))
+    }
   }
 
   return (
@@ -110,8 +116,8 @@ const Feed = () => {
         <Wrap>
           <Card>
             {
-              catData.map((cat) => (
-                <Item key={cat.id} onClick={() => handleToggleDetail(cat.id)}>
+              cats.map((cat) => (
+                <Item key={cat.id} status={cat.status} onClick={() => handleToggleDetail(cat.id)}>
                   <ImageWrap>
                     <StyledBadge status={cat.status}>{cat.status}</StyledBadge>
                     <Image src={cat.profileImg} className='-image' radius="true"/>
