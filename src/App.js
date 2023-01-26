@@ -6,21 +6,26 @@ import {ThemeProvider} from 'styled-components'
 import {dark, light} from './utility/theme'
 import {useState} from 'react'
 import {AuthProvider} from "./context/AuthContext"
+import {persistStore} from 'redux-persist'
+import {PersistGate} from 'redux-persist/integration/react'
 
 const App = () => {
   const [theme, setTheme] = useState(dark)
+  const persistor = persistStore(store)
 
   return (
     <AuthProvider>
       <Provider store={store}>
-        <ThemeProvider theme={{
-          ...theme,
-          setTheme: () => {
-            setTheme((t) => t === dark ? light : dark)
-          }
-        }}>
-          <Router/>
-        </ThemeProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeProvider theme={{
+            ...theme,
+            setTheme: () => {
+              setTheme((t) => t === dark ? light : dark)
+            }
+          }}>
+            <Router/>
+          </ThemeProvider>
+        </PersistGate>
       </Provider>
     </AuthProvider>
   );
