@@ -15,7 +15,7 @@ const User = () => {
   const navigate = useNavigate()
 
   const handleLogOut = () => {
-    if(window.confirm('로그아웃 하시겠습니까?')) {
+    if (window.confirm('로그아웃 하시겠습니까?')) {
       setIsLoggedIn(false)
       navigate('/')
     }

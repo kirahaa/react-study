@@ -1,8 +1,7 @@
 import styled from 'styled-components'
-import {useRef} from "react"
 import lottie from 'lottie-web'
 import { defineElement }  from 'lord-icon-element'
-import useAuth from "../../hook/useAuth";
+import useAuth from "../../hook/useAuth"
 
 defineElement(lottie.loadAnimation)
 

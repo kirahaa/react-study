@@ -14,6 +14,8 @@ import {
 import useParsedParams from "../../../hook/useParsedParams"
 import {useContext, useEffect, useState} from 'react'
 import {AuthContext} from '../../../context/AuthContext'
+import {catStatus} from '../../../database/cats'
+import {StyledBadge} from '../../../components/Common/Badge'
 
 const Wrap = styled.div`
   display: flex;
@@ -40,26 +42,10 @@ const ImageWrap = styled.div`
   margin: 0 auto;
 `
 
-const StyledBadge = styled.div`
-  position: absolute;
-  top: -1rem;
+const Badge = styled(StyledBadge)`
   left: -3rem;
   width: 8rem;
-  padding: .5rem 1rem;
-  border-radius: 1rem;
-  text-align: center;
   font-size: 1.4rem;
-  font-weight: bold;
-  background-color: ${ props => {
-  if (props.status === 'normal') return "rgba(40, 199, 111, .22)"
-  else if (props.status === 'fat') return "rgba(255, 159, 67, .22)"
-  else return 'rgba(168, 170, 174, .22)'
-}};
-  color: ${props => {
-  if (props.status === 'normal') return '#28C768'
-  else if (props.status === 'fat') return '#FF9F43'
-  else return '#A8AAAE'
-}};
 `
 
 const CardTitle = styled.h1`
@@ -184,7 +170,7 @@ const FeedDetail = () => {
 
   const feedCat = () => {
     let today = new Date().toLocaleString('en-US')
-    if (cats[params].status !== 'gone') {
+    if (selectedCat.status !== catStatus.status3) {
       setCount(count + 1)
       dispatch(handleFeeding({createdAt: today, createdBy: currentUser[0].loginId}))
     }
@@ -207,56 +193,58 @@ const FeedDetail = () => {
 
   useEffect(() => {
     // 리스트에 해당하는 고양이 없으면 홈으로 이동
-    if (params && cats.find(cat => Number(cat.id) === params)) {
+    if (cats.find(cat => Number(cat.id) === params)) {
       dispatch(handleSelectedCat(params))
     } else {
       navigate('/')
     }
-  }, [selectedCat])
+  }, [])
 
   return (
     <Wrap>
-      <Card>
-        <IconWrap className="top" onClick={() => navigate('/feed')}>
-          <FiChevronLeft size={25} />
-        </IconWrap>
-        <div>
-          <ImageWrap>
-            <StyledBadge status={cats[params].status}>{cats[params].status}</StyledBadge>
-            <Image src={cats[params].profileImg} className='-image' radius="true"/>
-          </ImageWrap>
-          <CardTitle>
-            {cats[params].name}
-          </CardTitle>
-          {cats[params].feeding.length > 0 ? (
-            <FeedInfo>
-              <p>first : {cats[params].feeding[0].createdAt}</p>
-              <p>last : {cats[params].feeding[cats[params].feeding.length -1].createdAt}</p>
-            </FeedInfo>
-          ) : null}
-          <CardDesc>
-            <li>{cats[params].gender}</li>
-            <li>{cats[params].age}살</li>
-            <li>{cats[params].weight}kg</li>
-          </CardDesc>
-          <BtnWrap>
-            <Button onClick={feedCat} status={cats[params].status}>Feed</Button>
-          </BtnWrap>
-        </div>
-        <List>
-          {cats[params].feeding.length > 0 ? cats[params].feeding.map((cat, i) => (
-            <Item key={`${cat.createdAt}-${i}`}>
-              <IconWrap>
-                <GiCannedFish size={25}/>
-              </IconWrap>
-              <ItemContent>
-                <strong>{cat.createdAt}</strong>
-                <span><FiUser size={15}/>{cat.createdBy}</span>
-              </ItemContent>
-            </Item>
-          )) : null}
-        </List>
-      </Card>
+      {selectedCat && Number(selectedCat.id) === params ? (
+        <Card>
+          <IconWrap className="top" onClick={() => navigate('/feed')}>
+            <FiChevronLeft size={25} />
+          </IconWrap>
+          <div>
+            <ImageWrap>
+              <Badge status={selectedCat.status}>{selectedCat.status}</Badge>
+              <Image src={selectedCat.profileImg} className='-image' radius="true" status={selectedCat.status}/>
+            </ImageWrap>
+            <CardTitle>
+              {selectedCat.name}
+            </CardTitle>
+            {selectedCat.feeding.length > 0 ? (
+              <FeedInfo>
+                <p>first : {selectedCat.feeding[0].createdAt}</p>
+                <p>last : {selectedCat.feeding[selectedCat.feeding.length -1].createdAt}</p>
+              </FeedInfo>
+            ) : null}
+            <CardDesc>
+              <li>{selectedCat.gender}</li>
+              <li>{selectedCat.age}살</li>
+              <li>{selectedCat.weight}kg</li>
+            </CardDesc>
+            <BtnWrap>
+              <Button onClick={feedCat} status={selectedCat.status}>Feed</Button>
+            </BtnWrap>
+          </div>
+          <List>
+            {selectedCat.feeding.length > 0 ? selectedCat.feeding.map((cat, i) => (
+              <Item key={`${cat.createdAt}-${i}`}>
+                <IconWrap>
+                  <GiCannedFish size={25}/>
+                </IconWrap>
+                <ItemContent>
+                  <strong>{cat.createdAt}</strong>
+                  <span><FiUser size={15}/>{cat.createdBy}</span>
+                </ItemContent>
+              </Item>
+            )) : null}
+          </List>
+        </Card>
+      ) : null}
     </Wrap>
   )
 }

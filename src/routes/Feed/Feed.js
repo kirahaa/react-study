@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
 import Image from '../../components/Common/Image'
 import {useSelector} from 'react-redux'
+import {catStatus} from '../../database/cats'
+import Badge from '../../components/Common/Badge'
 
 const FeedWrap = styled.div`
   display: flex;
@@ -42,7 +44,7 @@ const Item = styled.button`
   position: relative;
   padding: 2.5rem 3rem;
   opacity: ${(props) => {
-    if (props.status === 'gone') return .3
+    if (props.status === catStatus.status3) return .3
     else return 1
   }};
 
@@ -60,26 +62,6 @@ const Item = styled.button`
     background-color: #ebe9f1;
     opacity: .2;
   }
-`
-
-const StyledBadge = styled.div`
-  position: absolute;
-  top: -1rem;
-  left: -1rem;
-  padding: .5rem 1rem;
-  border-radius: 1rem;
-  background-color: ${ props => {
-  if (props.status === 'normal') return "rgba(40, 199, 111, .22)"
-  else if (props.status === 'fat') return "rgba(255, 159, 67, .22)"
-  else return 'rgba(168, 170, 174, .22)'
-}};
-  color: ${props => {
-  if (props.status === 'normal') return '#28C768'
-  else if (props.status === 'fat') return '#FF9F43'
-  else return '#A8AAAE'
-}};
-  font-size: 1.2rem;
-  font-weight: bold;
 `
 
 const ItemInfo = styled.div`
@@ -103,7 +85,7 @@ const Feed = () => {
   const cats = useSelector(state => state.feed.cats)
 
   const handleToggleDetail = (id) => {
-    if (cats[Number(id)].status !== 'gone') {
+    if (cats[Number(id)].status !== catStatus.status3) {
       navigate(`${id}`)
     }
   }
@@ -117,8 +99,8 @@ const Feed = () => {
               cats.map((cat) => (
                 <Item key={cat.id} status={cat.status} onClick={() => handleToggleDetail(cat.id)}>
                   <ImageWrap>
-                    <StyledBadge status={cat.status}>{cat.status}</StyledBadge>
-                    <Image src={cat.profileImg} className='-image' radius="true"/>
+                    <Badge status={cat.status}>{cat.status}</Badge>
+                    <Image src={cat.profileImg} className='-image' radius="true" status={cat.status}/>
                   </ImageWrap>
                   <ItemInfo>
                     <h2>{cat.name}</h2>

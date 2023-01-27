@@ -8,27 +8,43 @@ export const feedSlice = createSlice({
     cats: catData
   },
   reducers: {
-    handleFeeding: (state, action) => {
-      state.cats = state.cats.map(cat => {
-        return cat.id === state.selectedCat.id ? {...cat, feeding: [...cat.feeding, action.payload] } : cat
-      })
-    },
     handleSelectedCat: (state, action) => {
       state.selectedCat = state.cats.find(cat => Number(cat.id) === action.payload)
     },
-    handleWeight: (state, action) => {
+    handleFeeding: (state, action) => {
+      state.selectedCat = {
+        ...state.selectedCat,
+        feeding: [...state.selectedCat.feeding, action.payload]
+      }
       state.cats = state.cats.map(cat => {
-        return cat.id === state.selectedCat.id ? {...cat, weight: cat.weight + 1 } : cat
+        return cat.id === state.selectedCat.id ? {...state.selectedCat} : cat
+      })
+    },
+    handleWeight: (state, action) => {
+      state.selectedCat = {
+        ...state.selectedCat,
+        weight: state.selectedCat.weight + 1
+      }
+      state.cats = state.cats.map(cat => {
+        return cat.id === state.selectedCat.id ? {...state.selectedCat} : cat
       })
     },
     handleAge: (state, action) => {
+      state.selectedCat = {
+        ...state.selectedCat,
+        age: state.selectedCat.age + 1
+      }
       state.cats = state.cats.map(cat => {
-        return cat.id === state.selectedCat.id ? {...cat, age: cat.age + 1 } : cat
+        return cat.id === state.selectedCat.id ? {...state.selectedCat} : cat
       })
     },
     handleStatus: (state, action) => {
+      state.selectedCat = {
+        ...state.selectedCat,
+        status: state.selectedCat.weight >= 30 && state.selectedCat.weight < 45 ? catStatus.status2 : (state.selectedCat.weight >= 45 ? catStatus.status3 : catStatus.status1)
+      }
       state.cats = state.cats.map(cat => {
-        return cat.id ===  state.selectedCat.id ? {...cat, status: cat.weight >= 30 && cat.weight < 45 ? catStatus.status2 : (cat.weight >= 45 ? catStatus.status3 : catStatus.status1)} : cat
+        return cat.id ===  state.selectedCat.id ? {...state.selectedCat} : cat
       })
     }
   }

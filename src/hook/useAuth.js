@@ -25,6 +25,7 @@ const useAuth = (initialValue) => {
         } else {
           setUser([...user, {loginId: form.id, password: form.password}])
           setNewAccount(false)
+          alert(`${form.id}님 회원가입 되었습니다. 로그인 해주세요.`)
         }
         setForm({id: "", password: ""})
         inputRef.current.focus()
@@ -35,6 +36,8 @@ const useAuth = (initialValue) => {
           setIsLoggedIn(true);
           setCurrentUser(ok)
           navigate('/')
+        } else {
+          alert('입력하신 정보와 회원정보가 일치하지 않습니다.')
         }
       }
     } catch(error) {
