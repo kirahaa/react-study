@@ -38,9 +38,7 @@ const User = () => {
           style={{width: '200px', height: '200px'}}>
         </lord-icon>
       </div>
-      {currentUser.map(user => (
-        <h2 key={user.loginId} className={cx('user__title')}>Welcome! {user.loginId}</h2>
-      ))}
+      <h2 className={cx('user__title')}>Welcome! {currentUser.loginId}</h2>
       <button onClick={handleLogOut} className={cx('user__btn', '--logout')}>Log out</button>
     </div>
   )

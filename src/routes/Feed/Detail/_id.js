@@ -172,7 +172,7 @@ const FeedDetail = () => {
     let today = new Date().toLocaleString('en-US')
     if (selectedCat.status !== catStatus.status3) {
       setCount(count + 1)
-      dispatch(handleFeeding({createdAt: today, createdBy: currentUser[0].loginId}))
+      dispatch(handleFeeding({createdAt: today, createdBy: currentUser.loginId}))
     }
   }
 

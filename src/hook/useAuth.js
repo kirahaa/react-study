@@ -18,9 +18,9 @@ const useAuth = (initialValue) => {
     try {
       if (newAccount) {
         // create account
-        let existedUser = user.filter(u => u.loginId === form.id).length
+        let existedUser = user.find(u => u.loginId === form.id)
 
-        if (existedUser !== 0) {
+        if (existedUser) {
           alert('이미 존재하는 아이디입니다.')
         } else {
           setUser([...user, {loginId: form.id, password: form.password}])
@@ -31,10 +31,10 @@ const useAuth = (initialValue) => {
         inputRef.current.focus()
       } else {
         // sign in
-        let ok = user.filter(u => u.loginId === form.id && u.password === form.password)
-        if (ok.length > 0) {
+        let presentUser = user.find(u => u.loginId === form.id && u.password === form.password)
+        if (presentUser) {
           setIsLoggedIn(true);
-          setCurrentUser(ok)
+          setCurrentUser(presentUser)
           navigate('/')
         } else {
           alert('입력하신 정보와 회원정보가 일치하지 않습니다.')

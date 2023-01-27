@@ -1,8 +1,9 @@
 import todo from './todo'
 import layout from './layout'
 import feed from './feed'
+import auth from './auth'
 import {combineReducers} from "redux"
-import {configureStore} from "@reduxjs/toolkit"
+import {configureStore} from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -20,7 +21,12 @@ const combineReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, combineReducer)
 
 const store = configureStore({
-  reducer: persistedReducer
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware => {
+    return getDefaultMiddleware({
+      serializableCheck: false
+    })
+  }
 })
 
 export default store
