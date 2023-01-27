@@ -166,7 +166,7 @@ const IconWrap = styled.span`
   }
 `
 
-const FeedDetail = () => {
+const _id = () => {
   const params = useParsedParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -248,4 +248,4 @@ const FeedDetail = () => {
   )
 }
 
-export default FeedDetail
+export default _id

@@ -1,10 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {catData} from '../utility/cat'
+import {catData, catStatus} from '../utility/cats'
 
 export const feedSlice = createSlice({
   name: "feed",
   initialState: {
-    selectedCat: {},
+    selectedCat: null,
     cats: catData
   },
   reducers: {
@@ -28,7 +28,7 @@ export const feedSlice = createSlice({
     },
     handleStatus: (state, action) => {
       state.cats = state.cats.map(cat => {
-        return cat.id ===  state.selectedCat.id ? {...cat, status: cat.weight >= 30 && cat.weight < 45 ? 'fat' : (cat.weight >= 45 ? 'gone' : 'normal')} : cat
+        return cat.id ===  state.selectedCat.id ? {...cat, status: cat.weight >= 30 && cat.weight < 45 ? catStatus.status2 : (cat.weight >= 45 ? catStatus.status3 : catStatus.status1)} : cat
       })
     }
   }

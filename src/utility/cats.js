@@ -1,31 +1,42 @@
+export const catGender = {
+  gender1: 'male',
+  gender2: 'female'
+}
+
+export const catStatus = {
+  status1: 'normal',
+  status2: 'fat',
+  status3: 'gone'
+}
+
 export const catData = [
   {
-    id: '0',
+    id: 0,
     name: 'Toobey',
-    gender: 'female',
+    gender: catGender.gender2,
     age: 1,
     weight: 1,
-    status: 'normal',
+    status: catStatus.status1,
     profileImg: require("../assets/images/cat1.jpg"),
     feeding: []
   },
   {
-    id: '1',
+    id: 1,
     name: 'Rosy',
-    gender: 'female',
+    gender: catGender.gender2,
     age: 3,
     weight: 2,
-    status: 'normal',
+    status: catStatus.status1,
     profileImg: require("../assets/images/cat2.jpg"),
     feeding: []
   },
   {
-    id: '2',
+    id: 2,
     name: 'Leo',
-    gender: 'male',
+    gender: catGender.gender1,
     age: 2,
     weight: 3,
-    status: 'normal',
+    status: catStatus.status1,
     profileImg: require("../assets/images/cat3.jpg"),
     feeding: []
   }
