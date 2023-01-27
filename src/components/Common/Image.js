@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {catStatus} from '../../database/cats'
 
 const StyledImage = styled.img`
   display: inline-block;
@@ -6,11 +7,14 @@ const StyledImage = styled.img`
   height: auto;
   max-width: 100%;
   border-radius: ${(props) => props.radius ? '50%' : 0};
+  filter: ${props => {
+    if (props.status === catStatus.status3) return 'grayScale(1)'
+  }};
 `
 
-const Image = ({src, alt, radius}) => {
+const Image = ({src, alt, radius, status}) => {
   return (
-    <StyledImage src={src} alt={alt} radius={radius}/>
+    <StyledImage src={src} alt={alt} radius={radius} status={status}/>
   )
 }
 
