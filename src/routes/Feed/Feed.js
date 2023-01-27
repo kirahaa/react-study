@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
 import Image from '../../components/Common/Image'
-import {useDispatch, useSelector} from 'react-redux'
-import {handleSelectedCat} from '../../redux/feed'
+import {useSelector} from 'react-redux'
 
 const FeedWrap = styled.div`
   display: flex;
@@ -101,13 +100,11 @@ const ItemInfo = styled.div`
 
 const Feed = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const cats = useSelector(state => state.feed.cats)
 
   const handleToggleDetail = (id) => {
     if (cats[Number(id)].status !== 'gone') {
       navigate(`${id}`)
-      dispatch(handleSelectedCat(id))
     }
   }
 

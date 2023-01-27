@@ -1,4 +1,8 @@
+import {useContext, useEffect} from 'react'
 import {Route, Routes, useNavigate} from 'react-router-dom'
+import {AuthContext} from "../context/AuthContext"
+import Navigation from '../components/Navigation/Navigation'
+import MainLayout from '../components/Layout/MainLayout'
 import Todo from "./Todo/Todo"
 import Room from "./Room/Room"
 import Home from "./Home/Home"
@@ -8,12 +12,8 @@ import Theme from "./Theme/Theme"
 import Login from "./Login/Login"
 import User from './User/User'
 import Calc from './Calc/Calc'
-import {useContext, useEffect} from 'react'
-import {AuthContext} from "../context/AuthContext"
-import Navigation from '../components/Navigation/Navigation'
-import MainLayout from '../components/Layout/MainLayout'
 import Feed from './Feed/Feed'
-import FeedDetail from './Feed/Detail/FeedDetail'
+import FeedDetail from './Feed/Detail/_id'
 
 const Router = () => {
   const navigate = useNavigate()

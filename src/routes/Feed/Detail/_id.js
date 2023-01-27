@@ -1,11 +1,16 @@
 import styled from 'styled-components'
-import { FaBone } from 'react-icons/fa'
 import { FiChevronLeft, FiUser } from 'react-icons/fi'
 import { GiCannedFish } from 'react-icons/gi'
 import {useNavigate} from 'react-router-dom'
 import Image from '../../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
-import {handleAge, handleFeeding, handleWeight, handleStatus} from '../../../redux/feed'
+import {
+  handleAge,
+  handleFeeding,
+  handleWeight,
+  handleStatus,
+  handleSelectedCat
+} from '../../../redux/feed'
 import useParsedParams from "../../../hook/useParsedParams"
 import {useContext, useEffect, useState} from 'react'
 import {AuthContext} from '../../../context/AuthContext'
@@ -166,19 +171,18 @@ const IconWrap = styled.span`
   }
 `
 
-const _id = () => {
+const FeedDetail = () => {
   const params = useParsedParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const cats = useSelector(state => state.feed.cats)
+  const selectedCat = useSelector(state => state.feed.selectedCat)
   const {currentUser} = useContext(AuthContext)
 
   const [count, setCount] = useState(0)
 
   const feedCat = () => {
-    // FIXME:: 왜 함수안에서 useState 부르면 에러가 날까..?
-    // 그리고 state가 바로 업데이트 안됨...
     let today = new Date().toLocaleString('en-US')
     if (cats[params].status !== 'gone') {
       setCount(count + 1)
@@ -200,6 +204,15 @@ const _id = () => {
       dispatch(handleStatus())
     }
   }, [count])
+
+  useEffect(() => {
+    // 리스트에 해당하는 고양이 없으면 홈으로 이동
+    if (params && cats.find(cat => Number(cat.id) === params)) {
+      dispatch(handleSelectedCat(params))
+    } else {
+      navigate('/')
+    }
+  }, [selectedCat])
 
   return (
     <Wrap>
@@ -248,4 +261,4 @@ const _id = () => {
   )
 }
 
-export default _id
+export default FeedDetail

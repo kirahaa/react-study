@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {catData, catStatus} from '../utility/cats'
+import {catData, catStatus} from '../database/cats'
 
 export const feedSlice = createSlice({
   name: "feed",
@@ -14,7 +14,7 @@ export const feedSlice = createSlice({
       })
     },
     handleSelectedCat: (state, action) => {
-      state.selectedCat = state.cats.find(cat => cat.id === action.payload)
+      state.selectedCat = state.cats.find(cat => Number(cat.id) === action.payload)
     },
     handleWeight: (state, action) => {
       state.cats = state.cats.map(cat => {
