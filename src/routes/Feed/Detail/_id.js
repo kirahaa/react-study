@@ -1,6 +1,8 @@
-import styled from 'styled-components'
+import styled, {ThemeContext} from 'styled-components'
 import { FiChevronLeft, FiUser } from 'react-icons/fi'
+import {FaFish} from "react-icons/fa"
 import { GiCannedFish } from 'react-icons/gi'
+import {IoWater} from "react-icons/io5"
 import {useNavigate} from 'react-router-dom'
 import Image from '../../../components/Common/Image'
 import {useDispatch, useSelector} from 'react-redux'
@@ -16,6 +18,8 @@ import {useContext, useEffect, useState} from 'react'
 import {AuthContext} from '../../../context/AuthContext'
 import {catStatus} from '../../../database/cats'
 import {StyledBadge} from '../../../components/Common/Badge'
+import Button from "../../../components/Common/Button"
+import Modal from "../../../components/Modal/Modal"
 
 const Wrap = styled.div`
   display: flex;
@@ -81,21 +85,8 @@ const FeedInfo = styled.div`
 
 const BtnWrap = styled.div`
   display: flex;
+  justify-content: space-between;
   margin-bottom: 2rem;
-`
-
-const Button = styled.button`
-  width: 100%;
-  padding: .8rem 2rem;
-  color: ${(props) => props.theme.colors.white};
-  background-color: ${(props) => props.theme.colorChip.primary};
-  border-radius: .5rem;
-  font-size: 1.4rem;
-  font-weight: bold;
-  opacity: ${(props) => {
-    if (props.status === 'gone') return .3
-    else return 1
-  }};
 `
 
 const List = styled.ul`
@@ -157,16 +148,34 @@ const IconWrap = styled.span`
   }
 `
 
+const ModalContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 30rem;
+  
+  button {
+    width: 30%;
+    text-align: center;
+    background: rgba(255, 255, 255, .5);
+  }
+  span {
+    display: block;
+    font-size: 1.2rem;
+  }
+`
+
 const FeedDetail = () => {
   const params = useParsedParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const theme = useContext(ThemeContext)
   const cats = useSelector(state => state.feed.cats)
   const selectedCat = useSelector(state => state.feed.selectedCat)
   const {currentUser} = useContext(AuthContext)
 
   const [count, setCount] = useState(0)
+  const [modalVisible, setModalVisible] = useState(false)
 
   const feedCat = () => {
     let today = new Date().toLocaleString('en-US')
@@ -174,6 +183,10 @@ const FeedDetail = () => {
       setCount(count + 1)
       dispatch(handleFeeding({createdAt: today, createdBy: currentUser.loginId}))
     }
+  }
+
+  const handleModalVisible = () => {
+    setModalVisible(!modalVisible)
   }
 
   useEffect(() => {
@@ -227,7 +240,13 @@ const FeedDetail = () => {
               <li>{selectedCat.weight}kg</li>
             </CardDesc>
             <BtnWrap>
-              <Button onClick={feedCat} status={selectedCat.status}>Feed</Button>
+              {/*<Button onClick={feedCat} status={selectedCat.status} width="70%" bgColor="complementary">Feed</Button>*/}
+              <Button
+                width="70%"
+                bgColor="complementary"
+                onClick={handleModalVisible}>
+                Feed</Button>
+              <Button bgColor="analogous1">Exercise</Button>
             </BtnWrap>
           </div>
           <List>
@@ -245,6 +264,22 @@ const FeedDetail = () => {
           </List>
         </Card>
       ) : null}
+      <Modal visible={modalVisible} onClose={handleModalVisible}>
+        <ModalContent>
+          <Button>
+            <FaFish size={25} />
+            <span>Fish</span>
+          </Button>
+          <Button>
+            <GiCannedFish size={25} />
+            <span>Canned</span>
+          </Button>
+          <Button>
+            <IoWater size={25} />
+            <span>Water</span>
+          </Button>
+        </ModalContent>
+      </Modal>
     </Wrap>
   )
 }

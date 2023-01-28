@@ -14,14 +14,10 @@
 export const colorChip = {
   primary: '#30D49E',
   complementary: '#d43067',
-  analogous: [
-    '#30d44b',
-    '#30b9d4'
-  ],
-  tradic: [
-    '#3067d4',
-    '#9d30d4'
-  ]
+  analogous0: '#30d44b',
+  analogous1: '#30b9d4',
+  tradic0: '#3067d4',
+  tradic1: '#9d30d4'
 }
 
 export const dark ={
