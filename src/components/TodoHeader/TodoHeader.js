@@ -34,7 +34,7 @@ const TodoHeader = ({storeTodos}) => {
   return (
     <Fragment>
       <header className={cx('header')}>
-        <p>{currentUser[0].loginId}님 안녕하세요 :)</p>
+        <p>{currentUser.loginId}님 안녕하세요 :)</p>
         <h1>{formatDate}</h1>
         <strong>할 일 {renderChecked()}개 남음</strong>
       </header>
