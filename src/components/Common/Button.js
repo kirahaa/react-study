@@ -14,14 +14,18 @@ export const StyledButton = styled.button`
     if (props.bgColor) return props.theme.colorChip[props.bgColor]
   }};
   opacity: ${(props) => {
-    if (props.status === catStatus.status3) return .3
+    if (props.disabled) return .3
     else return 1
   }};
 `
 
-const Button = ({width, bgColor, children, onClick}) => {
+const Button = ({width, bgColor, children, onClick, disabled}) => {
   return (
-    <StyledButton width={width} bgColor={bgColor} onClick={onClick}>
+    <StyledButton
+      width={width}
+      bgColor={bgColor}
+      disabled={disabled}
+      onClick={onClick}>
       {children}
     </StyledButton>
   )

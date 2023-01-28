@@ -1,4 +1,4 @@
-import styled, {ThemeContext} from 'styled-components'
+import styled from 'styled-components'
 import { FiChevronLeft, FiUser } from 'react-icons/fi'
 import {FaFish} from "react-icons/fa"
 import { GiCannedFish } from 'react-icons/gi'
@@ -16,7 +16,7 @@ import {
 import useParsedParams from "../../../hook/useParsedParams"
 import {useContext, useEffect, useState} from 'react'
 import {AuthContext} from '../../../context/AuthContext'
-import {catStatus} from '../../../database/cats'
+import {catFeedType, catStatus} from '../../../database/cats'
 import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
@@ -169,25 +169,53 @@ const FeedDetail = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const theme = useContext(ThemeContext)
   const cats = useSelector(state => state.feed.cats)
   const selectedCat = useSelector(state => state.feed.selectedCat)
   const {currentUser} = useContext(AuthContext)
+  let feedTimer = null
 
   const [count, setCount] = useState(0)
   const [modalVisible, setModalVisible] = useState(false)
-
-  const feedCat = () => {
-    let today = new Date().toLocaleString('en-US')
-    if (selectedCat.status !== catStatus.status3) {
-      setCount(count + 1)
-      dispatch(handleFeeding({createdAt: today, createdBy: currentUser.loginId}))
-    }
-  }
+  const [feedBtnStatus, setFeedBtnStatus] = useState(false)
+  const [timeLimitToFeed, setTimeLimitToFeed] = useState(null)
 
   const handleModalVisible = () => {
     setModalVisible(!modalVisible)
   }
+
+  const handleFeedBtn = () => {
+    let randomBoolean = Math.random() < 0.5
+    let randomNumber = Math.floor(Math.random() * 9) + 2 // 2초 ~ 10초까지 랜덤하게
+
+    console.log(randomNumber, 'random')
+
+    if (randomBoolean) {
+      handleModalVisible()
+    } else {
+      setTimeLimitToFeed(randomNumber)
+      feedTimer = setInterval(() => {
+        setTimeLimitToFeed(timeLimitToFeed => (timeLimitToFeed - 1))
+      }, 1000)
+    }
+  }
+
+  const feedCat = () => {
+    let today = new Date().toLocaleString('en-US')
+
+    // if (selectedCat.status !== catStatus.status3) {
+    //   setCount(count + 1)
+    //   dispatch(handleFeeding({createdAt: today, createdBy: currentUser.loginId}))
+    // }
+  }
+
+  useEffect(() => {
+    console.log(timeLimitToFeed, '????')
+    if (timeLimitToFeed < 0) {
+      // TODO:: clearInterval 확인
+      clearInterval(feedTimer)
+      setTimeLimitToFeed(null)
+    }
+  }, [timeLimitToFeed])
 
   useEffect(() => {
     if (count > 0) {
@@ -244,8 +272,9 @@ const FeedDetail = () => {
               <Button
                 width="70%"
                 bgColor="complementary"
-                onClick={handleModalVisible}>
-                Feed</Button>
+                onClick={handleFeedBtn}
+                disabled={feedBtnStatus}>
+                {timeLimitToFeed ? `Remaining time to feed: ${timeLimitToFeed}s` : 'Feed'}</Button>
               <Button bgColor="analogous1">Exercise</Button>
             </BtnWrap>
           </div>
@@ -266,17 +295,17 @@ const FeedDetail = () => {
       ) : null}
       <Modal visible={modalVisible} onClose={handleModalVisible}>
         <ModalContent>
-          <Button>
+          <Button onClick={feedCat}>
             <FaFish size={25} />
-            <span>Fish</span>
+            <span>{catFeedType.feed1}</span>
           </Button>
-          <Button>
+          <Button onClick={feedCat}>
             <GiCannedFish size={25} />
-            <span>Canned</span>
+            <span>{catFeedType.feed2}</span>
           </Button>
-          <Button>
+          <Button onClick={feedCat}>
             <IoWater size={25} />
-            <span>Water</span>
+            <span>{catFeedType.feed3}</span>
           </Button>
         </ModalContent>
       </Modal>

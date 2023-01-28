@@ -9,6 +9,12 @@ export const catStatus = {
   status3: 'gone'
 }
 
+export const catFeedType = {
+  feed1: 'fish',
+  feed2: 'canned',
+  feed3: 'water'
+}
+
 export const catData = [
   {
     id: 0,
