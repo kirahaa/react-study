@@ -1,7 +1,7 @@
 import Router from './routes/Router'
 import {Provider} from 'react-redux'
 import store from './redux/store'
-import './styles/App.module.scss'
+import './assets/styles/App.module.scss'
 import {ThemeProvider} from 'styled-components'
 import {dark, light} from './utility/theme'
 import {useState} from 'react'

@@ -1,3 +1,5 @@
+@import '../../assets/styles/_variables.scss';
+
 .user {
     display: flex;
     flex-direction: column;
@@ -15,7 +17,7 @@
 
         &.--logout {
             padding: 1rem 2rem;
-            background: #30d49e;
+            background: $primary;
             border-radius: .5rem;
         }
     }

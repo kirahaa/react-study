@@ -1,3 +1,29 @@
+// export const colorChip = {
+//   primary: '#6002ee',
+//   complementary: '#90ee02',
+//   analogous: [
+//     '#021aee',
+//     '#d602ee'
+//   ],
+//   tradic: [
+//     '#ee0290',
+//     '#ee6002'
+//   ]
+// }
+
+export const colorChip = {
+  primary: '#30D49E',
+  complementary: '#d43067',
+  analogous: [
+    '#30d44b',
+    '#30b9d4'
+  ],
+  tradic: [
+    '#3067d4',
+    '#9d30d4'
+  ]
+}
+
 export const dark ={
   id: 'dark',
   colors:{
@@ -9,7 +35,7 @@ export const dark ={
     bgDark: '#242b3d',
     border: '#3b4253'
   },
-  primary: '#30d49e'
+  colorChip
 }
 
 export const light ={
@@ -23,5 +49,5 @@ export const light ={
     bgDark: '#f6f6f9',
     border: '#eee'
   },
-  primary: '#30d49e'
+  colorChip
 }

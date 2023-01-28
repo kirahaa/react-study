@@ -1,3 +1,5 @@
+@import "../../assets/styles/variables";
+
 .App {
     text-align: center;
 
@@ -24,7 +26,7 @@
         box-sizing: border-box;
         border-radius: 2rem;
         border: none;
-        background-color: yellow;
+        background-color: $complementary;
     }
 
     &-button {
@@ -34,25 +36,25 @@
         border-radius: 5rem;
         border: none;
         color: #fff;
-        background-color: green;
+        background-color: $analogous0;
     }
 
 
     &-list {
         display: flex;
         font-size: 1rem;
-        color: #ffa2af;
+        color: $analogous1;
         list-style: none;
         &-item {
             margin-right: 1rem;
             padding: 1rem;
-            background-color: #d2016c;
+            background-color: $tradic0;
             border-radius: 2rem;
         }
     }
 
     &-link {
-        color: #61dafb;
+        color: $tradic1;
     }
 }
 

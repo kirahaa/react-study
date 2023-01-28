@@ -88,7 +88,7 @@ const Button = styled.button`
   width: 100%;
   padding: .8rem 2rem;
   color: ${(props) => props.theme.colors.white};
-  background-color: ${(props) => props.theme.primary};
+  background-color: ${(props) => props.theme.colorChip.primary};
   border-radius: .5rem;
   font-size: 1.4rem;
   font-weight: bold;

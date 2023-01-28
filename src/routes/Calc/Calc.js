@@ -40,7 +40,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   padding: 1rem 2rem;
-  background: ${(props) => props.theme.primary};
+  background: ${(props) => props.theme.colorChip.primary};
 `
 
 const Calc = () => {
