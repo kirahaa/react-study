@@ -11,7 +11,7 @@ import {
   handleFeeding,
   handleWeight,
   handleStatus,
-  handleSelectedCat
+  handleSelectedCat, handleFeedCount
 } from '../../../redux/feed'
 import useParsedParams from "../../../hook/useParsedParams"
 import {useContext, useEffect, useState} from 'react'
@@ -179,7 +179,7 @@ const FeedDetail = () => {
   const selectedCat = useSelector(state => state.feed.selectedCat)
   const {currentUser} = useContext(AuthContext)
 
-  const [feedCount, setFeedCount] = useState(0)
+  const feedCount = selectedCat ? selectedCat.feedCount : 0
   const [selectedFeedType, setSelectedFeedType] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
   const [feedBtnStatus, setFeedBtnStatus] = useState(false)
@@ -207,7 +207,7 @@ const FeedDetail = () => {
     let today = new Date().toLocaleString('en-US')
 
     if (selectedCat.status !== catStatus.status3) {
-      setFeedCount(feedCount + 1)
+      dispatch(handleFeedCount())
       setSelectedFeedType(catFeedType)
       dispatch(handleFeeding({feedType: catFeedType, createdAt: today, createdBy: currentUser.loginId}))
     }

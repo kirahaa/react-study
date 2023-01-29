@@ -24,6 +24,7 @@ export const catData = [
     weight: 1,
     status: catStatus.status1,
     profileImg: require("../assets/images/cat1.jpg"),
+    feedCount: 0,
     feeding: []
   },
   {
@@ -34,6 +35,7 @@ export const catData = [
     weight: 2,
     status: catStatus.status1,
     profileImg: require("../assets/images/cat2.jpg"),
+    feedCount: 0,
     feeding: []
   },
   {
@@ -44,6 +46,7 @@ export const catData = [
     weight: 3,
     status: catStatus.status1,
     profileImg: require("../assets/images/cat3.jpg"),
+    feedCount: 0,
     feeding: []
   }
 ]

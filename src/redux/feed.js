@@ -11,6 +11,15 @@ export const feedSlice = createSlice({
     handleSelectedCat: (state, action) => {
       state.selectedCat = state.cats.find(cat => Number(cat.id) === action.payload)
     },
+    handleFeedCount: (state, action) => {
+      state.selectedCat = {
+        ...state.selectedCat,
+        feedCount: state.selectedCat.feedCount + 1
+      }
+      state.cats = state.cats.map(cat => {
+        return cat.id === state.selectedCat.id ? {...state.selectedCat} : cat
+      })
+    },
     handleFeeding: (state, action) => {
       state.selectedCat = {
         ...state.selectedCat,
@@ -51,6 +60,7 @@ export const feedSlice = createSlice({
 })
 
 export const {
+  handleFeedCount,
   handleFeeding,
   handleSelectedCat,
   handleWeight,
