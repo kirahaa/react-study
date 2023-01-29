@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { FiChevronLeft, FiUser } from 'react-icons/fi'
+import {FiChevronLeft, FiUser} from 'react-icons/fi'
 import {FaFish} from "react-icons/fa"
-import { GiCannedFish } from 'react-icons/gi'
+import {GiCannedFish} from 'react-icons/gi'
 import {IoWater} from "react-icons/io5"
 import {useNavigate} from 'react-router-dom'
 import Image from '../../../components/Common/Image'
@@ -64,6 +64,7 @@ const CardDesc = styled.ul`
   display: flex;
   justify-content: space-between;
   margin: 2rem 0;
+
   li {
     width: 20%;
     padding: 1rem;
@@ -77,6 +78,7 @@ const CardDesc = styled.ul`
 
 const FeedInfo = styled.div`
   margin: 1rem 0;
+
   p {
     line-height: 2rem;
     font-size: 1.2rem;
@@ -94,11 +96,12 @@ const List = styled.ul`
   height: 20rem;
   border-top: 1px solid ${(props) => props.theme.colors.border};
   overflow-y: scroll;
-  
+
   &::-webkit-scrollbar {
     width: .8rem;
     background-color: transparent;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: ${(props) => props.theme.colors.bg};
     border-radius: .5rem;
@@ -110,7 +113,7 @@ const Item = styled.li`
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  
+
   &:hover {
     background-color: ${(props) => props.theme.colors.bgDark};
   }
@@ -121,10 +124,11 @@ const ItemContent = styled.span`
   justify-content: space-between;
   width: 100%;
   font-size: 1.2rem;
-  
+
   strong {
     font-size: 1.3rem;
   }
+
   span {
     display: flex;
     gap: .5rem;
@@ -140,7 +144,7 @@ const IconWrap = styled.span`
   padding: .5rem .5rem;
   background-color: ${(props) => props.theme.colors.bg};
   border-radius: 50%;
-  
+
   &.top {
     position: absolute;
     top: -4.5rem;
@@ -153,12 +157,13 @@ const ModalContent = styled.div`
   display: flex;
   justify-content: space-between;
   width: 30rem;
-  
+
   button {
     width: 30%;
     text-align: center;
     background: rgba(255, 255, 255, .5);
   }
+
   span {
     display: block;
     font-size: 1.2rem;
@@ -174,7 +179,8 @@ const FeedDetail = () => {
   const selectedCat = useSelector(state => state.feed.selectedCat)
   const {currentUser} = useContext(AuthContext)
 
-  const [count, setCount] = useState(0)
+  const [feedCount, setFeedCount] = useState(0)
+  const [selectedFeedType, setSelectedFeedType] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
   const [feedBtnStatus, setFeedBtnStatus] = useState(false)
   const [timeLimitToFeed, setTimeLimitToFeed] = useState(null)
@@ -197,13 +203,15 @@ const FeedDetail = () => {
     }
   }
 
-  const feedCat = () => {
+  const feedCat = (catFeedType) => {
     let today = new Date().toLocaleString('en-US')
 
-    // if (selectedCat.status !== catStatus.status3) {
-    //   setCount(count + 1)
-    //   dispatch(handleFeeding({createdAt: today, createdBy: currentUser.loginId}))
-    // }
+    if (selectedCat.status !== catStatus.status3) {
+      setFeedCount(feedCount + 1)
+      setSelectedFeedType(catFeedType)
+      dispatch(handleFeeding({feedType: catFeedType, createdAt: today, createdBy: currentUser.loginId}))
+    }
+    handleModalVisible()
   }
 
   // 밥 안먹는 시간
@@ -216,19 +224,23 @@ const FeedDetail = () => {
   }, timeLimitToFeed ? 1000 : null)
 
   useEffect(() => {
-    if (count > 0) {
-      // 밥 2번 주면 체중 + 1
-      if (count % 2 === 0) {
-        dispatch(handleWeight())
+    if (feedCount > 0 && selectedFeedType) {
+      // feedType에 따른 몸무게 증가
+      if (selectedFeedType === catFeedType.feed1) {
+        dispatch(handleWeight(3)) // + 3kg
+      } else if (selectedFeedType === catFeedType.feed2) {
+        dispatch(handleWeight(1)) // + 1kg
+      } else {
+        dispatch(handleWeight(0.1)) // + 0.1kg
       }
       // 밥 3번 주면 나이 + 1
-      if (count % 3 === 0) {
+      if (feedCount % 3 === 0) {
         dispatch(handleAge())
       }
       // 체중에 따른 상태 변경
       dispatch(handleStatus())
     }
-  }, [count])
+  }, [feedCount, selectedFeedType])
 
   useEffect(() => {
     // 리스트에 해당하는 고양이 없으면 홈으로 이동
@@ -244,7 +256,7 @@ const FeedDetail = () => {
       {selectedCat && Number(selectedCat.id) === params ? (
         <Card>
           <IconWrap className="top" onClick={() => navigate('/feed')}>
-            <FiChevronLeft size={25} />
+            <FiChevronLeft size={25}/>
           </IconWrap>
           <div>
             <ImageWrap>
@@ -256,8 +268,8 @@ const FeedDetail = () => {
             </CardTitle>
             {selectedCat.feeding.length > 0 ? (
               <FeedInfo>
-                <p>first : {selectedCat.feeding[0].createdAt}</p>
-                <p>last : {selectedCat.feeding[selectedCat.feeding.length -1].createdAt}</p>
+                <p>first : {selectedCat.feeding[selectedCat.feeding.length - 1].createdAt}</p>
+                <p>last : {selectedCat.feeding[0].createdAt}</p>
               </FeedInfo>
             ) : null}
             <CardDesc>
@@ -280,7 +292,14 @@ const FeedDetail = () => {
             {selectedCat.feeding.length > 0 ? selectedCat.feeding.map((cat, i) => (
               <Item key={`${cat.createdAt}-${i}`}>
                 <IconWrap>
-                  <GiCannedFish size={25}/>
+                  {cat.feedType === catFeedType.feed1
+                    ? (<FaFish size={20}/>)
+                    : (
+                      cat.feedType === catFeedType.feed2
+                        ? (<GiCannedFish size={20}/>)
+                        : (<IoWater size={20}/>)
+                    )
+                  }
                 </IconWrap>
                 <ItemContent>
                   <strong>{cat.createdAt}</strong>
@@ -291,22 +310,24 @@ const FeedDetail = () => {
           </List>
         </Card>
       ) : null}
+
       <Modal visible={modalVisible} onClose={handleModalVisible}>
         <ModalContent>
-          <Button onClick={feedCat}>
-            <FaFish size={25} />
+          <Button onClick={() => feedCat(catFeedType.feed1)}>
+            <FaFish size={25}/>
             <span>{catFeedType.feed1}</span>
           </Button>
-          <Button onClick={feedCat}>
-            <GiCannedFish size={25} />
+          <Button onClick={() => feedCat(catFeedType.feed2)}>
+            <GiCannedFish size={25}/>
             <span>{catFeedType.feed2}</span>
           </Button>
-          <Button onClick={feedCat}>
-            <IoWater size={25} />
+          <Button onClick={() => feedCat(catFeedType.feed3)}>
+            <IoWater size={25}/>
             <span>{catFeedType.feed3}</span>
           </Button>
         </ModalContent>
       </Modal>
+
     </Wrap>
   )
 }
