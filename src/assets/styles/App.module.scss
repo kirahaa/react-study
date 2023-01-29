@@ -52,8 +52,12 @@ html {
   height: 100%;
   font-size: 62.5%;
 
-  @media screen and (min-width: 540px) {
-    font-size: 70%;
+  @media screen and (max-width: 1020px) {
+    font-size: 60%;
+  }
+
+  @media screen and (max-width: 540px) {
+    font-size: 50%;
   }
 }
 

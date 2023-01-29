@@ -20,6 +20,7 @@ import {catFeedType, catStatus} from '../../../database/cats'
 import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
+import useInterval from "../../../hook/useInterval"
 
 const Wrap = styled.div`
   display: flex;
@@ -90,7 +91,7 @@ const BtnWrap = styled.div`
 `
 
 const List = styled.ul`
-  height: 26rem;
+  height: 20rem;
   border-top: 1px solid ${(props) => props.theme.colors.border};
   overflow-y: scroll;
   
@@ -172,7 +173,6 @@ const FeedDetail = () => {
   const cats = useSelector(state => state.feed.cats)
   const selectedCat = useSelector(state => state.feed.selectedCat)
   const {currentUser} = useContext(AuthContext)
-  let feedTimer = null
 
   const [count, setCount] = useState(0)
   const [modalVisible, setModalVisible] = useState(false)
@@ -187,15 +187,13 @@ const FeedDetail = () => {
     let randomBoolean = Math.random() < 0.5
     let randomNumber = Math.floor(Math.random() * 9) + 2 // 2초 ~ 10초까지 랜덤하게
 
-    console.log(randomNumber, 'random')
-
+    // 랜덤으로 밥 먹을지 안먹을지
     if (randomBoolean) {
       handleModalVisible()
     } else {
+      // 안먹으면 랜덤시간 동안 버튼 비활성화
       setTimeLimitToFeed(randomNumber)
-      feedTimer = setInterval(() => {
-        setTimeLimitToFeed(timeLimitToFeed => (timeLimitToFeed - 1))
-      }, 1000)
+      setFeedBtnStatus(true)
     }
   }
 
@@ -208,14 +206,14 @@ const FeedDetail = () => {
     // }
   }
 
-  useEffect(() => {
-    console.log(timeLimitToFeed, '????')
-    if (timeLimitToFeed < 0) {
-      // TODO:: clearInterval 확인
-      clearInterval(feedTimer)
-      setTimeLimitToFeed(null)
+  // 밥 안먹는 시간
+  useInterval(() => {
+    setTimeLimitToFeed(timeLimitToFeed => (timeLimitToFeed - 1))
+    // timeLimit 시간 끝나면 다시 Feed버튼 활성화
+    if (timeLimitToFeed === 1) {
+      setFeedBtnStatus(false)
     }
-  }, [timeLimitToFeed])
+  }, timeLimitToFeed ? 1000 : null)
 
   useEffect(() => {
     if (count > 0) {
@@ -274,7 +272,7 @@ const FeedDetail = () => {
                 bgColor="complementary"
                 onClick={handleFeedBtn}
                 disabled={feedBtnStatus}>
-                {timeLimitToFeed ? `Remaining time to feed: ${timeLimitToFeed}s` : 'Feed'}</Button>
+                {timeLimitToFeed ? `I don't want to eat for ${timeLimitToFeed}s` : 'Feed'}</Button>
               <Button bgColor="analogous1">Exercise</Button>
             </BtnWrap>
           </div>
