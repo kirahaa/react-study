@@ -181,12 +181,26 @@ const FeedDetail = () => {
 
   const feedCount = selectedCat ? selectedCat.feedCount : 0
   const [selectedFeedType, setSelectedFeedType] = useState(null)
-  const [modalVisible, setModalVisible] = useState(false)
+  const [feedModalVisible, setFeedModalVisible] = useState(false)
+  const [exerciseModalVisible, setExerciseModalVisible] = useState(false)
   const [feedBtnStatus, setFeedBtnStatus] = useState(false)
+  const [exerciseBtnStatus, setExerciseBtnStatus] = useState(false)
   const [timeLimitToFeed, setTimeLimitToFeed] = useState(null)
+  const [timeLimitToExercise, setTimeLimitToExercise] = useState(null)
 
-  const handleModalVisible = () => {
-    setModalVisible(!modalVisible)
+  const handleFeedModalVisible = () => {
+    setFeedModalVisible(!feedModalVisible)
+  }
+
+  const handleExerciseModalVisible = () => {
+    setExerciseModalVisible(!exerciseModalVisible)
+  }
+
+  const handleExercise = () => {
+    setExerciseBtnStatus(true)
+    setTimeLimitToExercise(10)
+    handleExerciseModalVisible(!exerciseModalVisible)
+    // TODO:: 고양이 리스트에 운동 기록도 추가~
   }
 
   const handleFeedBtn = () => {
@@ -195,7 +209,7 @@ const FeedDetail = () => {
 
     // 랜덤으로 밥 먹을지 안먹을지
     if (randomBoolean) {
-      handleModalVisible()
+      handleFeedModalVisible()
     } else {
       // 안먹으면 랜덤시간 동안 버튼 비활성화
       setTimeLimitToFeed(randomNumber)
@@ -211,8 +225,18 @@ const FeedDetail = () => {
       setSelectedFeedType(catFeedType)
       dispatch(handleFeeding({feedType: catFeedType, createdAt: today, createdBy: currentUser.loginId}))
     }
-    handleModalVisible()
+    handleFeedModalVisible()
   }
+
+  // 운동 타이머
+  useInterval(() => {
+    setTimeLimitToExercise(timeLimitToExercise => (timeLimitToExercise - 1))
+    // timeLimit 시간 끝나면 다시 Exercise버튼 활성화
+    if (timeLimitToExercise === 1) {
+      setExerciseBtnStatus(false)
+      setExerciseModalVisible(!exerciseModalVisible)
+    }
+  }, timeLimitToExercise ? 1000 : null)
 
   // 밥 안먹는 시간
   useInterval(() => {
@@ -282,10 +306,16 @@ const FeedDetail = () => {
               <Button
                 width="70%"
                 bgColor="complementary"
-                onClick={handleFeedBtn}
-                disabled={feedBtnStatus}>
-                {timeLimitToFeed ? `I don't want to eat for ${timeLimitToFeed}s` : 'Feed'}</Button>
-              <Button bgColor="analogous1">Exercise</Button>
+                disabled={feedBtnStatus}
+                onClick={handleFeedBtn}>
+                {timeLimitToFeed ? `I don't want to eat for ${timeLimitToFeed}s` : 'Feed'}
+              </Button>
+              <Button
+                bgColor="analogous1"
+                disabled={exerciseBtnStatus}
+                onClick={handleExercise}>
+                Exercise
+              </Button>
             </BtnWrap>
           </div>
           <List>
@@ -311,7 +341,7 @@ const FeedDetail = () => {
         </Card>
       ) : null}
 
-      <Modal visible={modalVisible} onClose={handleModalVisible}>
+      <Modal visible={feedModalVisible} onClose={handleFeedModalVisible}>
         <ModalContent>
           <Button onClick={() => feedCat(catFeedType.feed1)}>
             <FaFish size={25}/>
@@ -326,6 +356,12 @@ const FeedDetail = () => {
             <span>{catFeedType.feed3}</span>
           </Button>
         </ModalContent>
+      </Modal>
+
+      <Modal visible={exerciseModalVisible}>
+        {/* TODO:: 고양이 운동 중 모달 */}
+        고양이 운동 중...
+        {timeLimitToExercise}
       </Modal>
 
     </Wrap>

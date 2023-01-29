@@ -41,9 +41,12 @@ const Modal = ({visible, onClose, children}) => {
   return (
     <StyledModal>
       <ModalContents>
-        <ModalCloseBtn onClick={onClose}>
-          <FiX size={20}/>
-        </ModalCloseBtn>
+        {onClose ?
+          (<ModalCloseBtn onClick={onClose}>
+            <FiX size={20}/>
+          </ModalCloseBtn>)
+          : null
+        }
         {children}
       </ModalContents>
       <Dim />
