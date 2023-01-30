@@ -24,10 +24,10 @@ export const feedSlice = createSlice({
       }
       handleUpdateCats(state)
     },
-    handleFeeding: (state, action) => {
+    handleRecordList: (state, action) => {
       state.selectedCat = {
         ...state.selectedCat,
-        feeding: [action.payload, ...state.selectedCat.feeding]
+        recordList: [action.payload, ...state.selectedCat.recordList]
       }
       handleUpdateCats(state)
     },
@@ -46,9 +46,11 @@ export const feedSlice = createSlice({
       handleUpdateCats(state)
     },
     handleStatus: (state, action) => {
+      const percentageOfWeight = (state.selectedCat.weight / state.selectedCat.age) * 100
+
       state.selectedCat = {
         ...state.selectedCat,
-        status: state.selectedCat.weight >= 30 && state.selectedCat.weight < 45 ? catStatus.status2 : (state.selectedCat.weight >= 45 ? catStatus.status3 : catStatus.status1)
+        status: state.selectedCat.weight >= 30 && state.selectedCat.weight < 45 ? catStatus.status2 : (state.selectedCat.weight >= 45 || percentageOfWeight < 10 ? catStatus.status3 : catStatus.status1)
       }
       handleUpdateCats(state)
     }
@@ -57,7 +59,7 @@ export const feedSlice = createSlice({
 
 export const {
   handleFeedCount,
-  handleFeeding,
+  handleRecordList,
   handleSelectedCat,
   handleWeight,
   handleAge,

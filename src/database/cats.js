@@ -6,7 +6,8 @@ export const catGender = {
 export const catStatus = {
   status1: 'normal',
   status2: 'fat',
-  status3: 'gone'
+  status3: 'gone',
+  status4: 'exercise'
 }
 
 export const catFeedType = {
@@ -25,29 +26,29 @@ export const catData = [
     status: catStatus.status1,
     profileImg: require("../assets/images/cat1.jpg"),
     feedCount: 0,
-    feeding: []
+    recordList: []
   },
   {
     id: 1,
     name: 'Rosy',
     gender: catGender.gender2,
-    age: 3,
-    weight: 2,
+    age: 1,
+    weight: 1,
     status: catStatus.status1,
     profileImg: require("../assets/images/cat2.jpg"),
     feedCount: 0,
-    feeding: []
+    recordList: []
   },
   {
     id: 2,
     name: 'Leo',
     gender: catGender.gender1,
-    age: 2,
-    weight: 3,
+    age: 1,
+    weight: 1,
     status: catStatus.status1,
     profileImg: require("../assets/images/cat3.jpg"),
     feedCount: 0,
-    feeding: []
+    recordList: []
   }
 ]
 
