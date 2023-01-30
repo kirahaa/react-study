@@ -15,7 +15,8 @@ const persistConfig = {
 const combineReducer = combineReducers({
   todo,
   layout,
-  feed
+  feed,
+  auth
 })
 
 const persistedReducer = persistReducer(persistConfig, combineReducer)

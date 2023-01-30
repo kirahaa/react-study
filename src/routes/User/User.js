@@ -5,24 +5,27 @@ import classNames from 'classnames/bind'
 import style from './User.module.scss'
 import lottie from 'lottie-web'
 import { defineElement }  from 'lord-icon-element'
+import {useDispatch} from 'react-redux'
+import {handleLogOut} from '../../redux/auth'
 
 defineElement(lottie.loadAnimation)
 
 const cx = classNames.bind(style)
 
 const User = () => {
-  const {currentUser, isLoggedIn, setIsLoggedIn} = useContext(AuthContext)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  const {currentUser, isLoggedIn} = useContext(AuthContext)
 
-  const handleLogOut = () => {
+  const logOut = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
-      setIsLoggedIn(false)
-      navigate('/')
+      dispatch(handleLogOut())
+      navigate('/login')
     }
   }
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn()) {
       alert('잘못된 접근입니다.')
       navigate('/')
     }
@@ -39,7 +42,7 @@ const User = () => {
         </lord-icon>
       </div>
       <h2 className={cx('user__title')}>Welcome! {currentUser.loginId}</h2>
-      <button onClick={handleLogOut} className={cx('user__btn', '--logout')}>Log out</button>
+      <button onClick={logOut} className={cx('user__btn', '--logout')}>Log out</button>
     </div>
   )
 }

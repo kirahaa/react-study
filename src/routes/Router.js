@@ -17,26 +17,24 @@ import FeedDetail from './Feed/Detail/_id'
 
 const Router = () => {
   const navigate = useNavigate()
-  const {isLoggedIn} = useContext(AuthContext);
+  const {isLoggedIn} = useContext(AuthContext)
 
   useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/')
-    } else {
+    if (!isLoggedIn()) {
       navigate('/login')
     }
   }, [isLoggedIn])
 
   return (
     <>
-      {isLoggedIn && (
+      {isLoggedIn() && (
         <>
           <Navigation />
         </>
       )}
       <Routes>
         {
-          isLoggedIn ? (
+          isLoggedIn() ? (
             <>
               <Route path="/" element={<MainLayout />}>
                 <Route path="/calc" element={<Calc />}></Route>

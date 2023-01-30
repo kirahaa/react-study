@@ -1,9 +1,12 @@
 import {useContext, useState, useRef} from "react"
 import {AuthContext} from "../context/AuthContext"
 import {useNavigate} from "react-router-dom"
+import {useDispatch} from 'react-redux'
+import {handleLogIn} from '../redux/auth'
 
 const useAuth = (initialValue) => {
-  const {user, setUser, setCurrentUser, setIsLoggedIn} = useContext(AuthContext)
+  const dispatch = useDispatch()
+  const {user, setUser, setCurrentUser} = useContext(AuthContext)
   const [form, setForm] = useState(initialValue)
   const [newAccount, setNewAccount] = useState(true)
   const inputRef = useRef(null)
@@ -33,7 +36,7 @@ const useAuth = (initialValue) => {
         // sign in
         let presentUser = user.find(u => u.loginId === form.id && u.password === form.password)
         if (presentUser) {
-          setIsLoggedIn(true);
+          dispatch(handleLogIn(presentUser))
           setCurrentUser(presentUser)
           navigate('/')
         } else {
