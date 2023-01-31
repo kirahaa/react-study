@@ -7,6 +7,7 @@ import lottie from 'lottie-web'
 import { defineElement }  from 'lord-icon-element'
 import {useDispatch, useSelector} from 'react-redux'
 import {handleLogOut} from '../../redux/auth'
+import {persistor} from '../../App'
 
 defineElement(lottie.loadAnimation)
 
@@ -19,8 +20,9 @@ const User = () => {
   const {isLoggedIn} = useContext(AuthContext)
   const user = useSelector(state => state.auth.currentUser)
 
-  const logOut = () => {
+  const logOut = async () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
+      await persistor.purge()
       dispatch(handleLogOut())
       navigate('/login')
     }
