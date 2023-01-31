@@ -1,8 +1,8 @@
-import {Fragment, useContext} from 'react'
+import {Fragment} from 'react'
 import style from './TodoHeader.module.scss'
 import classNames from "classnames/bind"
-import {AuthContext} from '../../context/AuthContext'
 import styled from 'styled-components'
+import {useSelector} from 'react-redux'
 const cx = classNames.bind(style)
 
 const StyledHr = styled.hr`
@@ -11,7 +11,7 @@ const StyledHr = styled.hr`
 `
 
 const TodoHeader = ({storeTodos}) => {
-  const {currentUser} = useContext(AuthContext)
+  const user = useSelector(state => state.auth.currentUser)
   const date = new Date()
   date.toString()
 
@@ -34,7 +34,7 @@ const TodoHeader = ({storeTodos}) => {
   return (
     <Fragment>
       <header className={cx('header')}>
-        <p>{currentUser.loginId}님 안녕하세요 :)</p>
+        <p>{user.loginId}님 안녕하세요 :)</p>
         <h1>{formatDate}</h1>
         <strong>할 일 {renderChecked()}개 남음</strong>
       </header>

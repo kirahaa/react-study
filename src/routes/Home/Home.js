@@ -4,6 +4,7 @@ import classNames from 'classnames/bind'
 import style from './Home.module.scss'
 import styled from 'styled-components'
 import useInput from '../../hook/useInput'
+import {useSelector} from 'react-redux'
 const cx = classNames.bind(style)
 
 const HomeWrap = styled.div`
@@ -12,13 +13,14 @@ const HomeWrap = styled.div`
 
 const Home = () => {
   const [inputValue, handleChange, lists, handleSubmit] = useInput('')
+  const user = useSelector(state => state.auth.currentUser)
 
   return (
     <HomeWrap>
       <header className={cx("App-header")}>
         <img src={onew} className={cx("App-logo")} alt="onew" />
         <p>
-          <b>Hello ! My name is Onew, I'm happy to meet you!</b>
+          <b>Hello {user.loginId} ! My name is Onew, I'm happy to meet you!</b>
         </p>
         <form onSubmit={handleSubmit}>
           <input

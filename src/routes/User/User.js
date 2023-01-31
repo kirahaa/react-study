@@ -5,7 +5,7 @@ import classNames from 'classnames/bind'
 import style from './User.module.scss'
 import lottie from 'lottie-web'
 import { defineElement }  from 'lord-icon-element'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {handleLogOut} from '../../redux/auth'
 
 defineElement(lottie.loadAnimation)
@@ -15,7 +15,9 @@ const cx = classNames.bind(style)
 const User = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const {currentUser, isLoggedIn} = useContext(AuthContext)
+
+  const {isLoggedIn} = useContext(AuthContext)
+  const user = useSelector(state => state.auth.currentUser)
 
   const logOut = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
@@ -41,7 +43,7 @@ const User = () => {
           style={{width: '200px', height: '200px'}}>
         </lord-icon>
       </div>
-      <h2 className={cx('user__title')}>Welcome! {currentUser.loginId}</h2>
+      <h2 className={cx('user__title')}>Welcome! {user.loginId}</h2>
       <button onClick={logOut} className={cx('user__btn', '--logout')}>Log out</button>
     </div>
   )

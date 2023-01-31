@@ -1,12 +1,11 @@
-import {useContext, useState, useRef} from "react"
-import {AuthContext} from "../context/AuthContext"
+import {useState, useRef} from "react"
 import {useNavigate} from "react-router-dom"
-import {useDispatch} from 'react-redux'
-import {handleLogIn} from '../redux/auth'
+import {useDispatch, useSelector} from 'react-redux'
+import {createUserAccount, handleLogIn} from '../redux/auth'
 
 const useAuth = (initialValue) => {
   const dispatch = useDispatch()
-  const {user, setUser, setCurrentUser} = useContext(AuthContext)
+  const users = useSelector(state => state.auth.users)
   const [form, setForm] = useState(initialValue)
   const [newAccount, setNewAccount] = useState(true)
   const inputRef = useRef(null)
@@ -21,12 +20,12 @@ const useAuth = (initialValue) => {
     try {
       if (newAccount) {
         // create account
-        let existedUser = user.find(u => u.loginId === form.id)
+        let existedUser = users.find(u => u.loginId === form.id)
 
         if (existedUser) {
           alert('이미 존재하는 아이디입니다.')
         } else {
-          setUser([...user, {loginId: form.id, password: form.password}])
+          dispatch(createUserAccount({loginId: form.id, password: form.password}))
           setNewAccount(false)
           alert(`${form.id}님 회원가입 되었습니다. 로그인 해주세요.`)
         }
@@ -34,10 +33,10 @@ const useAuth = (initialValue) => {
         inputRef.current.focus()
       } else {
         // sign in
-        let presentUser = user.find(u => u.loginId === form.id && u.password === form.password)
+        let presentUser = users.find(u => u.loginId === form.id && u.password === form.password)
+
         if (presentUser) {
           dispatch(handleLogIn(presentUser))
-          setCurrentUser(presentUser)
           navigate('/')
         } else {
           alert('입력하신 정보와 회원정보가 일치하지 않습니다.')

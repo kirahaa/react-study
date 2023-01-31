@@ -15,14 +15,12 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 1rem;
+        gap: 3rem;
         font-size: calc(10px + 2vmin);
     }
 
     &-input {
-        width: 18rem;
-        height: 3rem;
-        padding: .5rem 1rem;
+        padding: .5rem;
         box-sizing: border-box;
         border-radius: 2rem;
         border: none;
@@ -30,9 +28,7 @@
     }
 
     &-button {
-        padding: 0;
-        width: 3rem;
-        height: 3rem;
+        padding: .5rem;
         border-radius: 5rem;
         border: none;
         color: #fff;

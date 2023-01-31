@@ -178,7 +178,7 @@ const FeedDetail = () => {
 
   const cats = useSelector(state => state.feed.cats)
   const selectedCat = useSelector(state => state.feed.selectedCat)
-  const {currentUser} = useContext(AuthContext)
+  const currentUser = useSelector(state => state.auth.currentUser)
 
   const today = new Date().toLocaleString('en-US')
   const feedCount = selectedCat ? selectedCat.feedCount : 0
