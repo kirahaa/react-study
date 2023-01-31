@@ -87,7 +87,7 @@ const Navigation = () => {
         <li>
           <Link to="/snow">
             <lord-icon
-              src="https://cdn.lordicon.com/mxzuvjjs.json"
+              src="https://cdn.lordicon.com/weoiqraa.json"
               colors={`primary:${theme.colors.text}`}
               trigger="hover"
               style={{width: '32px', height: '32px'}}>
@@ -96,23 +96,12 @@ const Navigation = () => {
         </li>
         <li>
           <div onClick={theme.setTheme}>
-            {theme.id === 'dark' ? (
-              <lord-icon
-                src="https://cdn.lordicon.com/gqzfzudq.json"
-                trigger="hover"
-                colors={`primary:${theme.colors.text},secondary:${theme.colors.text}`}
-                stroke="100"
-                style={{width: '33px', height: '33px'}}>
-              </lord-icon>
-            ) : (
-              <lord-icon
-                src="https://cdn.lordicon.com/tgnqhsfe.json"
-                trigger="hover"
-                colors={`primary:${theme.colors.text},secondary:${theme.colors.text}`}
-                stroke="100"
-                style={{width: '33px', height: '33px'}}>
-              </lord-icon>
-            )}
+            <lord-icon
+              src="https://cdn.lordicon.com/mxzuvjjs.json"
+              colors={`primary:${theme.colors.text}`}
+              trigger="hover"
+              style={{width: '32px', height: '32px'}}>
+            </lord-icon>
           </div>
         </li>
         <li>
