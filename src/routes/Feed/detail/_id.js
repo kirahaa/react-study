@@ -14,8 +14,7 @@ import {
   handleSelectedCat, handleFeedCount
 } from '../../../redux/feed'
 import useParsedParams from "../../../hook/useParsedParams"
-import {useContext, useEffect, useState} from 'react'
-import {AuthContext} from '../../../context/AuthContext'
+import {useEffect, useState} from 'react'
 import {catFeedType, catStatus} from '../../../database/cats'
 import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
@@ -172,16 +171,21 @@ const ModalContent = styled.div`
 `
 
 const FeedDetail = () => {
+  // ** Hooks
   const params = useParsedParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  // ** store
   const cats = useSelector(state => state.feed.cats)
   const selectedCat = useSelector(state => state.feed.selectedCat)
   const currentUser = useSelector(state => state.auth.currentUser)
 
+  // ** variables
   const today = new Date().toLocaleString('en-US')
   const feedCount = selectedCat ? selectedCat.feedCount : 0
+
+  // ** state
   const [feedModalVisible, setFeedModalVisible] = useState(false)
   const [feedBtnStatus, setFeedBtnStatus] = useState(false)
   const [exerciseBtnStatus, setExerciseBtnStatus] = useState(false)

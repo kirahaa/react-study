@@ -13,7 +13,7 @@ import Login from "./Login/Login"
 import User from './User/User'
 import Calc from './Calc/Calc'
 import Feed from './Feed/Feed'
-import FeedDetail from './Feed/Detail/_id'
+import FeedDetail from './Feed/detail/_id'
 
 const Router = () => {
   const navigate = useNavigate()

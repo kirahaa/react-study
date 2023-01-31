@@ -9,13 +9,15 @@ import {AuthProvider} from "./context/AuthContext"
 import {persistStore} from 'redux-persist'
 import {PersistGate} from 'redux-persist/integration/react'
 import {BrowserRouter} from 'react-router-dom'
+import {RecoilRoot} from 'recoil'
+
+export const persistor = persistStore(store)
 
 const App = () => {
   const [theme, setTheme] = useState(dark)
-  const persistor = persistStore(store)
 
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <RecoilRoot>
       <AuthProvider>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
@@ -25,12 +27,14 @@ const App = () => {
                 setTheme((t) => t === dark ? light : dark)
               }
             }}>
-              <Router/>
+              <BrowserRouter basename={process.env.PUBLIC_URL}>
+                <Router/>
+              </BrowserRouter>
             </ThemeProvider>
           </PersistGate>
         </Provider>
       </AuthProvider>
-    </BrowserRouter>
+    </RecoilRoot>
   );
 }
 
