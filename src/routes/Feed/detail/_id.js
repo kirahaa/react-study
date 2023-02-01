@@ -11,7 +11,7 @@ import {
   handleRecordList,
   handleWeight,
   handleStatus,
-  handleSelectedCat, handleFeedCount
+  handleSelectedCat
 } from '../../../redux/feed'
 import useParsedParams from "../../../hook/useParsedParams"
 import {useEffect, useState} from 'react'
@@ -20,7 +20,6 @@ import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
 import useInterval from "../../../hook/useInterval"
-import useDidMountEffect from '../../../hook/useDidMountEffect'
 
 const Wrap = styled.div`
   display: flex;
@@ -183,7 +182,6 @@ const FeedDetail = () => {
 
   // ** variables
   const today = new Date().toLocaleString('en-US')
-  const feedCount = selectedCat ? selectedCat.feedCount : 0
 
   // ** state
   const [feedModalVisible, setFeedModalVisible] = useState(false)
@@ -197,14 +195,10 @@ const FeedDetail = () => {
   }
 
   const handleExercise = () => {
-    if (selectedCat.weight > 2) {
-      setExerciseBtnStatus(true) // 운동 버튼 상태 비활성화
-      setFeedBtnStatus(true) // Feed 버튼 상태 비활성화
-      setTimeLimitToExercise(10)  // 10초 타이머 시작-!
-      dispatch(handleRecordList({type: catStatus.status4, createdAt: today, createdBy: currentUser.loginId})) // 운동 기록
-    } else {
-      alert('고양이가 너무 작아 운동을 시킬 수 없습니다ㅜㅜ \n2kg 이상부터 운동이 가능하니, 먼저 밥을 먹여주세요!')
-    }
+    setExerciseBtnStatus(true) // 운동 버튼 상태 비활성화
+    setFeedBtnStatus(true) // Feed 버튼 상태 비활성화
+    setTimeLimitToExercise(10)  // 10초 타이머 시작-!
+    dispatch(handleRecordList({type: catStatus.status4, createdAt: today, createdBy: currentUser.loginId})) // 운동 기록
   }
 
   const handleRandomFeedBtn = () => {
@@ -223,7 +217,6 @@ const FeedDetail = () => {
 
   const handleFeedCat = (feedType) => {
     if (selectedCat.status !== catStatus.status3) {
-      dispatch(handleFeedCount()) // 먹이 준 횟수
       dispatch(handleRecordList({type: feedType, createdAt: today, createdBy: currentUser.loginId}))
 
       // feedType에 따른 몸무게 증가
@@ -234,6 +227,8 @@ const FeedDetail = () => {
       } else {
         dispatch(handleWeight(0.1)) // + 0.1kg
       }
+      dispatch(handleAge()) // 나이 체크
+      dispatch(handleStatus()) // 상태 체크
       handleFeedModalVisible()
     }
   }
@@ -258,14 +253,6 @@ const FeedDetail = () => {
       setFeedBtnStatus(false)
     }
   }, timeLimitToFeed ? 1000 : null)
-
-  useDidMountEffect(() => {
-    // 밥 3번 주면 나이 + 1
-    if (feedCount !== 0 && feedCount % 3 === 0) {
-      dispatch(handleAge())
-    }
-    dispatch(handleStatus()) // 상태 체크
-  }, [feedCount])
 
   useEffect(() => {
     // 리스트에 해당하는 고양이 없으면 홈으로 이동
@@ -293,8 +280,8 @@ const FeedDetail = () => {
             </CardTitle>
             {selectedCat.recordList.length > 0 ? (
               <FeedInfo>
-                <p>first : {selectedCat.recordList[selectedCat.recordList.length - 1].createdAt}</p>
-                <p>last : {selectedCat.recordList[0].createdAt}</p>
+                <p>fist : {selectedCat.recordList[0].createdAt}</p>
+                <p>last : {selectedCat.recordList[selectedCat.recordList.length - 1].createdAt}</p>
               </FeedInfo>
             ) : null}
             <CardDesc>

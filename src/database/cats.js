@@ -25,7 +25,6 @@ export const catData = [
     weight: 1,
     status: catStatus.status1,
     profileImg: require("../assets/images/cat1.jpg"),
-    feedCount: 0,
     recordList: []
   },
   {
@@ -36,7 +35,6 @@ export const catData = [
     weight: 1,
     status: catStatus.status1,
     profileImg: require("../assets/images/cat2.jpg"),
-    feedCount: 0,
     recordList: []
   },
   {
@@ -47,7 +45,6 @@ export const catData = [
     weight: 1,
     status: catStatus.status1,
     profileImg: require("../assets/images/cat3.jpg"),
-    feedCount: 0,
     recordList: []
   }
 ]
@@ -57,8 +54,9 @@ status : normal, fat, gone,,,
 if weight = 30 -> fat
           = 45 -> gone
 
-feeding: [
+recordList: [
       {
+        type: '',
         createdAt: '',
         createdBy: ''
       }

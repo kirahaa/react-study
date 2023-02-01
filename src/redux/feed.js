@@ -17,17 +17,10 @@ export const feedSlice = createSlice({
     handleSelectedCat: (state, action) => {
       state.selectedCat = state.cats.find(cat => Number(cat.id) === action.payload)
     },
-    handleFeedCount: (state, action) => {
-      state.selectedCat = {
-        ...state.selectedCat,
-        feedCount: state.selectedCat.feedCount + 1
-      }
-      handleUpdateCats(state)
-    },
     handleRecordList: (state, action) => {
       state.selectedCat = {
         ...state.selectedCat,
-        recordList: [action.payload, ...state.selectedCat.recordList]
+        recordList: [...state.selectedCat.recordList, action.payload]
       }
       handleUpdateCats(state)
     },
@@ -39,9 +32,13 @@ export const feedSlice = createSlice({
       handleUpdateCats(state)
     },
     handleAge: (state, action) => {
+      const feedCount = state.selectedCat.recordList.filter(record => {
+        return record.type !== catStatus.status4
+      }).length
+
       state.selectedCat = {
         ...state.selectedCat,
-        age: state.selectedCat.age + 1
+        age: feedCount % 3 === 0 ? state.selectedCat.age + 1 : state.selectedCat.age
       }
       handleUpdateCats(state)
     },
@@ -53,17 +50,20 @@ export const feedSlice = createSlice({
         status: state.selectedCat.weight >= 30 && state.selectedCat.weight < 45 ? catStatus.status2 : (state.selectedCat.weight >= 45 || percentageOfWeight < 10 ? catStatus.status3 : catStatus.status1)
       }
       handleUpdateCats(state)
+    },
+    handleReset: (state, action) => {
+      state.cats = catData
     }
   }
 })
 
 export const {
-  handleFeedCount,
   handleRecordList,
   handleSelectedCat,
   handleWeight,
   handleAge,
-  handleStatus
+  handleStatus,
+  handleReset
 } = feedSlice.actions
 
 export default feedSlice.reducer
