@@ -16,6 +16,16 @@ export const catFeedType = {
   feed3: 'water'
 }
 
+export const catMessage = {
+  m1: '집사 하이?',
+  m2: '안먹을고얏!',
+  m3: '맛있구나 집사야',
+  m4: '운동중이니 건들지마라 냥!',
+  m5: '배가 통통해졌다 냥..',
+  m6: '...☠',
+  m7: '한 살 먹었다 냥!'
+}
+
 export const catData = [
   {
     id: 0,

@@ -1,4 +1,4 @@
-import {atom, selector, useRecoilState} from 'recoil'
+import {atom, useRecoilState} from 'recoil'
 import {catData} from '../../../database/cats'
 
 const catsState = atom({

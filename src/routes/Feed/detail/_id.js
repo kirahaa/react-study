@@ -8,14 +8,15 @@ import {StyledImage} from '../../../components/Common/Image'
 import {useSelector} from 'react-redux'
 import useParsedParams from "../../../hook/useParsedParams"
 import {useEffect, useState} from 'react'
-import {catFeedType, catStatus} from '../../../database/cats'
+import {catFeedType, catStatus, catMessage} from '../../../database/cats'
 import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
 import useInterval from "../../../hook/useInterval"
-import useFeed from '../store/useFeed'
+import useFeed, {selectedCatFeedCount} from '../store/useFeed'
 import {FeedWrap} from '../../../components/Feed/Wrap'
 import {FeedCard} from '../../../components/Feed/Card'
+import {useRecoilValue} from 'recoil'
 
 const CardHeader = styled.div`
   display: flex;
@@ -80,7 +81,6 @@ const FeedInfo = styled.div`
   p {
     line-height: 2rem;
     font-size: 1.2rem;
-    text-align: center;
   }
 `
 
@@ -180,10 +180,7 @@ const FeedDetail = () => {
   const currentUser = useSelector(state => state.auth.currentUser)
 
   // ** variables
-  const today = new Date().toLocaleString('en-US')
-  const feeds = selectedCat ? selectedCat.recordList : []
-  const weight = selectedCat ? selectedCat.weight : null
-  const age = selectedCat ? selectedCat.age : null
+  const currentTime = new Date().toLocaleString('en-US')
 
   // ** state
   const [feedModalVisible, setFeedModalVisible] = useState(false)
@@ -191,38 +188,80 @@ const FeedDetail = () => {
   const [exerciseBtnStatus, setExerciseBtnStatus] = useState(false)
   const [timeLimitToFeed, setTimeLimitToFeed] = useState(null)
   const [timeLimitToExercise, setTimeLimitToExercise] = useState(null)
-  const [catMessage, setCatMessage] = useState('')
+  const [message, setMessage] = useState(`${currentUser.loginId} ${catMessage.m1}`)
 
   const handleFeedModalVisible = () => {
     setFeedModalVisible(!feedModalVisible)
+  }
+
+  const handleStatus = () => {
+    // TODO:: 고양이 상태 다루기 추가하기!
+  }
+
+  const handleAge = (feedCount) => {
+    if (feedCount !== 0 && feedCount % 3 === 0) {
+      setSelectedCat((selectedCat) => {
+        return {...selectedCat, age: selectedCat.age + 1}
+      })
+      setMessage(catMessage.m7)
+    }
+  }
+
+  const handleUpdateWeight = (weight) => {
+    setSelectedCat((selectedCat) => {
+        return {...selectedCat, weight: Math.round((selectedCat.weight + weight) * 10) / 10}
+    })
+  }
+
+  const handleWeightByType = (type) => {
+    if (type === catFeedType.feed1) {
+      handleUpdateWeight(3)
+    } else if (type === catFeedType.feed2) {
+      handleUpdateWeight(1)
+    } else {
+      handleUpdateWeight(0.1)
+    }
   }
 
   const handleExercise = () => {
     setExerciseBtnStatus(true) // 운동 버튼 상태 비활성화
     setFeedBtnStatus(true) // Feed 버튼 상태 비활성화
     setTimeLimitToExercise(10)  // 10초 타이머 시작-!
-    // TODO:: 운동기록하기
+    // 운동기록하기
+    setSelectedCat((selectedCat) => {
+      return {...selectedCat,
+        recordList: [...selectedCat.recordList, {type: catStatus.status4, createdAt: currentTime, createdBy: currentUser.loginId}]}
+    })
   }
 
-  const handleRandomFeedBtn = () => {
+  const feedCatByType = (type) => {
+    const currentCat = {
+      ...selectedCat,
+      recordList: [...selectedCat.recordList, {type: type, createdAt: currentTime, createdBy: currentUser.loginId}]
+    }
+    const feedCount = currentCat.recordList.filter(record => {
+      return record.type !== catStatus.status4
+    }).length
+
+    setSelectedCat(currentCat)
+
+    handleWeightByType(type) // 타입별 몸무게 체크
+    handleAge(feedCount) // 나이 체크
+  }
+
+  const handleRandomFeedCat = (feedType) => {
     let randomBoolean = Math.random() < 0.5
     let randomNumber = Math.floor(Math.random() * 9) + 2 // 2초 ~ 10초까지 랜덤하게
 
-    // 랜덤으로 밥 먹을지 안먹을지
-    if (randomBoolean) {
-      handleFeedModalVisible()
+    if (randomBoolean && selectedCat.status !== catStatus.status3) {
+      feedCatByType(feedType) // 밥 먹이기
     } else {
       // 안먹으면 랜덤시간 동안 버튼 비활성화
       setTimeLimitToFeed(randomNumber)
       setFeedBtnStatus(true)
+      setMessage(catMessage.m2)
     }
-  }
-
-  const handleFeedCat = (feedType) => {
-    if (selectedCat.status !== catStatus.status3) {
-      // TODO:: 밥 먹이기
-      handleFeedModalVisible()
-    }
+    handleFeedModalVisible()
   }
 
   // 운동 타이머
@@ -230,7 +269,7 @@ const FeedDetail = () => {
     setTimeLimitToExercise(timeLimitToExercise => (timeLimitToExercise - 1))
 
     if (timeLimitToExercise === 1) { // timeLimit 시간 끝나면
-      // TODO:: 운동 후 -2kg
+      handleUpdateWeight(-2)// TODO:: 운동 후 -2kg
       setExerciseBtnStatus(false)
       setFeedBtnStatus(false)
     }
@@ -267,7 +306,7 @@ const FeedDetail = () => {
               <ImageWrap>
                 <Image src={selectedCat.profileImg} className='-image' status={selectedCat.status}/>
               </ImageWrap>
-              <Message>💭 {catMessage}</Message>
+              <Message>💭 {message}</Message>
             </CardHeader>
             <CardTitle><span>{selectedCat.name}</span><Badge status={selectedCat.status}>{selectedCat.status}</Badge></CardTitle>
             {selectedCat.recordList.length > 0 ? (
@@ -286,7 +325,7 @@ const FeedDetail = () => {
                 width="59%"
                 bgColor="complementary"
                 disabled={feedBtnStatus || selectedCat.status === catStatus.status3}
-                onClick={handleRandomFeedBtn}>
+                onClick={() => handleFeedModalVisible()}>
                 {timeLimitToFeed ? `I don't want to eat for ${timeLimitToFeed}s` : 'Feed'}
               </Button>
               <Button
@@ -328,15 +367,15 @@ const FeedDetail = () => {
 
       <Modal visible={feedModalVisible} onClose={handleFeedModalVisible}>
         <ModalContent>
-          <Button onClick={() => handleFeedCat(catFeedType.feed1)}>
+          <Button onClick={() => handleRandomFeedCat(catFeedType.feed1)}>
             <FaFish size={25}/>
             <span>{catFeedType.feed1}</span>
           </Button>
-          <Button onClick={() => handleFeedCat(catFeedType.feed2)}>
+          <Button onClick={() => handleRandomFeedCat(catFeedType.feed2)}>
             <GiCannedFish size={25}/>
             <span>{catFeedType.feed2}</span>
           </Button>
-          <Button onClick={() => handleFeedCat(catFeedType.feed3)}>
+          <Button onClick={() => handleRandomFeedCat(catFeedType.feed3)}>
             <IoWater size={25}/>
             <span>{catFeedType.feed3}</span>
           </Button>
