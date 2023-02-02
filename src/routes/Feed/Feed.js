@@ -1,32 +1,20 @@
 import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
 import Image from '../../components/Common/Image'
-import {useSelector} from 'react-redux'
 import {catStatus} from '../../database/cats'
 import Badge from '../../components/Common/Badge'
+import useFeed from './store/useFeed'
+import Button from '../../components/Common/Button'
+import {FeedWrap} from '../../components/Feed/Wrap'
+import {FeedCard} from '../../components/Feed/Card'
 
-const FeedWrap = styled.div`
+const Card = styled(FeedCard)`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  color: ${(props) => props.theme.colors.text};
-  background: ${(props) => props.theme.colors.bg};
+  flex-direction: column;
+  gap: 1.5rem;
 `
 
-const FeedCard = styled.div`
-  display: flex;
-`
-
-const Wrap = styled.div`
-  display: flex;
-  max-width: 45rem;
-  width: 100%;
-  padding: 3rem 4rem;
-  background-color: ${(props) => props.theme.colors.bgLight};
-`
-
-const Card = styled.div`
+const List = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -82,7 +70,7 @@ const ItemInfo = styled.div`
 
 const Feed = () => {
   const navigate = useNavigate()
-  const cats = useSelector(state => state.feed.cats)
+  const {cats} = useFeed()
 
   const handleToggleDetail = (id) => {
     if (cats[Number(id)].status !== catStatus.status3) {
@@ -90,29 +78,32 @@ const Feed = () => {
     }
   }
 
+  const goCatForm = () => {
+    navigate('new')
+  }
+
   return (
     <FeedWrap>
-      <FeedCard>
-        <Wrap>
-          <Card>
-            {
-              cats.map((cat) => (
-                <Item key={cat.id} status={cat.status} onClick={() => handleToggleDetail(cat.id)}>
-                  <ImageWrap>
-                    <Badge status={cat.status}>{cat.status}</Badge>
-                    <Image src={cat.profileImg} className='-image' radius="true" status={cat.status}/>
-                  </ImageWrap>
-                  <ItemInfo>
-                    <h2>{cat.name}</h2>
-                    <p>age: {cat.age}살</p>
-                    <p>weight: {cat.weight}kg</p>
-                  </ItemInfo>
-                </Item>
-              ))
-            }
-          </Card>
-        </Wrap>
-      </FeedCard>
+      <Card>
+        <List>
+          {
+            cats.map((cat) => (
+              <Item key={cat.id} status={cat.status} onClick={() => handleToggleDetail(cat.id)}>
+                <ImageWrap>
+                  <Badge status={cat.status}>{cat.status}</Badge>
+                  <Image src={cat.profileImg} className='-image' radius="true" status={cat.status}/>
+                </ImageWrap>
+                <ItemInfo>
+                  <h2>{cat.name}</h2>
+                  <p>age: {cat.age}살</p>
+                  <p>weight: {cat.weight}kg</p>
+                </ItemInfo>
+              </Item>
+            ))
+          }
+        </List>
+        <Button bgColor="primary" onClick={goCatForm}>Add Cat</Button>
+      </Card>
     </FeedWrap>
   )
 }

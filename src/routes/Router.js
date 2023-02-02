@@ -14,6 +14,7 @@ import User from './User/User'
 import Calc from './Calc/Calc'
 import Feed from './Feed/Feed'
 import FeedDetail from './Feed/detail/_id'
+import FeedNew from './Feed/new'
 
 const Router = () => {
   const navigate = useNavigate()
@@ -46,6 +47,7 @@ const Router = () => {
                 <Route path="/room" element={<Room />}></Route>
                 <Route path="/feed" element={<Feed />}></Route>
                 <Route path="/feed/:id" element={<FeedDetail />}></Route>
+                <Route path="/feed/new" element={<FeedNew />}></Route>
                 <Route path="/" element={<Home />}></Route>
               </Route>
             </>

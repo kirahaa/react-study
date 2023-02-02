@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import {catStatus} from '../../database/cats'
 
-const StyledImage = styled.img`
+export const StyledImage = styled.img`
   display: inline-block;
   width: 100%;
   height: auto;
