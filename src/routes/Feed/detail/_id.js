@@ -4,15 +4,8 @@ import {FaFish} from "react-icons/fa"
 import {GiCannedFish} from 'react-icons/gi'
 import {IoPaw, IoWater} from 'react-icons/io5'
 import {useNavigate} from 'react-router-dom'
-import Image from '../../../components/Common/Image'
-import {useDispatch, useSelector} from 'react-redux'
-import {
-  handleAge,
-  handleRecordList,
-  handleWeight,
-  handleStatus,
-  handleSelectedCat
-} from '../../../redux/feed'
+import {StyledImage} from '../../../components/Common/Image'
+import {useSelector} from 'react-redux'
 import useParsedParams from "../../../hook/useParsedParams"
 import {useEffect, useState} from 'react'
 import {catFeedType, catStatus} from '../../../database/cats'
@@ -20,42 +13,48 @@ import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
 import useInterval from "../../../hook/useInterval"
+import useFeed from '../store/useFeed'
+import {FeedWrap} from '../../../components/Feed/Wrap'
+import {FeedCard} from '../../../components/Feed/Card'
 
-const Wrap = styled.div`
+const CardHeader = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  color: ${(props) => props.theme.colors.text};
-  background: ${(props) => props.theme.colors.bg};
+  align-items: flex-start;
+  gap: 1rem;
 `
 
-const Card = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  max-width: 45rem;
-  width: 100%;
-  padding: 3rem 4rem;
-  background-color: ${(props) => props.theme.colors.bgLight};
+const Image = styled(StyledImage)`
+  border-radius: 2rem;
+  border: .3rem solid ${(props) => props.theme.colors.text};
 `
 
 const ImageWrap = styled.div`
   position: relative;
   width: 30%;
-  margin: 0 auto;
+`
+
+const Message = styled.div`
+  padding: 1rem;
+  background-color: ${(props) => props.theme.colors.text};
+  border-radius: 1rem;
+  color: black;
+  font-size: 1.1rem;
 `
 
 const Badge = styled(StyledBadge)`
-  left: -3rem;
-  width: 8rem;
-  font-size: 1.4rem;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 6rem;
+  font-size: 1rem;
 `
 
 const CardTitle = styled.h1`
-  margin: 1rem 0;
-  text-align: center;
-  font-size: 2rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin: 2rem 0 1rem;
+  font-size: 2.5rem;
   font-weight: bold;
 `
 
@@ -172,16 +171,19 @@ const ModalContent = styled.div`
 const FeedDetail = () => {
   // ** Hooks
   const params = useParsedParams()
-  const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  // ** recoil
+  const {cats, setCats, selectedCat, setSelectedCat} = useFeed()
+
   // ** store
-  const cats = useSelector(state => state.feed.cats)
-  const selectedCat = useSelector(state => state.feed.selectedCat)
   const currentUser = useSelector(state => state.auth.currentUser)
 
   // ** variables
   const today = new Date().toLocaleString('en-US')
+  const feeds = selectedCat ? selectedCat.recordList : []
+  const weight = selectedCat ? selectedCat.weight : null
+  const age = selectedCat ? selectedCat.age : null
 
   // ** state
   const [feedModalVisible, setFeedModalVisible] = useState(false)
@@ -189,6 +191,7 @@ const FeedDetail = () => {
   const [exerciseBtnStatus, setExerciseBtnStatus] = useState(false)
   const [timeLimitToFeed, setTimeLimitToFeed] = useState(null)
   const [timeLimitToExercise, setTimeLimitToExercise] = useState(null)
+  const [catMessage, setCatMessage] = useState('')
 
   const handleFeedModalVisible = () => {
     setFeedModalVisible(!feedModalVisible)
@@ -198,7 +201,7 @@ const FeedDetail = () => {
     setExerciseBtnStatus(true) // 운동 버튼 상태 비활성화
     setFeedBtnStatus(true) // Feed 버튼 상태 비활성화
     setTimeLimitToExercise(10)  // 10초 타이머 시작-!
-    dispatch(handleRecordList({type: catStatus.status4, createdAt: today, createdBy: currentUser.loginId})) // 운동 기록
+    // TODO:: 운동기록하기
   }
 
   const handleRandomFeedBtn = () => {
@@ -217,18 +220,7 @@ const FeedDetail = () => {
 
   const handleFeedCat = (feedType) => {
     if (selectedCat.status !== catStatus.status3) {
-      dispatch(handleRecordList({type: feedType, createdAt: today, createdBy: currentUser.loginId}))
-
-      // feedType에 따른 몸무게 증가
-      if (feedType === catFeedType.feed1) {
-        dispatch(handleWeight(3)) // + 3kg
-      } else if (feedType === catFeedType.feed2) {
-        dispatch(handleWeight(1)) // + 1kg
-      } else {
-        dispatch(handleWeight(0.1)) // + 0.1kg
-      }
-      dispatch(handleAge()) // 나이 체크
-      dispatch(handleStatus()) // 상태 체크
+      // TODO:: 밥 먹이기
       handleFeedModalVisible()
     }
   }
@@ -238,10 +230,9 @@ const FeedDetail = () => {
     setTimeLimitToExercise(timeLimitToExercise => (timeLimitToExercise - 1))
 
     if (timeLimitToExercise === 1) { // timeLimit 시간 끝나면
-      dispatch(handleWeight(-2)) // 운동 후 -2kg
+      // TODO:: 운동 후 -2kg
       setExerciseBtnStatus(false)
       setFeedBtnStatus(false)
-      dispatch(handleStatus()) // 상태 체크
     }
   }, timeLimitToExercise ? 1000 : null)
 
@@ -256,28 +247,29 @@ const FeedDetail = () => {
 
   useEffect(() => {
     // 리스트에 해당하는 고양이 없으면 홈으로 이동
-    if (cats.find(cat => Number(cat.id) === params)) {
-      dispatch(handleSelectedCat(params))
+    const current = cats.find(cat => Number(cat.id) === params)
+    if (current) {
+      setSelectedCat(current)
     } else {
       navigate('/')
     }
   }, [])
 
   return (
-    <Wrap>
+    <FeedWrap>
       {selectedCat && Number(selectedCat.id) === params ? (
-        <Card>
+        <FeedCard>
           <IconWrap className="top" onClick={() => navigate('/feed')}>
             <FiChevronLeft size={25}/>
           </IconWrap>
           <div>
-            <ImageWrap>
-              <Badge status={selectedCat.status}>{selectedCat.status}</Badge>
-              <Image src={selectedCat.profileImg} className='-image' radius="true" status={selectedCat.status}/>
-            </ImageWrap>
-            <CardTitle>
-              {selectedCat.name}
-            </CardTitle>
+            <CardHeader>
+              <ImageWrap>
+                <Image src={selectedCat.profileImg} className='-image' status={selectedCat.status}/>
+              </ImageWrap>
+              <Message>💭 {catMessage}</Message>
+            </CardHeader>
+            <CardTitle><span>{selectedCat.name}</span><Badge status={selectedCat.status}>{selectedCat.status}</Badge></CardTitle>
             {selectedCat.recordList.length > 0 ? (
               <FeedInfo>
                 <p>fist : {selectedCat.recordList[0].createdAt}</p>
@@ -331,7 +323,7 @@ const FeedDetail = () => {
               </Item>
             )) : null}
           </List>
-        </Card>
+        </FeedCard>
       ) : null}
 
       <Modal visible={feedModalVisible} onClose={handleFeedModalVisible}>
@@ -351,7 +343,7 @@ const FeedDetail = () => {
         </ModalContent>
       </Modal>
 
-    </Wrap>
+    </FeedWrap>
   )
 }
 
