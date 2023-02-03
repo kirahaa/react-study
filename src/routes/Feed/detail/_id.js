@@ -230,6 +230,7 @@ const FeedDetail = () => {
     })
     setTimeLimitToAging(TIME_AGING) // 나이 타이머 시작-!
     setMessage(catMessage.m7)
+    handleStatus() // 상태 체크
   }
 
   // 몸무게
