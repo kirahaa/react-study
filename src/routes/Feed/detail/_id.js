@@ -8,7 +8,12 @@ import {StyledImage} from '../../../components/Common/Image'
 import {useSelector} from 'react-redux'
 import useParsedParams from "../../../hook/useParsedParams"
 import {useEffect, useState} from 'react'
-import {catFeedType, catStatus, catMessage} from '../../../database/cats'
+import {
+  catFeedType,
+  catStatus,
+  catMessage,
+  TIME_AGING, TIME_LOSE_WEIGHT
+} from '../../../database/cats'
 import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
@@ -189,6 +194,8 @@ const FeedDetail = () => {
   const [timeLimitToFeed, setTimeLimitToFeed] = useState(null)
   const [timeLimitToExercise, setTimeLimitToExercise] = useState(null)
   const [timeLimitToMsg, setTimeLimitToMsg] = useState(null)
+  const [timeLimitToWeight, setTimeLimitToWeight] = useState(null)
+  const [timeLimitToAging, setTimeLimitToAging] = useState(null)
   const [message, setMessage] = useState(`${currentUser.loginId} ${catMessage.m1}`)
 
   // 모달
@@ -217,13 +224,12 @@ const FeedDetail = () => {
   }
 
   // 나이
-  const handleAge = (feedCount) => {
-    if (feedCount !== 0 && feedCount % 3 === 0) {
-      setSelectedCat((selectedCat) => {
-        return {...selectedCat, age: selectedCat.age + 1}
-      })
-      setMessage(catMessage.m7)
-    }
+  const handleAge = () => {
+    setSelectedCat((selectedCat) => {
+      return {...selectedCat, age: selectedCat.age + 1}
+    })
+    setTimeLimitToAging(TIME_AGING) // 나이 타이머 시작-!
+    setMessage(catMessage.m7)
   }
 
   // 몸무게
@@ -240,9 +246,12 @@ const FeedDetail = () => {
       handleUpdateWeight(3)
     } else if (type === catFeedType.feed2) {
       handleUpdateWeight(1)
-    } else {
+    } else if (type === catFeedType.feed3) {
       handleUpdateWeight(0.1)
+    } else {
+      handleUpdateWeight(-1) // 일정시간 방치되었을 경우 체중 -1
     }
+    setTimeLimitToWeight(TIME_LOSE_WEIGHT) // 체중 lose 타이머 start!
   }
 
   const handleExercise = () => {
@@ -267,8 +276,10 @@ const FeedDetail = () => {
     }).length
 
     setSelectedCat(currentCat)
+    if (feedCount !== 0 && feedCount % 3 === 0) {
+      handleAge() // 나이 체크
+    }
     handleWeightByType(type) // 타입별 몸무게 체크
-    handleAge(feedCount) // 나이 체크
   }
 
   const handleRandomFeedCat = (feedType) => {
@@ -294,6 +305,24 @@ const FeedDetail = () => {
       setMessage(catMessage.m10) // 기본 메세지
     }
   }, timeLimitToMsg ? 1000 : null)
+
+  // 몸무게 타이머
+  useInterval(() => {
+    setTimeLimitToWeight(timeLimitToWeight => (timeLimitToWeight - 1))
+
+    if (timeLimitToWeight === 1) {
+      handleWeightByType() // 체중 -1
+    }
+  }, timeLimitToWeight ? 1000 : null)
+
+  // 나이 타이머
+  useInterval(() => {
+    setTimeLimitToAging(timeLimitToAging => (timeLimitToAging - 1))
+
+    if (timeLimitToAging === 1) {
+      handleAge() // 나이 + 1
+    }
+  }, timeLimitToAging ? 1000 : null)
 
   // 운동 타이머
   useInterval(() => {

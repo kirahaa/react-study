@@ -22,6 +22,10 @@ export const TIME_EXERCISE = 10
 
 export const TIME_MSG = 5
 
+export const TIME_LOSE_WEIGHT = 180000 // 30분
+
+export const TIME_AGING = 360000 // 1시간
+
 export const catMessage = {
   m1: '집사 하이?',
   m2: '안먹을고얏!',
