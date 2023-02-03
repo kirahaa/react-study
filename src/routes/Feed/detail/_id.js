@@ -13,10 +13,9 @@ import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
 import useInterval from "../../../hook/useInterval"
-import useFeed, {selectedCatFeedCount} from '../store/useFeed'
+import useFeed from '../store/useFeed'
 import {FeedWrap} from '../../../components/Feed/Wrap'
 import {FeedCard} from '../../../components/Feed/Card'
-import {useRecoilValue} from 'recoil'
 
 const CardHeader = styled.div`
   display: flex;
@@ -194,10 +193,24 @@ const FeedDetail = () => {
     setFeedModalVisible(!feedModalVisible)
   }
 
+  // 상태
   const handleStatus = () => {
-    // TODO:: 고양이 상태 다루기 추가하기!
+    setSelectedCat((selectedCat) => {
+      return {
+        ...selectedCat,
+        status: selectedCat.weight >= 30 && selectedCat.weight < 45
+          ? catStatus.status2
+          : (selectedCat.weight >= 45 || ((selectedCat.weight / selectedCat.age) * 100) < 10
+            ? catStatus.status3
+            : catStatus.status1)
+      }
+    })
+    setCats(cat => {
+      return cat.id === selectedCat.id ? {...cats, selectedCat} : cat
+    })
   }
 
+  // 나이
   const handleAge = (feedCount) => {
     if (feedCount !== 0 && feedCount % 3 === 0) {
       setSelectedCat((selectedCat) => {
@@ -207,12 +220,15 @@ const FeedDetail = () => {
     }
   }
 
+  // 몸무게
   const handleUpdateWeight = (weight) => {
     setSelectedCat((selectedCat) => {
         return {...selectedCat, weight: Math.round((selectedCat.weight + weight) * 10) / 10}
     })
+    handleStatus() // 상태 체크
   }
 
+  // 타입별 몸무게 체크
   const handleWeightByType = (type) => {
     if (type === catFeedType.feed1) {
       handleUpdateWeight(3)
@@ -269,7 +285,7 @@ const FeedDetail = () => {
     setTimeLimitToExercise(timeLimitToExercise => (timeLimitToExercise - 1))
 
     if (timeLimitToExercise === 1) { // timeLimit 시간 끝나면
-      handleUpdateWeight(-2)// TODO:: 운동 후 -2kg
+      handleUpdateWeight(-2)// 운동 후 -2kg
       setExerciseBtnStatus(false)
       setFeedBtnStatus(false)
     }
@@ -283,6 +299,15 @@ const FeedDetail = () => {
       setFeedBtnStatus(false)
     }
   }, timeLimitToFeed ? 1000 : null)
+
+  useEffect(() => {
+    if (selectedCat) {
+      let updatedCats = cats.map(cat => {
+        return cat.id === selectedCat.id ? {...selectedCat} : cat
+      })
+      setCats(updatedCats)
+    } // cats update
+  }, [selectedCat])
 
   useEffect(() => {
     // 리스트에 해당하는 고양이 없으면 홈으로 이동
