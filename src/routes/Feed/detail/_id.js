@@ -16,6 +16,7 @@ import useInterval from "../../../hook/useInterval"
 import useCat from '../store/useCat'
 import {FeedWrap} from '../../../components/Feed/Wrap'
 import {FeedCard} from '../../../components/Feed/Card'
+import {TIME_EXERCISE, TIME_FEED, TIME_MSG} from '../../../database/cats'
 
 const CardHeader = styled.div`
   display: flex;
@@ -187,10 +188,18 @@ const FeedDetail = () => {
   const [exerciseBtnStatus, setExerciseBtnStatus] = useState(false)
   const [timeLimitToFeed, setTimeLimitToFeed] = useState(null)
   const [timeLimitToExercise, setTimeLimitToExercise] = useState(null)
+  const [timeLimitToMsg, setTimeLimitToMsg] = useState(null)
   const [message, setMessage] = useState(`${currentUser.loginId} ${catMessage.m1}`)
 
+  // 모달
   const handleFeedModalVisible = () => {
     setFeedModalVisible(!feedModalVisible)
+  }
+
+  // 메세지
+  const handleMessage = (msg, time) => {
+    time ? setTimeLimitToMsg(time) : setTimeLimitToMsg(TIME_MSG)
+    setMessage(msg)
   }
 
   // 상태
@@ -204,9 +213,6 @@ const FeedDetail = () => {
             ? catStatus.status3
             : catStatus.status1)
       }
-    })
-    setCats(cat => {
-      return cat.id === selectedCat.id ? {...cats, selectedCat} : cat
     })
   }
 
@@ -242,7 +248,8 @@ const FeedDetail = () => {
   const handleExercise = () => {
     setExerciseBtnStatus(true) // 운동 버튼 상태 비활성화
     setFeedBtnStatus(true) // Feed 버튼 상태 비활성화
-    setTimeLimitToExercise(10)  // 10초 타이머 시작-!
+    setTimeLimitToExercise(TIME_EXERCISE)  // 10초 타이머 시작-!
+    handleMessage(catMessage.m4, TIME_EXERCISE) // 메세지
     // 운동기록하기
     setSelectedCat((selectedCat) => {
       return {...selectedCat,
@@ -260,32 +267,41 @@ const FeedDetail = () => {
     }).length
 
     setSelectedCat(currentCat)
-
     handleWeightByType(type) // 타입별 몸무게 체크
     handleAge(feedCount) // 나이 체크
   }
 
   const handleRandomFeedCat = (feedType) => {
     let randomBoolean = Math.random() < 0.5
-    let randomNumber = Math.floor(Math.random() * 9) + 2 // 2초 ~ 10초까지 랜덤하게
 
-    // if (randomBoolean && selectedCat.status !== catStatus.status3) {
+    if (randomBoolean && selectedCat.status !== catStatus.status3) {
       feedCatByType(feedType) // 밥 먹이기
-    // } else {
-    //   // 안먹으면 랜덤시간 동안 버튼 비활성화
-    //   setTimeLimitToFeed(randomNumber)
-    //   setFeedBtnStatus(true)
-    //   setMessage(catMessage.m2)
-    // }
+      handleMessage(catMessage.m3, TIME_FEED) // 메세지
+    } else {
+      // 안먹으면 랜덤시간 동안 버튼 비활성화
+      setTimeLimitToFeed(TIME_FEED)
+      setFeedBtnStatus(true)
+      handleMessage(catMessage.m2, TIME_FEED)
+    }
     handleFeedModalVisible()
   }
+
+  // 메세지 타이머
+  useInterval(() => {
+    setTimeLimitToMsg(timeLimitToMsg => (timeLimitToMsg - 1))
+
+    if (timeLimitToMsg === 1) {
+      setMessage(catMessage.m10) // 기본 메세지
+    }
+  }, timeLimitToMsg ? 1000 : null)
 
   // 운동 타이머
   useInterval(() => {
     setTimeLimitToExercise(timeLimitToExercise => (timeLimitToExercise - 1))
-
-    if (timeLimitToExercise === 1) { // timeLimit 시간 끝나면
-      handleUpdateWeight(-2)// 운동 후 -2kg
+    // timeLimit 시간 끝나면
+    if (timeLimitToExercise === 1) {
+      handleUpdateWeight(-2) // 운동 후 -2kg
+      handleMessage(catMessage.m9) // 메세지
       setExerciseBtnStatus(false)
       setFeedBtnStatus(false)
     }

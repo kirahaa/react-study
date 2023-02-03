@@ -16,6 +16,12 @@ export const catFeedType = {
   feed3: 'water'
 }
 
+export const TIME_FEED = Math.floor(Math.random() * 9) + 2 // 2초 ~ 10초까지 랜덤하게
+
+export const TIME_EXERCISE = 10
+
+export const TIME_MSG = 5
+
 export const catMessage = {
   m1: '집사 하이?',
   m2: '안먹을고얏!',
@@ -23,7 +29,10 @@ export const catMessage = {
   m4: '운동중이니 건들지마라 냥!',
   m5: '배가 통통해졌다 냥..',
   m6: '...☠',
-  m7: '한 살 먹었다 냥!'
+  m7: '한 살 먹었다 냥!',
+  m8: '집사야 심심하다..',
+  m9: '운동하니 기분이 좋다 냥~!',
+  m10: '룰루~🐾'
 }
 
 export const catData = [
