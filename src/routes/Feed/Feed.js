@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 import Image from '../../components/Common/Image'
 import {catStatus} from '../../database/cats'
 import Badge from '../../components/Common/Badge'
-import useFeed from './store/useFeed'
+import useCat from './store/useCat'
 import Button from '../../components/Common/Button'
 import {FeedWrap} from '../../components/Feed/Wrap'
 import {FeedCard} from '../../components/Feed/Card'
@@ -70,7 +70,7 @@ const ItemInfo = styled.div`
 
 const Feed = () => {
   const navigate = useNavigate()
-  const {cats} = useFeed()
+  const {cats} = useCat()
 
   const handleToggleDetail = (id) => {
     if (cats[Number(id)].status !== catStatus.status3) {

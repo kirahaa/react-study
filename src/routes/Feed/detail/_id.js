@@ -13,7 +13,7 @@ import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
 import useInterval from "../../../hook/useInterval"
-import useFeed from '../store/useFeed'
+import useCat from '../store/useCat'
 import {FeedWrap} from '../../../components/Feed/Wrap'
 import {FeedCard} from '../../../components/Feed/Card'
 
@@ -173,7 +173,7 @@ const FeedDetail = () => {
   const navigate = useNavigate()
 
   // ** recoil
-  const {cats, setCats, selectedCat, setSelectedCat} = useFeed()
+  const {cats, setCats, selectedCat, setSelectedCat} = useCat()
 
   // ** store
   const currentUser = useSelector(state => state.auth.currentUser)
@@ -269,14 +269,14 @@ const FeedDetail = () => {
     let randomBoolean = Math.random() < 0.5
     let randomNumber = Math.floor(Math.random() * 9) + 2 // 2초 ~ 10초까지 랜덤하게
 
-    if (randomBoolean && selectedCat.status !== catStatus.status3) {
+    // if (randomBoolean && selectedCat.status !== catStatus.status3) {
       feedCatByType(feedType) // 밥 먹이기
-    } else {
-      // 안먹으면 랜덤시간 동안 버튼 비활성화
-      setTimeLimitToFeed(randomNumber)
-      setFeedBtnStatus(true)
-      setMessage(catMessage.m2)
-    }
+    // } else {
+    //   // 안먹으면 랜덤시간 동안 버튼 비활성화
+    //   setTimeLimitToFeed(randomNumber)
+    //   setFeedBtnStatus(true)
+    //   setMessage(catMessage.m2)
+    // }
     handleFeedModalVisible()
   }
 

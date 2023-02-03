@@ -7,7 +7,8 @@ import lottie from 'lottie-web'
 import { defineElement }  from 'lord-icon-element'
 import {useDispatch, useSelector} from 'react-redux'
 import {handleLogOut} from '../../redux/auth'
-import {handleReset} from '../../redux/feed'
+import useCat from '../Feed/store/useCat'
+import {catData} from '../../database/cats'
 
 defineElement(lottie.loadAnimation)
 
@@ -17,13 +18,15 @@ const User = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const {setCats} = useCat()
+
   const {isLoggedIn} = useContext(AuthContext)
   const user = useSelector(state => state.auth.currentUser)
 
   const logOut = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
       dispatch(handleLogOut())
-      dispatch(handleReset())
+      setCats(catData)
       navigate('/login')
     }
   }
