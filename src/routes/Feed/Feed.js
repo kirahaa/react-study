@@ -7,6 +7,7 @@ import useCat from './store/useCat'
 import Button from '../../components/Common/Button'
 import {FeedWrap} from '../../components/Feed/Wrap'
 import {FeedCard} from '../../components/Feed/Card'
+import {FiTrash2, FiFrown} from 'react-icons/fi'
 
 const Card = styled(FeedCard)`
   display: flex;
@@ -50,6 +51,11 @@ const Item = styled.button`
 
   &:hover {
     background-color: ${(props) => props.theme.colors.bgDark};
+    
+    button {
+      display: block;
+      background-color: ${(props) => props.theme.colors.bgLight};
+    }
   }
   
   &:not(:last-child)::after {
@@ -80,13 +86,44 @@ const ItemInfo = styled.div`
   }
 `
 
+const DeleteBtn = styled.button`
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 1rem;
+  height: fit-content;
+  margin: auto 0;
+  padding: 1rem;
+  background-color: ${(props) => props.theme.colors.bgDark};
+  border-radius: 50%;
+  line-height: 0;
+`
+
+const NoData = styled.div`
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.4rem;
+  p {
+    padding: 1rem 0;
+  }
+`
+
 const Feed = () => {
   const navigate = useNavigate()
-  const {cats} = useCat()
+  const {cats, setCats} = useCat()
 
   const handleToggleDetail = (id) => {
     if (cats[Number(id)].status !== catStatus.status3) {
       navigate(`${id}`)
+    }
+  }
+
+  const handleDelete = (e, id) => {
+    e.stopPropagation()
+    if (window.confirm('해당 고양이를 지우시겠습니까?')) {
+      const filteredCats = cats.filter((cat) => cat.id !== id)
+      setCats(filteredCats)
     }
   }
 
@@ -99,7 +136,7 @@ const Feed = () => {
       <Card>
         <List>
           {
-            cats.map((cat) => (
+            cats.length > 0 ? (cats.map((cat) => (
               <Item key={cat.id} status={cat.status} onClick={() => handleToggleDetail(cat.id)}>
                 <ImageWrap>
                   <Badge status={cat.status}>{cat.status}</Badge>
@@ -110,8 +147,14 @@ const Feed = () => {
                   <p>age: {cat.age}살</p>
                   <p>weight: {cat.weight}kg</p>
                 </ItemInfo>
+                <DeleteBtn onClick={(e) => handleDelete(e, cat.id)}>
+                  <FiTrash2 size={16}/>
+                </DeleteBtn>
               </Item>
-            ))
+            ))) : <NoData>
+              <FiFrown size={25}/>
+              <p>No cats available</p>
+            </NoData>
           }
         </List>
         <Button bgColor="primary" onClick={goCatForm}>Add Cat</Button>

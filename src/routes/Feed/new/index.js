@@ -103,7 +103,7 @@ const FeedNew = () => {
 
   // ** states
   const [values, setValues] = useState({
-    id: catData.length,
+    id: cats.length,
     name: '',
     gender: '',
     age: '',
