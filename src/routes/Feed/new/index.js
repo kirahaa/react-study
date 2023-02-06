@@ -3,11 +3,18 @@ import {FeedCard} from '../../../components/Feed/Card'
 import {Input} from '../../../components/Common/Input'
 import styled from 'styled-components'
 import {Radio} from '../../../components/Common/Radio'
-import {catGender} from '../../../database/cats'
+import {
+  catData,
+  catGender,
+  catStatus,
+  WEIGHT_FAT,
+  WEIGHT_GONE
+} from '../../../database/cats'
 import {useRef, useState} from 'react'
 import Button from '../../../components/Common/Button'
 import {FiChevronLeft} from 'react-icons/fi'
 import {useNavigate} from 'react-router-dom'
+import useCat from '../store/useCat'
 
 const Card = styled(FeedCard)`
   gap: 1.5rem;
@@ -61,7 +68,7 @@ const FakeFile = styled.label`
   padding: 1rem;
   color: ${props => props.theme.colors.white};
   background-color: ${props => props.theme.colorChip.primary};
-  border-radius: 1rem;
+  border-radius: .5rem;
   font-size: 1rem;
   cursor: pointer;
 `
@@ -89,14 +96,30 @@ const IconWrap = styled.span`
 `
 
 const FeedNew = () => {
+  // ** hooks
   const navigate = useNavigate()
   const fileInputRef = useRef()
   const imgRef = useRef()
-  const [state, setState] = useState('normal')
-  const [fileName, setFileName] = useState('')
+
+  // ** recoil
+  const {cats, setCats} = useCat()
+
+  // ** states
+  const [values, setValues] = useState({
+    id: catData.length,
+    name: '',
+    gender: '',
+    age: '',
+    weight: null,
+    status: catStatus.status1,
+    profileImg: '',
+    recordList: []
+  })
+  const [weight, setWeight] = useState('')
+  const [file, setFile] = useState('')
 
   const handleFileChange = e => {
-    setFileName(e.target.files[0].name)
+    setFile(e.target.files[0])
     const reader = new FileReader()
     reader.onload = () => {
       imgRef.current.style.backgroundImage = `url(${reader.result})`
@@ -104,37 +127,123 @@ const FeedNew = () => {
     reader.readAsDataURL(e.target.files[0])
   }
 
+  const handleWeightNStatus = e => {
+    const currentWeight = Number(e.target.value)
+    setWeight(currentWeight)
+    setValues({
+      ...values,
+      weight: currentWeight,
+      status: currentWeight >= WEIGHT_FAT && currentWeight < WEIGHT_GONE ? catStatus.status2 : currentWeight >= WEIGHT_GONE ? catStatus.status3 : catStatus.status1
+    })
+  }
+
+  const handleChange = e => {
+    setValues((values) => {
+      if (e.target.name === 'age') {
+        return {
+          ...values,
+          [e.target.name]: Number(e.target.value)
+        }
+      } else {
+        return {
+          ...values,
+          [e.target.name]: e.target.value
+        }
+      }
+    })
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    if (!file) {
+      alert("파일을 등록해주세요.")
+    } else {
+      const objectURL = URL.createObjectURL(file)
+
+      setCats(() => {
+        return [...cats, {
+          ...values,
+          profileImg: objectURL
+        }]
+      })
+      alert("축하합니다! 고양이가 추가되었습니다:)")
+      navigate('/feed')
+    }
+  }
+
   return (
     <FeedWrap>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Card>
           <IconWrap className="top" onClick={() => navigate('/feed')}>
             <FiChevronLeft size={25}/>
           </IconWrap>
           <div>
             <Label>Name</Label>
-            <FeedInput maxLength={20}/>
+            <FeedInput
+              name="name"
+              maxLength={20}
+              required
+              onChange={handleChange}
+            />
           </div>
           <div>
             <Label>Gender</Label>
             <RadioWrap>
-              <Radio type="radio" id={catGender.gender1} name="gender"/><Label htmlFor={catGender.gender1}>{catGender.gender1}</Label>
-              <Radio type="radio" id={catGender.gender2} name="gender"/><Label htmlFor={catGender.gender2}>{catGender.gender2}</Label>
+              <Radio
+                type="radio"
+                id={catGender.gender1}
+                name="gender"
+                value={catGender.gender1}
+                required
+                onChange={handleChange}
+              />
+              <Label htmlFor={catGender.gender1}>
+                {catGender.gender1}
+              </Label>
+              <Radio
+                type="radio"
+                id={catGender.gender2}
+                name="gender"
+                value={catGender.gender2}
+                required
+                onChange={handleChange}
+              />
+              <Label htmlFor={catGender.gender2}>
+                {catGender.gender2}
+              </Label>
             </RadioWrap>
           </div>
           <SplitRow>
             <div>
               <Label>Age</Label>
-              <FeedInput type="number"/>
+              <FeedInput
+                type="number"
+                name="age"
+                max={15}
+                required
+                onChange={handleChange}
+              />
             </div>
             <div>
               <Label>Weight</Label>
-              <FeedInput type="number"/>
+              <FeedInput
+                type="number"
+                name="weight"
+                value={weight}
+                required
+                onChange={handleWeightNStatus}
+              />
             </div>
           </SplitRow>
           <div>
-            <Label>State</Label>
-            <FeedInput readOnly={true} value={state}/>
+            <Label>Status</Label>
+            <FeedInput
+              name="status"
+              readOnly={true}
+              value={values.status}
+              required
+            />
           </div>
           <FileWrap>
             <Label>Profile Image</Label>
@@ -144,13 +253,13 @@ const FeedNew = () => {
               accept="image/*"
               onChange={handleFileChange}
             />
-            {fileName ? <ImageWrap ref={imgRef} /> : null}
+            {file ? <ImageWrap ref={imgRef} /> : null}
             <SplitRow>
               <FakeFile
                 onClick={() => {
                   fileInputRef.current?.click()
                 }}>Upload Image</FakeFile>
-              <Label>{fileName}</Label>
+              <Label>{file.name}</Label>
             </SplitRow>
           </FileWrap>
           <Button bgColor="complementary">Submit</Button>
