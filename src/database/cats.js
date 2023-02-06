@@ -16,6 +16,12 @@ export const catFeedType = {
   feed3: 'water'
 }
 
+export const WEIGHT_FAT = 30
+
+export const WEIGHT_GONE = 45
+
+export const AGE_GONE = 15
+
 export const TIME_FEED = Math.floor(Math.random() * 9) + 2 // 2초 ~ 10초까지 랜덤하게
 
 export const TIME_EXERCISE = 10

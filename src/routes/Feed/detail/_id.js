@@ -12,7 +12,7 @@ import {
   catFeedType,
   catStatus,
   catMessage,
-  TIME_AGING, TIME_LOSE_WEIGHT
+  TIME_AGING, TIME_LOSE_WEIGHT, WEIGHT_FAT, WEIGHT_GONE, AGE_GONE
 } from '../../../database/cats'
 import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
@@ -216,9 +216,9 @@ const FeedDetail = () => {
     setSelectedCat((selectedCat) => {
       return {
         ...selectedCat,
-        status: selectedCat.weight >= 30 && selectedCat.weight < 45
+        status: selectedCat.weight >= WEIGHT_FAT && selectedCat.weight < WEIGHT_GONE
           ? catStatus.status2
-          : (selectedCat.weight >= 45 || ((selectedCat.weight / selectedCat.age) * 100) < 10
+          : (selectedCat.weight >= WEIGHT_GONE || selectedCat.age >= AGE_GONE || ((selectedCat.weight / selectedCat.age) * 100) < 10
             ? catStatus.status3
             : catStatus.status1)
       }
