@@ -15,10 +15,22 @@ const Card = styled(FeedCard)`
 `
 
 const List = styled.div`
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-height: 50rem;
   margin: 0 auto;
+
+  &::-webkit-scrollbar {
+    width: .8rem;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.colors.bg};
+    border-radius: .5rem;
+  }
 `
 
 const ImageWrap = styled.div`

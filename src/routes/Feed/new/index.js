@@ -15,6 +15,7 @@ import Button from '../../../components/Common/Button'
 import {FiChevronLeft} from 'react-icons/fi'
 import {useNavigate} from 'react-router-dom'
 import useCat from '../store/useCat'
+import {StyledImage} from '../../../components/Common/Image'
 
 const Card = styled(FeedCard)`
   gap: 1.5rem;
@@ -53,13 +54,10 @@ const SplitRow = styled.div`
   align-items: center;
 `
 
-const ImageWrap = styled.div`
+const Img = styled(StyledImage)`
   margin-top: 1rem;
   width: 7rem;
   height: 7rem;
-  border-radius: 50%;
-  background-size: cover;
-  background-repeat: no-repeat;
 `
 
 const FakeFile = styled.label`
@@ -99,7 +97,6 @@ const FeedNew = () => {
   // ** hooks
   const navigate = useNavigate()
   const fileInputRef = useRef()
-  const imgRef = useRef()
 
   // ** recoil
   const {cats, setCats} = useCat()
@@ -119,12 +116,7 @@ const FeedNew = () => {
   const [file, setFile] = useState('')
 
   const handleFileChange = e => {
-    setFile(e.target.files[0])
-    const reader = new FileReader()
-    reader.onload = () => {
-      imgRef.current.style.backgroundImage = `url(${reader.result})`
-    }
-    reader.readAsDataURL(e.target.files[0])
+    setFile(URL.createObjectURL(e.target.files[0]))
   }
 
   const handleWeightNStatus = e => {
@@ -158,12 +150,10 @@ const FeedNew = () => {
     if (!file) {
       alert("파일을 등록해주세요.")
     } else {
-      const objectURL = URL.createObjectURL(file)
-
       setCats(() => {
         return [...cats, {
           ...values,
-          profileImg: objectURL
+          profileImg: file
         }]
       })
       alert("축하합니다! 고양이가 추가되었습니다:)")
@@ -253,7 +243,7 @@ const FeedNew = () => {
               accept="image/*"
               onChange={handleFileChange}
             />
-            {file ? <ImageWrap ref={imgRef} /> : null}
+            {file ? <Img src={file} radius={true} /> : null}
             <SplitRow>
               <FakeFile
                 onClick={() => {
