@@ -22,6 +22,7 @@ import useCat from '../store/useCat'
 import {FeedWrap} from '../../../components/Feed/Wrap'
 import {FeedCard} from '../../../components/Feed/Card'
 import {TIME_EXERCISE, TIME_FEED, TIME_MSG} from '../../../database/cats'
+import useDidMountEffect from '../../../hook/useDidMountEffect'
 
 const CardHeader = styled.div`
   display: flex;
@@ -186,6 +187,7 @@ const FeedDetail = () => {
 
   // ** variables
   const currentTime = new Date().toLocaleString('en-US')
+  const currentStatus = selectedCat ? selectedCat.status : null
 
   // ** state
   const [feedModalVisible, setFeedModalVisible] = useState(false)
@@ -229,7 +231,7 @@ const FeedDetail = () => {
       return {...selectedCat, age: selectedCat.age + 1}
     })
     setTimeLimitToAging(TIME_AGING) // 나이 타이머 시작-!
-    setMessage(catMessage.m7)
+    handleMessage(catMessage.m7) // 나이 메세지
     handleStatus() // 상태 체크
   }
 
@@ -279,6 +281,8 @@ const FeedDetail = () => {
     setSelectedCat(currentCat)
     if (feedCount !== 0 && feedCount % 3 === 0) {
       handleAge() // 나이 체크
+    } else {
+      handleMessage(catMessage.m3) // 밥 메세지
     }
     handleWeightByType(type) // 타입별 몸무게 체크
   }
@@ -288,7 +292,6 @@ const FeedDetail = () => {
 
     if (randomBoolean && selectedCat.status !== catStatus.status3) {
       feedCatByType(feedType) // 밥 먹이기
-      handleMessage(catMessage.m3, TIME_FEED) // 메세지
     } else {
       // 안먹으면 랜덤시간 동안 버튼 비활성화
       setTimeLimitToFeed(TIME_FEED)
@@ -303,7 +306,11 @@ const FeedDetail = () => {
     setTimeLimitToMsg(timeLimitToMsg => (timeLimitToMsg - 1))
 
     if (timeLimitToMsg === 1) {
-      setMessage(catMessage.m10) // 기본 메세지
+      if (currentStatus !== catStatus.status3) {
+        setMessage(catMessage.m10) // 기본 메세지
+      } else {
+        setMessage(catMessage.m6) // 마지막 default 메세지...
+      }
     }
   }, timeLimitToMsg ? 1000 : null)
 
@@ -345,6 +352,15 @@ const FeedDetail = () => {
       setFeedBtnStatus(false)
     }
   }, timeLimitToFeed ? 1000 : null)
+
+  // 상태 변화에 따른 메세지 핸들링
+  useDidMountEffect(() => {
+    if (currentStatus === catStatus.status2) {
+      handleMessage(catMessage.m5)
+    } else if (currentStatus === catStatus.status3) {
+      handleMessage(catMessage.m6)
+    }
+  }, [currentStatus])
 
   useEffect(() => {
     if (selectedCat) {
