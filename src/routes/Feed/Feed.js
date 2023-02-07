@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
 import {StyledImage} from '../../components/Common/Image'
 import {catStatus} from '../../database/cats'
-import Badge from '../../components/Common/Badge'
+import {StyledBadge} from '../../components/Common/Badge'
 import useCat from './store/useCat'
 import Button from '../../components/Common/Button'
 import {FeedWrap} from '../../components/Feed/Wrap'
@@ -46,6 +46,10 @@ const Image = styled(StyledImage)`
   left: 0;
   height: 100%;
   object-fit: cover;
+`
+
+const Badge = styled(StyledBadge)`
+  z-index: 1;
 `
 
 const Item = styled.button`

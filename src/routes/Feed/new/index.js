@@ -111,16 +111,23 @@ const FeedNew = () => {
     profileImg: '',
     recordList: []
   })
-  const [weight, setWeight] = useState('')
   const [file, setFile] = useState('')
 
   const handleFileChange = e => {
     setFile(URL.createObjectURL(e.target.files[0]))
   }
 
+  const handleAge = e => {
+    const currentAge = Number(e.target.value)
+    setValues({
+      ...values,
+      age: currentAge,
+      status: currentAge >= 15 ? catStatus.status3 : catStatus.status1
+    })
+  }
+
   const handleWeightNStatus = e => {
     const currentWeight = Number(e.target.value)
-    setWeight(currentWeight)
     setValues({
       ...values,
       weight: currentWeight,
@@ -211,7 +218,7 @@ const FeedNew = () => {
                 name="age"
                 max={15}
                 required
-                onChange={handleChange}
+                onChange={handleAge}
               />
             </div>
             <div>
@@ -219,7 +226,7 @@ const FeedNew = () => {
               <FeedInput
                 type="number"
                 name="weight"
-                value={weight}
+                max={50}
                 required
                 onChange={handleWeightNStatus}
               />
