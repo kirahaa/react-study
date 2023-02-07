@@ -4,7 +4,6 @@ import {Input} from '../../../components/Common/Input'
 import styled from 'styled-components'
 import {Radio} from '../../../components/Common/Radio'
 import {
-  catData,
   catGender,
   catStatus,
   WEIGHT_FAT,
@@ -103,7 +102,7 @@ const FeedNew = () => {
 
   // ** states
   const [values, setValues] = useState({
-    id: cats.length,
+    id: new Date().getTime(),
     name: '',
     gender: '',
     age: '',
@@ -243,7 +242,7 @@ const FeedNew = () => {
               accept="image/*"
               onChange={handleFileChange}
             />
-            {file ? <Img src={file} radius={true} /> : null}
+            {file ? <Img src={file} radius="true" /> : null}
             <SplitRow>
               <FakeFile
                 onClick={() => {
