@@ -18,12 +18,13 @@ import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
 import useInterval from "../../../hook/useInterval"
-import useCat from '../store/useCat'
+import useCat, {catStatusSelector} from '../store/useCat'
 import {FeedWrap} from '../../../components/Feed/Wrap'
 import {FeedCard} from '../../../components/Feed/Card'
 import {TIME_EXERCISE, TIME_FEED, TIME_MSG} from '../../../database/cats'
 import useDidMountEffect from '../../../hook/useDidMountEffect'
 import {flushSync} from 'react-dom'
+import {useRecoilValue} from 'recoil'
 
 const CardHeader = styled.div`
   display: flex;
@@ -188,13 +189,13 @@ const FeedDetail = () => {
 
   // ** recoil
   const {cats, setCats, selectedCat, setSelectedCat} = useCat()
+  const currentStatus = useRecoilValue(catStatusSelector)
 
   // ** store
   const currentUser = useSelector(state => state.auth.currentUser)
 
   // ** variables
   const currentTime = new Date().toLocaleString('en-US')
-  const currentStatus = selectedCat ? selectedCat.status : null
 
   // ** state
   const [feedModalVisible, setFeedModalVisible] = useState(false)

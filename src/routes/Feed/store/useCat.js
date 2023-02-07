@@ -1,4 +1,4 @@
-import {atom, useRecoilState} from 'recoil'
+import {atom, selector, useRecoilState} from 'recoil'
 import {catData} from '../../../database/cats'
 import {recoilPersist} from 'recoil-persist'
 
@@ -13,6 +13,18 @@ const catsState = atom({
 const selectedCatState = atom({
   key: 'selectedCatState',
   default: null
+})
+
+export const catStatusSelector = selector({
+  key: 'catStatusSelector',
+  get: ({get}) => {
+    const selectedCat = get(selectedCatState)
+    if (selectedCat) {
+      return selectedCat.status
+    } else {
+      return null
+    }
+  }
 })
 
 const useCat = () => {
