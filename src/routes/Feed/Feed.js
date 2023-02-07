@@ -15,7 +15,7 @@ const Card = styled(FeedCard)`
   gap: 1.5rem;
 `
 
-const List = styled.div`
+const List = styled.ul`
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -52,7 +52,7 @@ const Badge = styled(StyledBadge)`
   z-index: 1;
 `
 
-const Item = styled.button`
+const Item = styled.li`
   display: flex;
   gap: 2rem;
   position: relative;

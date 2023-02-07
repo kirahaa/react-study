@@ -18,7 +18,7 @@ import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
 import useInterval from "../../../hook/useInterval"
-import useCat, {catStatusSelector} from '../store/useCat'
+import useCat, {catStatusSelector, useCatTime} from '../store/useCat'
 import {FeedWrap} from '../../../components/Feed/Wrap'
 import {FeedCard} from '../../../components/Feed/Card'
 import {TIME_EXERCISE, TIME_FEED, TIME_MSG} from '../../../database/cats'
@@ -371,7 +371,11 @@ const FeedDetail = () => {
     setTimeLimitToFeed(timeLimitToFeed => (timeLimitToFeed - 1))
     // timeLimit 시간 끝나면 다시 Feed버튼 활성화
     if (timeLimitToFeed === 1) {
-      setFeedBtnStatus(false)
+      if (timeLimitToExercise > 0) { // 운동 시간 안지났으면 비활성화
+        setFeedBtnStatus(true)
+      } else {
+        setFeedBtnStatus(false)
+      }
     }
   }, timeLimitToFeed ? 1000 : null)
 
