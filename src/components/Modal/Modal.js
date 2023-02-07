@@ -19,7 +19,7 @@ const Dim = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,.5);
-  z-index: -1;
+  z-index: 999;
 `
 
 const ModalContents = styled.div`
@@ -27,6 +27,7 @@ const ModalContents = styled.div`
   background-color: ${props => props.theme.colors.bgDark};
   padding: 3.6rem;
   border-radius: 0.3rem;
+  z-index: 1000;
 `
 
 const ModalCloseBtn = styled.button`

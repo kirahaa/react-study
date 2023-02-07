@@ -16,6 +16,19 @@ export const catFeedType = {
   feed3: 'water'
 }
 
+export const catMessage = {
+  m1: '집사 하이?',
+  m2: '안먹을고얏!',
+  m3: '맛있구나 집사야',
+  m4: '운동중이니 건들지마라 냥!',
+  m5: '배가 통통해졌다 냥..',
+  m6: '...☠',
+  m7: '한 살 먹었다 냥!',
+  m8: '집사야 심심하다..',
+  m9: '운동하니 기분이 좋다 냥~!',
+  m10: '룰루~🐾'
+}
+
 export const WEIGHT_FAT = 30
 
 export const WEIGHT_GONE = 45
@@ -31,19 +44,6 @@ export const TIME_MSG = 5
 export const TIME_LOSE_WEIGHT = 180000 // 30분
 
 export const TIME_AGING = 360000 // 1시간
-
-export const catMessage = {
-  m1: '집사 하이?',
-  m2: '안먹을고얏!',
-  m3: '맛있구나 집사야',
-  m4: '운동중이니 건들지마라 냥!',
-  m5: '배가 통통해졌다 냥..',
-  m6: '...☠',
-  m7: '한 살 먹었다 냥!',
-  m8: '집사야 심심하다..',
-  m9: '운동하니 기분이 좋다 냥~!',
-  m10: '룰루~🐾'
-}
 
 export const catData = [
   {

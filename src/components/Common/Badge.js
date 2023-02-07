@@ -20,7 +20,6 @@ export const StyledBadge = styled.div`
   else if (props.status === catStatus.status2) return '#FF9F43'
   else return '#A8AAAE'
 }};
-  z-index: 1;
 `
 
 const Badge = ({status, children}) => {
