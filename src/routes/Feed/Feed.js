@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
-import Image from '../../components/Common/Image'
+import {StyledImage} from '../../components/Common/Image'
 import {catStatus} from '../../database/cats'
 import Badge from '../../components/Common/Badge'
 import useCat from './store/useCat'
@@ -37,6 +37,15 @@ const List = styled.div`
 const ImageWrap = styled.div`
   position: relative;
   width: 30%;
+  padding: 4.5rem 0;
+`
+
+const Image = styled(StyledImage)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  object-fit: cover;
 `
 
 const Item = styled.button`
@@ -114,7 +123,8 @@ const Feed = () => {
   const {cats, setCats} = useCat()
 
   const handleToggleDetail = (id) => {
-    if (cats[Number(id)].status !== catStatus.status3) {
+    const currentCat = cats.find(cat => cat.id === id)
+    if (currentCat.status !== catStatus.status3) {
       navigate(`${id}`)
     }
   }
@@ -136,8 +146,8 @@ const Feed = () => {
       <Card>
         <List>
           {
-            cats.length > 0 ? (cats.map((cat) => (
-              <Item key={cat.id} status={cat.status} onClick={() => handleToggleDetail(cat.id)}>
+            cats.length > 0 ? (cats.map(cat => (
+              <Item key={`cat-list-${cat.id}`} status={cat.status} onClick={() => handleToggleDetail(cat.id)}>
                 <ImageWrap>
                   <Badge status={cat.status}>{cat.status}</Badge>
                   <Image src={cat.profileImg} className='-image' radius="true" status={cat.status}/>

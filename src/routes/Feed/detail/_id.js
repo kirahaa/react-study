@@ -29,15 +29,20 @@ const CardHeader = styled.div`
   align-items: flex-start;
   gap: 1rem;
 `
-
-const Image = styled(StyledImage)`
-  border-radius: 2rem;
-  border: .3rem solid ${(props) => props.theme.colors.text};
-`
-
 const ImageWrap = styled.div`
   position: relative;
   width: 30%;
+  padding: 5.5rem 0;
+`
+
+const Image = styled(StyledImage)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 2rem;
+  border: .3rem solid ${(props) => props.theme.colors.text};
+  object-fit: cover;
 `
 
 const Message = styled.div`
