@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom'
 import {StyledImage} from '../../../components/Common/Image'
 import {useSelector} from 'react-redux'
 import useParsedParams from "../../../hook/useParsedParams"
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {
   catFeedType,
   catStatus,
@@ -23,6 +23,7 @@ import {FeedWrap} from '../../../components/Feed/Wrap'
 import {FeedCard} from '../../../components/Feed/Card'
 import {TIME_EXERCISE, TIME_FEED, TIME_MSG} from '../../../database/cats'
 import useDidMountEffect from '../../../hook/useDidMountEffect'
+import {flushSync} from 'react-dom'
 
 const CardHeader = styled.div`
   display: flex;
@@ -183,6 +184,7 @@ const FeedDetail = () => {
   // ** Hooks
   const params = useParsedParams()
   const navigate = useNavigate()
+  const listRef = useRef(null)
 
   // ** recoil
   const {cats, setCats, selectedCat, setSelectedCat} = useCat()
@@ -262,16 +264,27 @@ const FeedDetail = () => {
     setTimeLimitToWeight(TIME_LOSE_WEIGHT) // 체중 lose 타이머 start!
   }
 
+  // 리스트 추가될 때 스크롤
+  const handleScrollView = () => {
+    listRef.current.lastChild.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest'
+    })
+  }
+
   const handleExercise = () => {
     setExerciseBtnStatus(true) // 운동 버튼 상태 비활성화
     setFeedBtnStatus(true) // Feed 버튼 상태 비활성화
     setTimeLimitToExercise(TIME_EXERCISE)  // 10초 타이머 시작-!
     handleMessage(catMessage.m4, TIME_EXERCISE) // 메세지
     // 운동기록하기
-    setSelectedCat((selectedCat) => {
-      return {...selectedCat,
-        recordList: [...selectedCat.recordList, {type: catStatus.status4, createdAt: currentTime, createdBy: currentUser.loginId}]}
+    flushSync(() => {
+      setSelectedCat((selectedCat) => {
+        return {...selectedCat,
+          recordList: [...selectedCat.recordList, {type: catStatus.status4, createdAt: currentTime, createdBy: currentUser.loginId}]}
+      })
     })
+    handleScrollView()
   }
 
   const feedCatByType = (type) => {
@@ -283,13 +296,16 @@ const FeedDetail = () => {
       return record.type !== catStatus.status4
     }).length
 
-    setSelectedCat(currentCat)
+    flushSync(() => {
+      setSelectedCat(currentCat)
+    })
     if (feedCount !== 0 && feedCount % 3 === 0) {
       handleAge() // 나이 체크
     } else {
       handleMessage(catMessage.m3) // 밥 메세지
     }
     handleWeightByType(type) // 타입별 몸무게 체크
+    handleScrollView()
   }
 
   const handleRandomFeedCat = (feedType) => {
@@ -430,7 +446,7 @@ const FeedDetail = () => {
             </BtnWrap>
           </div>
 
-          <List>
+          <List ref={listRef}>
             {selectedCat.recordList.length > 0 ? selectedCat.recordList.map((cat, i) => (
               <Item key={`${cat.createdAt}-${i}`}>
                 <IconWrap>
