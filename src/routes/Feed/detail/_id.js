@@ -18,7 +18,9 @@ import {StyledBadge} from '../../../components/Common/Badge'
 import Button from "../../../components/Common/Button"
 import Modal from "../../../components/Modal/Modal"
 import useInterval from "../../../hook/useInterval"
-import useCat, {catStatusSelector, useCatTime} from '../store/useCat'
+import useCat, {
+  catStatusSelector
+} from '../store/useCat'
 import {FeedWrap} from '../../../components/Feed/Wrap'
 import {FeedCard} from '../../../components/Feed/Card'
 import {TIME_EXERCISE, TIME_FEED, TIME_MSG} from '../../../database/cats'
@@ -195,7 +197,7 @@ const FeedDetail = () => {
   const currentUser = useSelector(state => state.auth.currentUser)
 
   // ** variables
-  const currentTime = new Date().toLocaleString('en-US')
+  const currentTime = new Date().toLocaleString('en-CA')
 
   // ** state
   const [feedModalVisible, setFeedModalVisible] = useState(false)
