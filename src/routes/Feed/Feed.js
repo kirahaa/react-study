@@ -141,10 +141,6 @@ const Feed = () => {
     }
   }
 
-  const goCatForm = () => {
-    navigate('new')
-  }
-
   return (
     <FeedWrap>
       <Card>
@@ -171,7 +167,7 @@ const Feed = () => {
             </NoData>
           }
         </List>
-        <Button bgColor="primary" onClick={goCatForm}>Add Cat</Button>
+        <Button bgColor="primary" onClick={() => navigate('new')}>Add Cat</Button>
       </Card>
     </FeedWrap>
   )
