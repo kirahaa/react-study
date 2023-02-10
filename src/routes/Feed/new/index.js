@@ -122,7 +122,7 @@ const FeedNew = () => {
     setValues({
       ...values,
       age: currentAge,
-      status: currentAge >= 15 ? catStatus.status3 : catStatus.status1
+      status: currentAge >= 15 || values.weight >= WEIGHT_GONE ? catStatus.status3 : values.weight >= WEIGHT_FAT && values.weight < WEIGHT_GONE ? catStatus.status2 : catStatus.status1
     })
   }
 
@@ -131,7 +131,7 @@ const FeedNew = () => {
     setValues({
       ...values,
       weight: currentWeight,
-      status: currentWeight >= WEIGHT_FAT && currentWeight < WEIGHT_GONE ? catStatus.status2 : currentWeight >= WEIGHT_GONE ? catStatus.status3 : catStatus.status1
+      status: currentWeight >= WEIGHT_FAT && currentWeight < WEIGHT_GONE ? catStatus.status2 : currentWeight >= WEIGHT_GONE || values.age >= 15 ? catStatus.status3 : catStatus.status1
     })
   }
 
