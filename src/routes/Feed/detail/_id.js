@@ -230,7 +230,8 @@ const FeedDetail = () => {
           ? catStatus.status2
           : (selectedCat.weight >= WEIGHT_GONE || selectedCat.age >= AGE_GONE || ((selectedCat.weight / selectedCat.age) * 100) < 10
             ? catStatus.status3
-            : catStatus.status1)
+            : catStatus.status1),
+        weight: selectedCat.weight > 0 ? selectedCat.weight : 0
       }
     })
   }
