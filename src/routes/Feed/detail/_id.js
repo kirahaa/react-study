@@ -197,7 +197,7 @@ const FeedDetail = () => {
   const currentUser = useSelector(state => state.auth.currentUser)
 
   // ** variables
-  const currentTime = new Date().toLocaleString('en-CA')
+  const currentTime = new Date()
 
   // ** state
   const [feedModalVisible, setFeedModalVisible] = useState(false)
@@ -393,18 +393,18 @@ const FeedDetail = () => {
 
   useEffect(() => {
     if (selectedCat) {
-      let updatedCats = cats.map(cat => {
-        return cat.id === selectedCat.id ? {...selectedCat} : cat
+      setCats(() => {
+        return cats.map(cat => {
+          return cat.id === selectedCat.id ? {...selectedCat} : cat
+        })
       })
-      setCats(updatedCats)
     } // cats update
   }, [selectedCat])
 
   useEffect(() => {
     // 리스트에 해당하는 고양이 없으면 홈으로 이동
-    const current = cats.find(cat => Number(cat.id) === params)
-    if (current) {
-      setSelectedCat(current)
+    if (cats.find(cat => Number(cat.id) === params)) {
+      setSelectedCat(cats.find(cat => Number(cat.id) === params))
     } else {
       navigate('/')
     }
@@ -427,8 +427,8 @@ const FeedDetail = () => {
             <CardTitle><span>{selectedCat.name}</span><Badge status={selectedCat.status}>{selectedCat.status}</Badge></CardTitle>
             {selectedCat.recordList.length > 0 ? (
               <FeedInfo>
-                <p>fist : {selectedCat.recordList[0].createdAt}</p>
-                <p>last : {selectedCat.recordList[selectedCat.recordList.length - 1].createdAt}</p>
+                <p>fist : {selectedCat.recordList[0].createdAt.toLocaleString('en-CA')}</p>
+                <p>last : {selectedCat.recordList[selectedCat.recordList.length - 1].createdAt.toLocaleString('en-CA')}</p>
               </FeedInfo>
             ) : null}
             <CardDesc>
@@ -456,7 +456,7 @@ const FeedDetail = () => {
 
           <List ref={listRef}>
             {selectedCat.recordList.length > 0 ? selectedCat.recordList.map((cat, i) => (
-              <Item key={`${cat.createdAt}-${i}`}>
+              <Item key={`${cat.createdAt.toLocaleString('en-CA')}-${i}`}>
                 <IconWrap>
                   {cat.type === catFeedType.feed1
                     ? (<FaFish size={20}/>)
@@ -472,7 +472,7 @@ const FeedDetail = () => {
                   }
                 </IconWrap>
                 <ItemContent>
-                  <strong>{cat.createdAt}</strong>
+                  <strong>{cat.createdAt.toLocaleString('en-CA')}</strong>
                   <span><FiUser size={15}/>{cat.createdBy}</span>
                 </ItemContent>
               </Item>
