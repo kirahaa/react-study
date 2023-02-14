@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom'
 import {StyledImage} from '../../../components/Common/Image'
 import {useSelector} from 'react-redux'
 import useParsedParams from "../../../hook/useParsedParams"
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {
   catFeedType,
   catStatus,
@@ -211,15 +211,15 @@ const FeedDetail = () => {
   const [message, setMessage] = useState(`${currentUser.loginId} ${catMessage.m1}`)
 
   // 모달
-  const handleFeedModalVisible = useCallback(() => {
+  const handleFeedModalVisible = () => {
     setFeedModalVisible(!feedModalVisible)
-  }, [feedModalVisible])
+  }
 
   // 메세지
-  const handleMessage = useCallback((msg, time) => {
+  const handleMessage =(msg, time) => {
     time ? setTimeLimitToMsg(time) : setTimeLimitToMsg(TIME_MSG)
     setMessage(msg)
-  }, [timeLimitToMsg, message])
+  }
 
   // 상태
   const handleStatus = () => {
@@ -269,12 +269,12 @@ const FeedDetail = () => {
   }
 
   // 리스트 추가될 때 스크롤
-  const handleScrollView = useCallback(() => {
+  const handleScrollView =() => {
     listRef.current.lastChild.scrollIntoView({
       behavior: 'smooth',
       block: 'nearest'
     })
-  }, [listRef])
+  }
 
   const handleExercise = () => {
     setExerciseBtnStatus(true) // 운동 버튼 상태 비활성화
